@@ -1,0 +1,29 @@
+MAPS
+badlands - https://wiki.teamfortress.com/w/index.php?curid=144723
+process - https://wiki.teamfortress.com/wiki/File:Cp_process_b2_2.jpg
+---
+snakewater - http://comp.tf/wiki/File:Snakewater.jpg
+grannary - http://comp.tf/wiki/File:Granary_Pro.jpg
+prolands - http://comp.tf/wiki/File:Badlands.jpg
+gullywash - http://comp.tf/wiki/File:Gullywash.jpg
+sunshine - http://comp.tf/wiki/File:Sunshine.jpg
+
+SVGS
+https://fontawesome.com/license
+comments - https://fontawesome.com/icons/comments?style=solid
+users - https://fontawesome.com/icons/users?style=solid
+fist-raised - https://fontawesome.com/icons/fist-raised?style=solid
+trophy-solid - https://fontawesome.com/icons/trophy?style=solid
+medal-solid - https://fontawesome.com/icons/medal?style=solid
+award - https://fontawesome.com/icons/award?style=solid
+user-injured - https://fontawesome.com/icons/user-injured?style=solid
+people0carry - https://fontawesome.com/icons/people-carry?style=solid
+steam - https://fontawesome.com/icons/steam?style=brands
+steam-symbol - https://fontawesome.com/icons/steam-symbol?style=brands
+twitch - https://fontawesome.com/icons/twitch?style=brands
+random - https://fontawesome.com/icons/random?style=solid
+volume-up - https://fontawesome.com/icons/volume-up?style=solid
+volume-down - https://fontawesome.com/icons/volume-down?style=solid
+volume-mute https://fontawesome.com/icons/volume-mute?style=solid
+caret-up - https://fontawesome.com/icons/caret-up?style=solid
+caret-down - https://fontawesome.com/icons/caret-down?style=solid

@@ -27,3 +27,8 @@ volume-down - https://fontawesome.com/icons/volume-down?style=solid
 volume-mute https://fontawesome.com/icons/volume-mute?style=solid
 caret-up - https://fontawesome.com/icons/caret-up?style=solid
 caret-down - https://fontawesome.com/icons/caret-down?style=solid
+vote-yea - https://fontawesome.com/icons/vote-yea?style=solid
+video - https://fontawesome.com/icons/video?style=solid
+discord-brands - https://fontawesome.com/icons/discord?style=brands
+
+Characters

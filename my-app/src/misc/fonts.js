@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components';
 import {fluidRange} from 'polished';
 import Colors from './colors';
+import {Link as ReactRouterLink} from 'react-router-dom';
 
 const colorPrimary = Colors.standard.primary;
 const colorSecondary = Colors.standard.secondary;
@@ -32,6 +33,18 @@ export const LobbyFont = styled.p`
     ${props => props.secondary && css`
         color: ${colorSecondary};
     `}
+`;
+
+export const Link = styled(ReactRouterLink)`
+    font-style: normal;
+    font-weight: semibold;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: uppercase;
+
+
+        color: ${colorPrimary};
+  
 `;
 
 export const MinorFont = styled.p`

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
 import Colors from '../../../misc/colors';
-import { LobbyFont } from '../../../misc/fonts';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { Link } from '../../../misc/fonts';
+import {FlexRow} from '../../structure/containers.js.js';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 const MainHeader = styled.div`
     background-color: ${Colors.standard.secondary};
@@ -10,13 +11,17 @@ const MainHeader = styled.div`
 `;
 
 const HeaderContainer = () => (
-    <MainHeader>
-        <LobbyFont primary>About</LobbyFont>
-        <LobbyFont primary>Rules</LobbyFont>
-        <LobbyFont primary>Stats</LobbyFont>
-        <LobbyFont primary>Conduct</LobbyFont>
-        <LobbyFont primary>Donate to Us!</LobbyFont>
-    </MainHeader>
+    <Router>
+        <MainHeader>
+            <FlexRow>
+                <Link to="/about">about</Link>
+                <Link to="/rules/">rules</Link>
+                <Link to="/stats/">stats</Link>
+                <Link to="/conduct/">conduct</Link>
+                <Link to="/donate/">donate</Link>
+            </FlexRow>
+        </MainHeader>
+    </Router>
 );
 
 export default HeaderContainer;

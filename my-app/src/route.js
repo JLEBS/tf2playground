@@ -1,6 +1,7 @@
 import React from 'react';
-import Index from './pages/index.js';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import Layout from './components/structure/layout.js/index.js.js';
+import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import HeaderContainer from './components/header/mainHeader/mainHeader';
 
 //Login Screen, skipped if logged in
 // const = Index() {
@@ -8,97 +9,91 @@ import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 // }
 
 const Home = () => (
-    <Index>
-        <div></div>
-    </Index>
+    <Layout>
+        <div>sfsdf</div>
+    </Layout>
 );
 
 //Main Lobby Area
 const  Lobby = () => (
-    <div>
+    <Layout>
         <h2>This is lobby</h2>
-    </div>
+    </Layout>
 );
 
 //Heading Nav Links
 const About = () => (
-    <div>
+    <Layout>
         <h2>About</h2>;
-    </div>
+    </Layout>
 );
 
 const Rules = () => (
-    <div>
+    <Layout>
         <h2>Rules</h2>;
-    </div>
+    </Layout>
 );
 
 const Stats = () => (
-    <div>
+    <Layout>
         <h2>Stats</h2>;
-    </div>
+    </Layout>
 );
 
 const Conduct = () => (
-    <div>
+    <Layout>
         <h2>Conduct</h2>;
-    </div>
+    </Layout>
 );
 
 const Donate = () => (
-    <div>
+    <Layout>
         <h2>Donate</h2>;
-    </div>
+    </Layout>
 );
 
 //Multiple
 const Users = () => (
-    <div>
+    <Layout>
         <h2>Users</h2>;
-    </div>
+    </Layout>
 );
 
 const Matches = () => (
-    <div>
+    <Layout>
         <h2>Matches</h2>;
-    </div>
+    </Layout>
 );
 
 //User Specific
 const Profile = () => (
-    <div>
+    <Layout>
         <h2>Profile</h2>;
-    </div>
+    </Layout>
 );
 
 const Settings = () => (
-    <div>
+    <Layout>
         <h2>Settings</h2>;
-    </div>
+    </Layout>
 );
 
 const AppRouter = () => {
     return (
         <Router>
-            <div>
-                <nav>
-                <ul>
-                    <li>
-                    <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                    <Link to="/lobby/">Lobby</Link>
-                    </li>
-                    <li>
-                    <Link to="/users/">Users</Link>
-                    </li>
-                </ul>
-                </nav>
-
+            <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/lobby/" component={Lobby} />
+                <Route path="/lobby" exact component={Lobby} />
+                <Route path="/about/" component={About} />
+                <Route path="/rules/" component={Rules} />
+                <Route path="/stats/" component={Stats} />
+                <Route path="/conduct/" component={Conduct} />
+                <Route path="/donate/" component={Donate} />
                 <Route path="/users/" component={Users} />
-            </div>
+                <Route path="/matches/" component={Matches} />
+                <Route path="/profile/" component={Profile} />
+                <Route path="/settings/" component={Settings} />
+            </Switch>
         </Router>
     );
 }

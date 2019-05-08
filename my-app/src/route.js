@@ -1,54 +1,55 @@
 import React from 'react';
-import Layout from './components/structure/layout.js/index.js.js';
+import { Layout, LandingLayout }from './components/structure/layout';
 import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
-import HeaderContainer from './components/header/mainHeader/mainHeader';
-
-//Login Screen, skipped if logged in
-// const = Index() {
-//     return <h2>Home</h2>;
-// }
+import HomePage from './pages/home';
+import LobbyPage from './pages/lobby';
+import AboutPage from './pages/about';
+import RulesPage from './pages/rules';
+import StatPage from './pages/stats';
+import ConductPage from './pages/conduct';
+import DonatePage from './pages/donate';
 
 const Home = () => (
-    <Layout>
-        <div>sfsdf</div>
-    </Layout>
+    <LandingLayout>
+        <HomePage/>
+    </LandingLayout>
 );
 
 //Main Lobby Area
-const  Lobby = () => (
+const Lobby = () => (
     <Layout>
-        <h2>This is lobby</h2>
+        <LobbyPage/>
     </Layout>
 );
 
 //Heading Nav Links
 const About = () => (
     <Layout>
-        <h2>About</h2>;
+        <AboutPage/>
     </Layout>
 );
 
 const Rules = () => (
     <Layout>
-        <h2>Rules</h2>;
+        <RulesPage/>
     </Layout>
 );
 
 const Stats = () => (
     <Layout>
-        <h2>Stats</h2>;
+        <StatPage/>
     </Layout>
 );
 
 const Conduct = () => (
     <Layout>
-        <h2>Conduct</h2>;
+        <ConductPage/>
     </Layout>
 );
 
 const Donate = () => (
     <Layout>
-        <h2>Donate</h2>;
+        <DonatePage/>
     </Layout>
 );
 
@@ -83,16 +84,16 @@ const AppRouter = () => {
         <Router>
             <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/lobby" exact component={Lobby} />
-                <Route path="/about/" component={About} />
-                <Route path="/rules/" component={Rules} />
-                <Route path="/stats/" component={Stats} />
-                <Route path="/conduct/" component={Conduct} />
-                <Route path="/donate/" component={Donate} />
-                <Route path="/users/" component={Users} />
-                <Route path="/matches/" component={Matches} />
-                <Route path="/profile/" component={Profile} />
-                <Route path="/settings/" component={Settings} />
+                <Route path="/lobby" component={Lobby} />
+                <Route path="/about" component={About} />
+                <Route path="/rules" component={Rules} />
+                <Route path="/stats" component={Stats} />
+                <Route path="/conduct" component={Conduct} />
+                <Route path="/donate" component={Donate} />
+                <Route path="/users" component={Users} />
+                <Route path="/matches" component={Matches} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/settings" component={Settings} />
             </Switch>
         </Router>
     );

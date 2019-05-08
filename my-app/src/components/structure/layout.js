@@ -1,19 +1,22 @@
 import React from 'react';
 import HeaderContainer from '../header/mainHeader/mainHeader';
+import SubHeaderContainer from '../header/subHeader/subHeader';
+import {PageContainer, FlexColumn} from './containers';
 
-const LandingLayout = ({children}) => (
-    <div>   
-        <div>{children}</div>
-    </div>
+
+//For landing and login page
+export const LandingLayout = ({children}) => (
+    <PageContainer>
+        {children}
+    </PageContainer>
 );
 
-const Layout = ({children}) => (
-    <div>
+//Lobby Layout
+export const Layout = ({children}) => (
+    <PageContainer>
         <HeaderContainer/>
-        <div>{children}</div>
-    </div>
+        <SubHeaderContainer/>
+       {children}
+    </PageContainer>
+ 
 );
-
-export default Layout;
-
-//this is a layout page

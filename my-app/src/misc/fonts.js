@@ -21,7 +21,7 @@ const NavHeader = styled.h2`
 
 export const LobbyFont = styled.p`
     font-style: normal;
-    font-weight: semibold;
+    font-weight: 600;
     font-size: 16px;
     line-height: 24px;
     text-transform: uppercase;
@@ -37,14 +37,16 @@ export const LobbyFont = styled.p`
 
 export const Link = styled(ReactRouterLink)`
     font-style: normal;
-    font-weight: semibold;
+    font-weight: 600;
     font-size: 16px;
     line-height: 24px;
     text-transform: uppercase;
+    color: ${Colors.standard.navHover};
 
-
+    :hover {
         color: ${colorPrimary};
-  
+        size: 120%;
+    }
 `;
 
 export const MinorFont = styled.p`

@@ -1,8 +1,20 @@
 import styled, {css} from 'styled-components';
 
-const Wrapper = styled.div`
+//Outermost container of the entire website
+const PageContainer = styled.div`
     font-family: 'Open Sans', sans-serif;
     background-color: #EEEEEE;
+`;
+
+//Wraps the content of the entire website (-header) option for background image
+const Wrapper = styled.div`
+    ${props => `background-image: url(${props.imageUrl});`}
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 `;
 
 const Container = styled.div`
@@ -34,4 +46,4 @@ const FlexRow = styled.div`
     justify-content: space-evenly; 
 `
 
-export {Wrapper, Container, MaxWidthContainer, FixedContainer, FlexColumn, FlexRow}
+export {PageContainer, Wrapper, Container, MaxWidthContainer, FixedContainer, FlexColumn, FlexRow}

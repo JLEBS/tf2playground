@@ -4,8 +4,7 @@ import HeaderContainer from '../components/header/mainHeader/mainHeader';
 import {Wrapper, FlexColumn} from './../components/structure/containers';
 
 const StatPage = () => (
-    <Wrapper imageUrl={gullywash}>  
-    </Wrapper>
+   <div> </div>
 );
 
 export default StatPage;

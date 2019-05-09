@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, LandingLayout }from './components/structure/layout';
+import { LobbyLayout, LandingLayout, TextLayout }from './components/structure/layout';
 import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import HomePage from './pages/home';
 import LobbyPage from './pages/lobby';
@@ -8,75 +8,83 @@ import RulesPage from './pages/rules';
 import StatPage from './pages/stats';
 import ConductPage from './pages/conduct';
 import DonatePage from './pages/donate';
+import snakewater from './assets/imgs/maps/snakewater.jpg';
+import prolands from './assets/imgs/maps/prolands.jpg';
+import process from './assets/imgs/maps/process.jpg';
+import sunshine from './assets/imgs/maps/sunshine.jpg';
+import gullywash from './assets/imgs/maps/gullywash.jpg';
+import grannary from './assets/imgs/maps/grannary.jpg';
+
+
 
 const Home = () => (
-    <LandingLayout>
+    <LandingLayout imageUrl={sunshine}> 
         <HomePage/>
     </LandingLayout>
 );
 
 //Main Lobby Area
 const Lobby = () => (
-    <Layout>
+    <LobbyLayout imageUrl={prolands}>
         <LobbyPage/>
-    </Layout>
+    </LobbyLayout>
 );
 
 //Heading Nav Links
 const About = () => (
-    <Layout>
+    <TextLayout imageUrl={gullywash}>
         <AboutPage/>
-    </Layout>
+    </TextLayout>
 );
 
 const Rules = () => (
-    <Layout>
+    <TextLayout imageUrl={snakewater}>
         <RulesPage/>
-    </Layout>
+    </TextLayout>
 );
 
 const Stats = () => (
-    <Layout>
+    <TextLayout imageUrl={process}>
         <StatPage/>
-    </Layout>
+    </TextLayout>
 );
 
 const Conduct = () => (
-    <Layout>
+    <TextLayout imageUrl={grannary}>
         <ConductPage/>
-    </Layout>
+    </TextLayout>
 );
 
 const Donate = () => (
-    <Layout>
+    <TextLayout>
         <DonatePage/>
-    </Layout>
+    </TextLayout>
 );
 
 //Multiple
 const Users = () => (
-    <Layout>
+    <LobbyLayout>
         <h2>Users</h2>;
-    </Layout>
+    </LobbyLayout>
 );
 
 const Matches = () => (
-    <Layout>
+    <LobbyLayout>
         <h2>Matches</h2>;
-    </Layout>
+    </LobbyLayout>
 );
 
 //User Specific
 const Profile = () => (
-    <Layout>
+    <LobbyLayout>
         <h2>Profile</h2>;
-    </Layout>
+    </LobbyLayout>
 );
 
 const Settings = () => (
-    <Layout>
+    <LobbyLayout>
         <h2>Settings</h2>;
-    </Layout>
+    </LobbyLayout>
 );
 
 const AppRouter = () => {

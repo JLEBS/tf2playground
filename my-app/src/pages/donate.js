@@ -4,9 +4,9 @@ import HeaderContainer from '../components/header/mainHeader/mainHeader';
 import {Wrapper, FlexColumn} from './../components/structure/containers';
 
 const DonatePage = () => (
-    <Wrapper imageUrl={sunshine}>  
-      
-    </Wrapper>
+    <div>
+        
+    </div>
 );
 
 export default DonatePage;

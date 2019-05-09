@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import React from 'react';
 import Colors from '../../../misc/colors';
 import { LobbyFont } from '../../../misc/fonts';
@@ -9,18 +9,19 @@ import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/commen
 
 const ChatMod = styled(Chat)`
     height: 25px;
-    margin-left: 6px;
+    margin-left: 10px;
+    
 `;
 
 const VideoMod = styled(Video)`
     height: 25px;
-    margin-left: 6px;
+    margin-left: 10px;
 
 `;
 
 const UsersMod = styled(Users)`
     height: 25px;
-    margin-left: 6px;
+    margin-left: 10px;
 
 `;
 
@@ -28,9 +29,10 @@ const SubHeader = styled.div`
     background-color: ${Colors.standard.primary};
     width: 100%;
     position: fixed;
-    top: 64px;
+    top: 100px;
     right: 0;
     left: 0;
+    z-index: 3;
 
 `;
 
@@ -38,19 +40,30 @@ const SocialGroup = styled.div`
     display: flex;
     flex-direction: row;
     cursor: pointer;
-    padding-top:20px;
-    padding-bottom: 20px;
+    padding: 1rem 4rem 1rem 4rem;
 
     :hover{
-        color: white;
-        background-color: black;
+        color: ${Colors.standard.primary};
+        background-color: ${Colors.standard.secondary};
     }
+
+    ${props => props.chat && css`
+        :after{
+            content: '';
+            width:8px;
+            height:8px;
+            border-radius:5px;
+            background-color:red;
+            margin-right:10px;
+    
+        }
+    `}
 `;
 
 const SubHeaderContainer = () => (
     <SubHeader>
         <FlexRow>
-            <SocialGroup>
+            <SocialGroup chat>
                 <LobbyFont>Lobby Chat</LobbyFont>
                 <ChatMod/>
             </SocialGroup>

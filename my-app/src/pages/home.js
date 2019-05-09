@@ -1,18 +1,18 @@
 import React from 'react';
 import sunshine from './../assets/imgs/maps/sunshine.jpg';
 import styled, {css} from 'styled-components';
-import {Wrapper, FlexColumn} from './../components/structure/containers';
-import { Link } from '../misc/fonts';
+import {Wrapper, FlexColumn, PageCenter} from './../components/structure/containers';
+import { Link, TitleLogo, Title } from '../misc/fonts';
 
 const HomePage = () => (
-    <Wrapper imageUrl={sunshine}>   
+    <PageCenter>
         <FlexColumn>
-            <div>Logo</div>
-            <div>Title will be here</div>
+            <TitleLogo main/>
+            <Title>Playground</Title>
             <div>Probably the button thingy</div>
             <Link to="/lobby">TO Lobby</Link>
         </FlexColumn>
-    </Wrapper>
+    </PageCenter>
 );
 
 export default HomePage;

@@ -5,60 +5,66 @@ import {PageContainer, TextOverlay, Wrapper, PageCenter, TItleBanner} from './co
 import {Title} from '../../misc/fonts';
 import styled, {css} from 'styled-components';
 
-const ContentContainer = styled.div`
-    margin-top: 160px;
+const Content = styled.div`
+    padding-top: 160px;
     outline: 5px solid red;
-}
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;
+    flex-direction: column;
 `;
 
-const NoOverflow = styled.div`
-    overflow-y: hidden;
+const Overlay = styled.div`
+    width: 100%;
+    background-color: white;
+    opacity: 0.95;
+    flex:14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-
-//Header Div
-const HeaderLayout = ({children}) => (
-    <NoOverflow>
-        <HeaderContainer className='mainHeader'/>
-        <SubHeaderContainer/>
-        <ContentContainer>
-            {children}
-        </ContentContainer>
-    </NoOverflow>
-);
-
-//Background Image
-const BackgroundImage = ({children, imageUrl}) => (
-    <PageContainer>
-        <Wrapper imageUrl={imageUrl}>
-            {children}
-        </Wrapper>
-    </PageContainer>
-);
 
 //For landing and login page
 export const LandingLayout = ({children, imageUrl}) => (
-    <BackgroundImage imageUrl={imageUrl}>
+    <Wrapper imageUrl={imageUrl}>
         <PageContainer>
             {children}
         </PageContainer>
-    </BackgroundImage>
+    </Wrapper>
+);
+
+//Header
+const Header = () => (
+    <div className='header'>
+        <HeaderContainer/>
+        <SubHeaderContainer/>
+    </div>
+);
+
+//Structure of entire website (except login page!)
+const WebStructure = ({children, imageUrl}) => (
+    <Wrapper imageUrl={imageUrl}>
+        <Header/>
+        <Content className='content'>
+            {children}
+        </Content>
+    </Wrapper>
+);
+
+//Website Description Layout
+export const TextLayout = ({children, imageUrl, title, content}) => (
+    <WebStructure imageUrl={imageUrl}>
+        <Title padding header>About TF2 Lobby</Title>
+        <Overlay>
+            {children}
+        </Overlay>
+    </WebStructure>
 );
 
 //Lobby Layout
 export const LobbyLayout = ({children, imageUrl}) => (
-    <BackgroundImage imageUrl={imageUrl}>
-        <HeaderLayout>
-            {children}
-        </HeaderLayout>
-    </BackgroundImage>
-);
-
-
-//Website Description Layout
-export const TextLayout = ({children, imageUrl}) => (
-    <BackgroundImage imageUrl={imageUrl}>
-        <HeaderLayout>
-        </HeaderLayout>
-    </BackgroundImage>
+    <WebStructure imageUrl={imageUrl}>
+        {children}
+    </WebStructure>
 );

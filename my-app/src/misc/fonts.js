@@ -35,6 +35,8 @@ export const TitleLogo = styled.div`
         min-width: 300px;
         margin-top:10px;
     `}
+
+
 `;
 
 export const Title = styled.h1`
@@ -54,6 +56,12 @@ export const Title = styled.h1`
         font-size: 36px;
         margin: 0 auto;
     `}
+
+    ${props => props.padding && css`
+    padding-top:60px;
+    padding-bottom: 60px;
+    flex: 1;
+`}
 `;
 
 const NavHeader = styled.h2`

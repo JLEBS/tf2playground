@@ -3,8 +3,7 @@ import { fluidRange } from 'polished';
 
 //Outermost container of the entire website
 const PageContainer = styled.div`
-    font-family: 'Open Sans', sans-serif;
-    background-color: #EEEEEE;
+  
 `;
 
 //Wraps the content of the entire website (-header) option for background image
@@ -17,6 +16,9 @@ const Wrapper = styled.div`
     background-attachment: fixed;
     background-size: cover;
     z-index: -3;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #EEEEEE;
+    display:flex;
 `;
 
 const MarginContainer = styled.div`
@@ -78,6 +80,7 @@ const TItleBanner = styled.div`
     padding-bottom: 50px;
     display: Flex;
 `;
+
 
 
 export {PageContainer, TextOverlay, PageCenter, Wrapper, TItleBanner, MarginContainer, MaxWidthContainer, FixedContainer, FlexColumn, FlexRow}

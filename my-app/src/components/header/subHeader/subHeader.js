@@ -1,5 +1,6 @@
-import styled, {css, keyframes} from 'styled-components';
 import React, {useState} from 'react';
+import styled, {css, keyframes} from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import Colors from '../../../misc/colors';
 import { LobbyFont } from '../../../misc/fonts';
 import {FlexRow} from '../../structure/containers';
@@ -32,17 +33,25 @@ const SubHeader = styled.div`
     z-index: 3;
 `;
 
-const slideIn = keyframes`
-  from {
-    opacity: 0;
-  }
+const grow = keyframes`
+    from {
+        transform: scale(1);
+    }
 
-  to {
-    opacity: 1;
-  }
+    to {
+        transform: scale(1.1);
+    }
 `;
 
+const fade = keyframes`
+    from {
+        opacity: 0;
+    }
 
+    to {
+        opacity: 0.7;
+    }
+`;
 
 const SocialGroup = styled.button`
     display: flex;
@@ -50,12 +59,21 @@ const SocialGroup = styled.button`
     cursor: pointer;
     padding: 1rem 2rem 1rem 2rem;
     align-items: center;
+    opacity: 0.8;
 
     :hover{
-        color: ${Colors.standard.primary};
-        background-color: ${Colors.standard.secondary};
+        opacity: 1;
+
+        & > * {
+         
+        }
     }
 
+    ${props => props.active && css`
+        opacity: 1;
+        color: ${Colors.standard.primary};
+        background-color: ${Colors.standard.secondary};
+    `}
 
     ${props => props.chat && css`
         :after{
@@ -76,22 +94,46 @@ const DropWindow = styled.li`
     padding-bottom: 50px;
     position: absolute;
     top: 57px;
+    left:0px;
     z-index:-3;
     color: white;
-    //animation: ${slideIn} 2s linear;
 `;
 
 const DeleteThis = styled.div`
-height:2000px;
+    height:500px;
+`;
+
+const HidePanelDiv = styled.div`
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+    cursor: w-resize    ;
+`;
+
+const TestDiv = styled.div`
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    opacity: 0.7;
+    position: absolute;
+    display: block;
+    animation: ${fade} 2s forward;
+    z-index: 2;
 `;
 
 const SubHeaderContainer = () => {
-
+  
     const [activePanel, setActivePanel] = useState(null);
-
+    
     const CHAT_PANEL = 'CHAT_PANEL';
     const ONLINE_PANEL = 'ONLINE_PANEL';
     const STREAM_PANEL = 'STREAM_PANEL';
+
+    const SLIDEIN = 'animated slideInLeft faster';
+    const SLIDEOUT = 'animated slideOutLeft faster';
+
+    const currentAnimation = activePanel ? SLIDEIN : SLIDEOUT;
 
     const panelContents = {
         [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
@@ -101,30 +143,42 @@ const SubHeaderContainer = () => {
 
     const CurrentPanel = panelContents[activePanel];
 
+    const TestFunction = () => {
+        setActivePanel(null);
+    }
+ 
     return (
-    <SubHeader>
-        <FlexRow>
-            <SocialGroup onClick={() => setActivePanel(CHAT_PANEL)} >
-                <LobbyFont>Chat</LobbyFont>
-                <ChatMod/>
-            </SocialGroup>
-            <SocialGroup onClick={() => setActivePanel(ONLINE_PANEL)} >
-                <LobbyFont>Online</LobbyFont>
-                <UsersMod/>
-            </SocialGroup>
-            <SocialGroup onClick={() => setActivePanel(STREAM_PANEL)} >
-                <LobbyFont>Streams</LobbyFont>
-                <VideoMod/>
-            </SocialGroup>
-            {activePanel && (
-                <DropWindow id='dropWindow' className='animated slideInLeft faster'   >
-                    <DeleteThis>
-                        <CurrentPanel/>
-                    </DeleteThis>
-                </DropWindow>
-             )}
-        </FlexRow>
-    </SubHeader>
+    <div>
+        <SubHeader>
+            <FlexRow>
+                <SocialGroup active={activePanel === CHAT_PANEL} onClick={() => setActivePanel(CHAT_PANEL)} >
+                    <LobbyFont>Chat</LobbyFont>
+                    <ChatMod/>
+                </SocialGroup>
+                <SocialGroup active={activePanel === ONLINE_PANEL} onClick={() => setActivePanel(ONLINE_PANEL)} >
+                    <LobbyFont>Online</LobbyFont>
+                    <UsersMod/>
+                </SocialGroup>
+                <SocialGroup active={activePanel === STREAM_PANEL} onClick={() => setActivePanel(STREAM_PANEL)} >
+                    <LobbyFont>Streams</LobbyFont>
+                    <VideoMod/>
+                </SocialGroup>
+                {activePanel && (
+                    <div>    
+                        <DropWindow className={`${currentAnimation}`} >
+                            <DeleteThis>
+                                <CurrentPanel/>
+                            </DeleteThis>
+                        </DropWindow>
+                        <HidePanelDiv onClick={() => TestFunction()}/>
+                    </div>
+                )}
+            </FlexRow>
+        </SubHeader>
+        {activePanel && (
+            <TestDiv/>
+        )}
+    </div>
     );
 };
 

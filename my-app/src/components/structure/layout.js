@@ -13,6 +13,7 @@ const Content = styled.div`
     flex-direction: column;
 `;
 
+
 //For landing and login page
 export const LandingLayout = ({children, imageUrl}) => (
     <Wrapper imageUrl={imageUrl}>
@@ -20,19 +21,13 @@ export const LandingLayout = ({children, imageUrl}) => (
     </Wrapper>
 );
 
-//Header
-const Header = () => (
-    <div className='header'>
-        <HeaderContainer/>
-        <SubHeaderContainer/>
-    </div>
-);
- 
+
 //Structure of entire website (except login page!) This should never ever refresh/change, only the children should change between pages
 const WebStructure = ({children, imageUrl}) => (
     <Wrapper imageUrl={imageUrl}>
         <HeaderContainer/>
         <SubHeaderContainer/>
+       
         <Content className='content'>
             {children}
         </Content>

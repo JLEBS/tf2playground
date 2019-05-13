@@ -16,7 +16,8 @@ const Colors = {
         abandonBtn: '#FF5C5C',
         abandonBtnHover: '#FF5C5C',
         redTeam: '#BB3C3E',
-        bluTeam: '#58798A'
+        bluTeam: '#58798A',
+        contentBackground: '#E5E5E5'
     },
 
     darkmode: {

@@ -14,8 +14,7 @@ import process from './assets/imgs/maps/process.jpg';
 import sunshine from './assets/imgs/maps/sunshine.jpg';
 import gullywash from './assets/imgs/maps/gullywash.jpg';
 import grannary from './assets/imgs/maps/grannary.jpg';
-
-
+import ravine from './assets/imgs/themes/ravine.png';
 
 const Home = () => (
     <LandingLayout imageUrl={sunshine}> 
@@ -32,7 +31,7 @@ const Lobby = () => (
 
 //Heading Nav Links
 const About = () => (
-    <TextLayout imageUrl={gullywash}>
+    <TextLayout imageUrl={ravine}>
         <AboutPage/>
     </TextLayout>
 );

@@ -35,8 +35,6 @@ export const TitleLogo = styled.div`
         min-width: 300px;
         margin-top:10px;
     `}
-
-
 `;
 
 export const Title = styled.h1`
@@ -57,39 +55,68 @@ export const Title = styled.h1`
         margin: 0 auto;
     `}
 
-    ${props => props.padding && css`
-    padding-top:60px;
-    padding-bottom: 60px;
-    flex: 1;
-`}
-`;
+    ${props => props.banner && css`
+        ${fluidRange(
+            {
+                prop: 'font-size',
+                fromSize: '36px',
+                toSize: '70px',
+            },
+        '400px',
+        '2000px',
+        )}
 
-const NavHeader = styled.h2`
-
+        line-height:71px;
+        margin: 0 auto;
+        padding-top:60px;
+        padding-bottom: 60px;
+        flex: 1;
+    `}
 `;
 
 export const LobbyFont = styled.p`
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
     text-transform: uppercase;
+    line-height: 150%;
 
     ${props => props.primary && css`
+        font-size: 16px;
         color: ${colorPrimary};
     `}
 
     ${props => props.secondary && css`
+        font-size: 16px;
         color: ${colorSecondary};
     `}
 
     ${props => props.paragraph && css`
-        color: ${colorSecondary};
+        color: ${colorPrimary};
         text-transform: inherit; 
-        max-width:750px;
         margin: 0 auto;
-        padding: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         font-weight: 600;
+
+        ${fluidRange(
+        {
+            prop: 'font-size',
+            fromSize: '16px',
+            toSize: '24px',
+        },
+        '400px',
+        '2000px',
+        )}
+
+        ${fluidRange(
+        {
+            prop: 'max-width',
+            fromSize: '750px',
+            toSize: '1440px',
+        },
+        '400px',
+        '2000px',
+        )}
     `}
 `;
 
@@ -146,19 +173,23 @@ export const UserLinks = styled.a`
     letter-spacing: 0.05em;
 `;
 
-export const LoginButton = styled.button`
+export const BtnText = styled.p`
+    font-size: 24px;
     font-style: normal;
     font-weight: bold;
     text-transform: uppercase;
-    color: ${colorSecondary};
 
     ${props => props.largebtn && css`
-        font-size: 24px;
-        line-height: 33px;
+        padding:1rem;
+        box-shadow: 2px 8px ${Colors.standard.secondary};
+        :hover{
+            color: ${Colors.standard.primary};
+            background-color: ${Colors.standard.secondary};
+        }
     `}
 
     ${props => props.smallbtn && css`
-        font-size: 12px;
-        line-height: 16px;
+      
+        box-shadow: 2px 5px ${Colors.standard.secondary};
     `}
 `;

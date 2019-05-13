@@ -1,21 +1,21 @@
 import React from 'react';
 import snakewater from './../assets/imgs/maps/snakewater.jpg';
 import HeaderContainer from '../components/header/mainHeader/mainHeader';
-import {Wrapper, FlexColumn, TextOverlay} from './../components/structure/containers';
+import {TextMaxWidth} from './../components/structure/containers';
 import {LobbyFont} from './../misc/fonts';
 
 const AboutPage = () => (
-    <div>
-    <LobbyFont paragraph>  
-        Playground was initially concieved as a spiritual successor to TF2Pickup, a popular PUG website that saw popularity amongst the TF2 community during the breif period in which it saw use. Now defunct, no replacement has filled the void of TF2Pickup’s legacy, primarily due to the immese popularity of both PugChamp and TF2Center. These websites are problamatic for a variety of reasons, TF2center allows anyone to play games are rarley close and the skill cieling remains low, it also makes it incredibly easy to stack players together to give one team an unfair advantage. 
+    <TextMaxWidth>
+        <LobbyFont paragraph>  
+            Team Fortress 2 Playground (TF2PG) was initially conceived as a spiritual successor to TF2Pickup, a popular web based pug system where players could easily participate in 6v6, Highlander, Ultiduo or BBall matches. Now defunct in addition to the rising popularity of sites such as TF2Center & PugChamp, no web application has truly managed to fill the void created by TF2Pickup. TF2Center tends to be more aimed and accessible towards newer players getting into Competitive TF2. PugChamp on the other hand, is more geared towards seasoned veterans due to the drafting system which can alienate mid level players. 
         </LobbyFont>
         <LobbyFont paragraph>  
-        PugChamp worked in a similar vain to TF2Pickup, the main issue is the opposite of TF2Center, where only very specific individuals get chance to play due to the picking system. This results in only the best players/regular players from being picked, which is offputting to players of a lower skillset or are less regular.
+            Playground is inspired by many of the ideas from TF2Pickup, most importantly team randomization, to prevent team stacking. Players will add up to a class with no indication of who they will be playing with, in a similar vein to a doublemix allowing for closer games. Playground operates on a first come first serve basis, with no limitations on what skill level a player must be to join a class, skill level will only determine what players a user will be assigned with.
         </LobbyFont>
-        <LobbyFont paragraph>  
-        To rectify this, the main goal of TF2Playground is emulate the mechanics of TF2Pickup whilst simplifying the design to be as minimal as possible. This lobby system will not support highlander or simultaneous lobbies, and will exlusively support 6 vs 6. Whereas tf2pickup would pre-emitvely choose the map, TF2Playground allows players to choose the map themselves through a voting system, which unlike pugchamp, is not exclusive to only captains.
-    </LobbyFont>
-    </div>
+        <LobbyFont paragraph>   
+            A new addition unique to this PUG system is the addition of the map vote, which all users can participate in. This addition should hopefully incentivise users to join more lobbies, instead of waiting for a specific map to be available or only select users picking the map.Due to this sites development is primarily supported by one user only, Playground will only support one game mode (6v6) and only one lobby at a time. Due to financial/time constraints, this restriction may change in the future depending on the popularity of the website.
+        </LobbyFont>
+    </TextMaxWidth>
 );
 
 export default AboutPage;

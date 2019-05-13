@@ -1,10 +1,5 @@
 import styled, {css} from 'styled-components';
-import { fluidRange } from 'polished';
-
-//Outermost container of the entire website
-const PageContainer = styled.div`
-  
-`;
+import Colors from '../../misc/colors';
 
 //Wraps the content of the entire website (-header) option for background image
 const Wrapper = styled.div`
@@ -21,38 +16,31 @@ const Wrapper = styled.div`
     display:flex;
 `;
 
+//Adds margin to left/right of the window
 const MarginContainer = styled.div`
     padding-left:2rem;
     padding-right:2rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    ${props => `justify-content: ${props.content};`}
+    ${props => `flex-direction: ${props.direction};`}
 `;
 
-const MaxWidthContainer = styled.div`
-    max-width: 1480px;
-    margin: 0 auto;
-`
-
-const FixedContainer = styled.div`
-    position: fixed;
-`
-
-const FlexColumn = styled.div`
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-`
-
+//Container to sort children with many properties
 const FlexRow = styled.div`
     display:flex;
     flex-direction: row;
     width:100%;
     align-items: center;
+    ${props => `flex-direction: ${props.direction};`}
     ${props => `justify-content: ${props.content};`}
     ${props => `max-width: ${props.maxwidth};`}
     ${props => `float: ${props.float};`}
+    ${props => `padding-right: ${props.padright};`}
+    ${props => `padding-left: ${props.padleft};`}
 `
+
+//Centers content to middle of the page
 const PageCenter = styled.div`
     align-items: center;
     position: absolute;
@@ -60,16 +48,6 @@ const PageCenter = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-`;
-
-const TextOverlay = styled.div`
-    position: fixed;
-    top: 284px;
-    width: 100%;
-    z-index: 12;
-    height: 90%;
-    background-color: white;
-    opacity: 0.8;
 `;
 
 const TItleBanner = styled.div`
@@ -81,6 +59,18 @@ const TItleBanner = styled.div`
     display: Flex;
 `;
 
+const TextMaxWidth = styled.div`
+    //max-width: 750px;
+`;
 
+const Overlay = styled.div`
+    width: 100%;
+    background-color: ${Colors.standard.secondary};
+    opacity: 0.95;
+    flex:14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
-export {PageContainer, TextOverlay, PageCenter, Wrapper, TItleBanner, MarginContainer, MaxWidthContainer, FixedContainer, FlexColumn, FlexRow}
+export {PageCenter, Wrapper, TItleBanner, MarginContainer,  FlexRow, TextMaxWidth, Overlay}

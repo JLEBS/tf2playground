@@ -1,17 +1,16 @@
 import React from 'react';
-import sunshine from './../assets/imgs/maps/sunshine.jpg';
-import styled, {css} from 'styled-components';
-import {Wrapper, FlexColumn, PageCenter} from './../components/structure/containers';
+import { PageCenter, FlexRow} from './../components/structure/containers';
 import { Link, TitleLogo, Title } from '../misc/fonts';
+import LoginBtn from '../components/buttons/steamBtn';
 
 const HomePage = () => (
     <PageCenter>
-        <FlexColumn>
+        <FlexRow direction='column'>
             <TitleLogo main/>
             <Title>Playground</Title>
-            <div>Probably the button thingy</div>
+            <LoginBtn largebtn='largebtn'/>
             <Link to="/lobby">TO Lobby</Link>
-        </FlexColumn>
+        </FlexRow>
     </PageCenter>
 );
 

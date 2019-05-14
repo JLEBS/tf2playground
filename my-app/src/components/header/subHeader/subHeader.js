@@ -107,6 +107,7 @@ const BackgroundOverlay = styled.div`
     position: absolute;
     z-index: 2;
     cursor: w-resize;
+    display: none;
 `;
 
 const SubHeaderContainer = () => {
@@ -137,10 +138,6 @@ const SubHeaderContainer = () => {
 
     const CurrentPanel = panelContents[activePanel];
 
-    const TestFunction = () => {
-        setPanelOpen(false);
-    }
-
     const openPanel = panel => {
         setPanelOpen(true)
         setActivePanel(panel)
@@ -148,7 +145,6 @@ const SubHeaderContainer = () => {
 
     const closePanel = panel => {
         setPanelOpen(false)
-
     }
  
     return (

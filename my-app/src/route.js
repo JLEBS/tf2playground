@@ -1,5 +1,5 @@
 import React from 'react';
-import { LobbyLayout, LandingLayout, TextLayout }from './components/structure/layout';
+import { LobbyLayout, LandingLayout, TextLayout, ProfileLayout }from './components/structure/layout';
 import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import HomePage from './pages/home';
 import LobbyPage from './pages/lobby';
@@ -8,6 +8,7 @@ import RulesPage from './pages/rules';
 import StatPage from './pages/stats';
 import ConductPage from './pages/conduct';
 import DonatePage from './pages/donate';
+import ProfilePage from './pages/profile';
 import snakewater from './assets/imgs/maps/snakewater.jpg';
 import prolands from './assets/imgs/maps/prolands.jpg';
 import process from './assets/imgs/maps/process.jpg';
@@ -16,11 +17,13 @@ import gullywash from './assets/imgs/maps/gullywash.jpg';
 import grannary from './assets/imgs/maps/grannary.jpg';
 import ravine from './assets/imgs/themes/ravine.png';
 
+//Home
 const Home = () => (
     <LandingLayout imageUrl={sunshine}> 
         <HomePage/>
     </LandingLayout>
 );
+//END HOME
 
 //Main Lobby Area
 const Lobby = () => (
@@ -28,8 +31,9 @@ const Lobby = () => (
         <LobbyPage/>
     </LobbyLayout>
 );
+//END LOBBY
 
-//Heading Nav Links
+//Website information, rules, terms etc Using TextLayout
 const About = () => (
     <TextLayout imageUrl={ravine}>
         <AboutPage/>
@@ -59,8 +63,9 @@ const Donate = () => (
         <DonatePage/>
     </TextLayout>
 );
+//END
 
-//Multiple
+//Displays an array of all data from the database (all users on the site, or all matches played)
 const Users = () => (
     <LobbyLayout>
         <h2>Users</h2>;
@@ -72,14 +77,23 @@ const Matches = () => (
         <h2>Matches</h2>;
     </LobbyLayout>
 );
+//END
 
-//User Specific
+//Displays a specifically chosen user or match from the database (singular)
 const Profile = () => (
-    <LobbyLayout>
-        <h2>Profile</h2>;
-    </LobbyLayout>
+    <ProfileLayout imageUrl={grannary}>
+        <ProfilePage></ProfilePage>
+    </ProfileLayout>
 );
 
+const MatchSingle = () => (
+    <LobbyLayout>
+        <h2>This Match Specifically</h2>;
+    </LobbyLayout>
+);
+//END
+
+//User Specific Only change options and settings
 const Settings = () => (
     <LobbyLayout>
         <h2>Settings</h2>;

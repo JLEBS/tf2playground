@@ -17,7 +17,7 @@ const MainHeader = styled.div`
 
 const HeaderContainer = () => (
     <MainHeader>
-        <MarginContainer content='space-between'>
+        <MarginContainer content='space-between' topPadding='unset'>
             <FlexRow content='flex-start' maxwidth='600px' float='unset' padright='1rem'>
                 <TitleLogo header/>
                 <Title header>Playground</Title>

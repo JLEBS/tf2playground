@@ -150,22 +150,6 @@ export const MinorFont = styled.p`
     `}
 `;
 
-export const UserHeading = styled.h3`
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 27px;
-    color: ${colorPrimary};
-`;
-
-export const UserSubHeading = styled.h4`
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    color: ${colorSecondary};
-`;
-
 export const UserLinks = styled.a`
     font-style: normal;
     font-weight: 600;
@@ -186,7 +170,6 @@ export const BtnText = styled.p`
         padding:1rem;
         box-shadow: 2px 8px ${Colors.standard.secondary};
       
-
         :hover{
             color: ${Colors.standard.primary};
             background-color: ${Colors.standard.secondary};
@@ -194,7 +177,49 @@ export const BtnText = styled.p`
     `}
 
     ${props => props.smallbtn && css`
-      
         box-shadow: 2px 5px ${Colors.standard.secondary};
     `}
+`;
+
+export const ProfileHeader = styled.h1`
+    font-size: 20px;
+    font-style: normal;
+    font-weight: bold;
+    color: #EEEEEE;
+    background-color: ${Colors.standard.secondary};
+    padding: 25px;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+    text-transform: capitalize;
+
+    ${props => props.profile && css`
+        display: none;
+    `}
+`;
+
+export const UserHeading = styled.h3`
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    text-align: center;
+    text-transform: capitalize;
+    color: ${colorPrimary};
+    
+    ${props => props.heading && css`
+        background-color: ${Colors.standard.secondary};
+        padding: 25px;
+        border-radius: 10px 10px 0px 0px;
+        letter-spacing: 5%;
+    `}
+`;
+
+export const UserSubHeading = styled.h4`
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    text-transform: capitalize;
+    color: ${colorSecondary};
+    float: left;
+    min-width: 120px;
 `;

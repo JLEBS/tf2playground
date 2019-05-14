@@ -60,13 +60,10 @@ const SocialGroup = styled.button`
     padding: 1rem 2rem 1rem 2rem;
     align-items: center;
     opacity: 0.8;
+    transition: background-color 0.4s ease;
 
     :hover{
         opacity: 1;
-
-        & > * {
-         
-        }
     }
 
     ${props => props.active && css`
@@ -103,29 +100,17 @@ const DeleteThis = styled.div`
     height:500px;
 `;
 
-const HidePanelDiv = styled.div`
-    position: absolute;
+const BackgroundOverlay = styled.div`
     height: 100vh;
     width: 100vw;
-    top: 0px;
-    cursor: w-resize    ;
-`;
-
-const TestDiv = styled.div`
-    height: 100vh;
-    width: 100vw;
-    background-color: black;
-    opacity: 0.7;
+    background-color: #000000b8;
     position: absolute;
-    display: block;
-    animation: ${fade} 2s forward;
     z-index: 2;
+    cursor: w-resize;
 `;
 
 const SubHeaderContainer = () => {
-  
-    const [activePanel, setActivePanel] = useState(null);
-    
+
     const CHAT_PANEL = 'CHAT_PANEL';
     const ONLINE_PANEL = 'ONLINE_PANEL';
     const STREAM_PANEL = 'STREAM_PANEL';
@@ -133,7 +118,16 @@ const SubHeaderContainer = () => {
     const SLIDEIN = 'animated slideInLeft faster';
     const SLIDEOUT = 'animated slideOutLeft faster';
 
-    const currentAnimation = activePanel ? SLIDEIN : SLIDEOUT;
+    const FADEIN = 'animated fadeIn faster';
+    const FADEOUT = 'animated fadeOut faster';
+  
+    const [activePanel, setActivePanel] = useState(CHAT_PANEL);
+    const [ panelOpen, setPanelOpen ] = useState(false);
+
+    const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
+
+    const fadeIn = panelOpen ? FADEIN : FADEOUT;
+
 
     const panelContents = {
         [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
@@ -144,41 +138,55 @@ const SubHeaderContainer = () => {
     const CurrentPanel = panelContents[activePanel];
 
     const TestFunction = () => {
-        setActivePanel(null);
+        setPanelOpen(false);
+    }
+
+    const openPanel = panel => {
+        setPanelOpen(true)
+        setActivePanel(panel)
+    }
+
+    const closePanel = panel => {
+        setPanelOpen(false)
+
     }
  
     return (
-    <div>
-        <SubHeader>
-            <FlexRow>
-                <SocialGroup active={activePanel === CHAT_PANEL} onClick={() => setActivePanel(CHAT_PANEL)} >
-                    <LobbyFont>Chat</LobbyFont>
-                    <ChatMod/>
-                </SocialGroup>
-                <SocialGroup active={activePanel === ONLINE_PANEL} onClick={() => setActivePanel(ONLINE_PANEL)} >
-                    <LobbyFont>Online</LobbyFont>
-                    <UsersMod/>
-                </SocialGroup>
-                <SocialGroup active={activePanel === STREAM_PANEL} onClick={() => setActivePanel(STREAM_PANEL)} >
-                    <LobbyFont>Streams</LobbyFont>
-                    <VideoMod/>
-                </SocialGroup>
-                {activePanel && (
-                    <div>    
-                        <DropWindow className={`${currentAnimation}`} >
-                            <DeleteThis>
-                                <CurrentPanel/>
-                            </DeleteThis>
-                        </DropWindow>
-                        <HidePanelDiv onClick={() => TestFunction()}/>
-                    </div>
-                )}
-            </FlexRow>
-        </SubHeader>
-        {activePanel && (
-            <TestDiv/>
-        )}
-    </div>
+        <div>
+            <SubHeader>
+                <FlexRow>
+                    <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
+                        <LobbyFont>Chat</LobbyFont>
+                        <ChatMod/>
+                    </SocialGroup>
+                    <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
+                        <LobbyFont>Online</LobbyFont>
+                        <UsersMod/>
+                    </SocialGroup>
+                    <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
+                        <LobbyFont>Streams</LobbyFont>
+                        <VideoMod/>
+                    </SocialGroup>
+                    <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
+                        <div>
+                            <DropWindow className={`${currentAnimation}`} >
+                                <DeleteThis>
+                                    <CurrentPanel/>
+                                </DeleteThis>
+                            </DropWindow>
+                        </div>
+                    </CSSTransition>
+                </FlexRow>
+            </SubHeader>
+            {/* {panelOpen && (
+                <BackgroundOverlay onClick={() => closePanel()}/>
+            )} */}
+            <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
+                <div active={activePanel == true && panelOpen === true}>
+                    <BackgroundOverlay className={`${fadeIn}`} onClick={() => closePanel()}/>
+                </div>
+            </CSSTransition>
+        </div>
     );
 };
 

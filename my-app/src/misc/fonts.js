@@ -127,6 +127,7 @@ export const Link = styled(ReactRouterLink)`
     line-height: 24px;
     text-transform: uppercase;
     color: ${Colors.standard.navHover};
+    transition: color 1s ease-out;
 
     :hover {
         color: ${colorPrimary};
@@ -178,10 +179,14 @@ export const BtnText = styled.p`
     font-style: normal;
     font-weight: bold;
     text-transform: uppercase;
+    transition: background 1s ease;
+    transition: color 1s ease;
 
     ${props => props.largebtn && css`
         padding:1rem;
         box-shadow: 2px 8px ${Colors.standard.secondary};
+      
+
         :hover{
             color: ${Colors.standard.primary};
             background-color: ${Colors.standard.secondary};

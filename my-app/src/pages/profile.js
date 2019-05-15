@@ -9,6 +9,8 @@ const ProfilePage = () => (
         <RectangleContainer direction='column' maxWidth='400px' minWidth='350px' header={'class wins'} content={'space-between'}>
             <ClassContainer classArray={CLASS_STATS} />
         </RectangleContainer>
+
+ 
      
     </>
 );

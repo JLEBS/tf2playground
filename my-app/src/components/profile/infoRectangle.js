@@ -3,6 +3,7 @@ import styled, {css} from 'styled-components';
 import {UserHeading, UserSubHeading} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {useSpring, useSprings, animated} from 'react-spring';
+import {Trail} from 'react-spring/renderprops';
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -22,36 +23,42 @@ import PeopleCarry from '../../assets/imgs/icons/svgs/people_carry.svg';
 
 const CLASS_STATS = [
     {   
+        id: 1,
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
         testData: 85
     },
     {
+        id: 2,
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
         testData: 37
     },
     {
+        id: 3,
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
         testData: 83
     },
     {
+        id: 4,
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
         testData: 21
     },
     {
+        id: 5,
         name: 'demoman',
         shortname: 'demo',
         image: demo,
         testData: 1
     },
     {
+        id: 6,
         name: 'medic',
         shortname: 'medic',
         image: medic,
@@ -118,7 +125,16 @@ const ClassInstance = styled.div`
     ${props => `background-image: url(${props.imageUrl});`};
     background-repeat: no-repeat;
     background-size: contain;
-    ${props => `height: ${props.size}; width: ${props.size};`};
+
+    ${props => props.icon && css`{
+        height: 32px;
+        width: 32px;
+    `}
+
+    ${props => props.svg && css`{
+        height: 32px;
+        width:50px;
+    `}
 `;
 
 const ClassWrapper = styled.div`
@@ -145,29 +161,58 @@ const ClassWrapper = styled.div`
 const Percentage = styled(animated.div)`
     min-width:40px;
     text-align: right;
+    ${props => props.percentage && css`
+        :after{
+            content:'%';
+        }
+    `};
 `;
 
 
 const ClassContainer = ({classArray, data}) => {
 
-    const numberIncrease = useSpring({ config: {duration: 5000}, from: { val: 0 }, to: { val: 235 } });
-    //const springs = useSprings(number, items.map(item => ({ opacity: item.opacity }))
-
+   
     return (    
         <>
-            {classArray.map((character, i) => (
-                <ClassWrapper key={i}>
-                    <ClassInstance size={'32px'} imageUrl={character.image}/>
-                    <UserSubHeading>{character.name}{character.testData}</UserSubHeading>
-                    <Percentage>
-                        
-                        {numberIncrease.val.interpolate(val => Math.floor(val))}
-                    </Percentage>
-                </ClassWrapper>
-            ))}
+            {classArray.map((character, i) => {
+                const numberIncrease = useSpring({ config: {duration: 5000}, from: { val: 0 }, to: { val: character.testData } });
+                return (
+                    <ClassWrapper key={i}>
+                        <ClassInstance icon imageUrl={character.image}/>
+                        <UserSubHeading>{character.name}</UserSubHeading>
+                        <Percentage percentage>
+                            {numberIncrease.val.interpolate(val => Math.floor(val))}
+                        </Percentage>
+                    </ClassWrapper>
+                )
+            })}
         </>
     ); 
 };
+
+// const ClassContainer = () => {
+
+//     const numberRise = useSpring({ config: {duration: 2500}, from: { val: 0 }, to: { val: 50 } });
+    
+//     return (
+//         <Trail
+//             items={CLASS_STATS}
+//             keys={stat => stat.id}
+//             from={{ marginLeft: -20, opacity: 0}}
+//             to={{ marginLeft: 0, opacity: 1 }}
+//         >
+//         {stat => props => (
+//           <ClassWrapper style={props}>
+//                 <ClassInstance icon imageUrl={stat.image}/>
+//                 <UserSubHeading>{stat.name}</UserSubHeading>
+//                 <Percentage percentage>{numberRise.val.interpolate(val => Math.floor(val))}</Percentage>
+//           </ClassWrapper>
+//         )}
+//       </Trail>
+//     );
+// }
+
+
 
 const LifeTimeStatContainer = ({lifetimeStats, data}) => {
     return (
@@ -176,7 +221,7 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
                 <ClassWrapper column key={i}>
                     <UserSubHeading>{statistic.name}</UserSubHeading>
                     <div>
-                        <ClassInstance size={'32px'} imageUrl={statistic.image}/>
+                        <ClassInstance svg imageUrl={statistic.image}/>
                         <Percentage>{statistic.testData}</Percentage>
                     </div>
                 </ClassWrapper>
@@ -184,6 +229,8 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
         </>
     ); 
 };
+
+
 
 
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
@@ -196,6 +243,9 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
         <MarginContainer direction={direction} content={content}>
             {children}
         </MarginContainer>
+
+     
+
     </InfoRectangle>
 );
 

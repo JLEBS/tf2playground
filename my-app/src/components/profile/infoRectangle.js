@@ -1,8 +1,10 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {UserHeading, UserSubHeading} from '../../misc/fonts'
+import {UserHeading, UserSubHeading} from '../../misc/fonts';
+import {MarginContainer} from '../structure/containers';
+import {useSpring, useSprings, animated} from 'react-spring';
 
-//class imports
+//Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
 import pocketScout from '../../assets/imgs/icons/classes/pocketScout.png';
 import soldier from '../../assets/imgs/icons/classes/soldier.png';
@@ -10,42 +12,50 @@ import pocketSoldier from '../../assets/imgs/icons/classes/pocketSoldier.png';
 import demo from '../../assets/imgs/icons/classes/demo.png';
 import medic from '../../assets/imgs/icons/classes/medic.png';
 
+//SVG imporst
+import Fist from '../../assets/imgs/icons/svgs/fist.svg';
+import Trophy from '../../assets/imgs/icons/svgs/trophy.svg';
+import Clock from '../../assets/imgs/icons/svgs/clock.svg';
+import Medal from '../../assets/imgs/icons/svgs/medal.svg';
+import Injured from '../../assets/imgs/icons/svgs/broken_arm.svg';
+import PeopleCarry from '../../assets/imgs/icons/svgs/people_carry.svg';
+
 const CLASS_STATS = [
     {   
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
-        testData: '85'
+        testData: 85
     },
     {
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
-        testData: '37'
+        testData: 37
     },
     {
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
-        testData: '83'
+        testData: 83
     },
     {
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
-        testData: '21'
+        testData: 21
     },
     {
         name: 'demoman',
         shortname: 'demo',
         image: demo,
-        testData: '1'
+        testData: 1
     },
     {
         name: 'medic',
         shortname: 'medic',
         image: medic,
-        testData: '100'
+        testData: 100
     }
 ];
 
@@ -53,30 +63,46 @@ const SVG_ICONS = [
     {
         name: 'lobbies played',
         description: 'fist raised',
-        image: 'test'
+        image: Fist,
+        testData: '41'
     },
     {
-        name: 'Wins',
+        name: 'total wins',
         description: 'trophy',
-        image: 'test'
+        image: Trophy,
+        testData: '10'
     },
     {
-        name: 'rank',
+        name: 'hours played',
+        description: 'clock',
+        image: Clock,
+        testData: '8973'
+    },
+    {
+        name: 'ETF2L div',
         description: 'medal',
-        image: 'test'
+        image: Medal,
+        testData: '2'
     },
     {
-        name: 'discconects',
+        name: 'disconnects',
         description: 'brokenarm',
-        image: 'test'
+        image: Injured,
+        testData: '3'
     },
     {
         name: 'sub count',
         description: 'carry',
-        image: 'test'
-    }
+        image: PeopleCarry,
+        testData: '7'
+    },
 
 ];
+
+// const ChatMod = styled({svg})`
+//     height: 25px;
+//     margin-left: 10px;
+// `;
 
 const InfoRectangle = styled.div`
     border-radius: 10px;
@@ -85,10 +111,7 @@ const InfoRectangle = styled.div`
     display: flex;
     flex-direction: column;
     ${props => `max-width: ${props.maxWidth};`};
-`;
-
-const RectangleContent = styled.div`
-    padding: 24px;
+    ${props => `min-width: ${props.minWidth};`};
 `;
 
 const ClassInstance = styled.div`
@@ -104,40 +127,77 @@ const ClassWrapper = styled.div`
     align-items: center;
     padding-top: 8px;
     padding-bottom: 8px;
+
+    ${props => props.column && css`
+        flex-direction: column;
+
+        & > * {
+            width:100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top:6px;
+            padding-bottom:6px;
+        }
+    `};
 `;
 
-const Percentage = styled.div`
+const Percentage = styled(animated.div)`
     min-width:40px;
     text-align: right;
-
 `;
 
-const ClassContainer = ({classArray, percentage}) => {
-    return (
+
+const ClassContainer = ({classArray, data}) => {
+
+    const numberIncrease = useSpring({ config: {duration: 5000}, from: { val: 0 }, to: { val: 235 } });
+    //const springs = useSprings(number, items.map(item => ({ opacity: item.opacity }))
+
+    return (    
         <>
             {classArray.map((character, i) => (
                 <ClassWrapper key={i}>
                     <ClassInstance size={'32px'} imageUrl={character.image}/>
-                    <UserSubHeading>{character.name}</UserSubHeading>
-                    <Percentage>{character.testData}%</Percentage>
+                    <UserSubHeading>{character.name}{character.testData}</UserSubHeading>
+                    <Percentage>
+                        
+                        {numberIncrease.val.interpolate(val => Math.floor(val))}
+                    </Percentage>
                 </ClassWrapper>
             ))}
         </>
     ); 
 };
 
-const RectangleContainer = ({header, content, maxWidth}) => (
-    <InfoRectangle maxWidth={maxWidth}>
+const LifeTimeStatContainer = ({lifetimeStats, data}) => {
+    return (
+        <>
+            {lifetimeStats.map((statistic, i) => (
+                <ClassWrapper column key={i}>
+                    <UserSubHeading>{statistic.name}</UserSubHeading>
+                    <div>
+                        <ClassInstance size={'32px'} imageUrl={statistic.image}/>
+                        <Percentage>{statistic.testData}</Percentage>
+                    </div>
+                </ClassWrapper>
+            ))}
+        </>
+    ); 
+};
+
+
+const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
+    <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>
    
         <UserHeading heading>
             {header}
         </UserHeading>
     
-        <RectangleContent maxWidth={maxWidth}>
-            {/* <ClassContainer classArray={CLASS_STATS} percentage={'73'}/> */}
-            {content}
-        </RectangleContent>
+        <MarginContainer direction={direction} content={content}>
+            {children}
+        </MarginContainer>
     </InfoRectangle>
 );
 
-export default RectangleContainer;
+
+export { ClassContainer, LifeTimeStatContainer, RectangleContainer, CLASS_STATS, SVG_ICONS}

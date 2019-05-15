@@ -19,40 +19,27 @@ const Wrapper = styled.div`
 
 //Wraps the entire content of the page excluding the navigation bar
 const Content = styled.div`
-    width:100vw;
     padding-top: 156px;
-    overflow-y: scroll;
+    width:100vw;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
     outline: 5px solid red;
 `;
 
-//Adds margin to left/right of the window
+//Adds margin to left/right of the window and organises content
 const MarginContainer = styled.div`
     padding: 2rem;
     display: flex;
-    align-items: center;
-    ${props => `justify-content: ${props.content};`}
+    flex-wrap: wrap;
+    ${props => `align-items: ${props.align};`}
     ${props => `flex-direction: ${props.direction};`}
+    ${props => `justify-content: ${props.content};`}
     ${props => `padding-left: ${props.sidePadding};
                 padding-right: ${props.sidePadding}`}
     ${props => `padding-top: ${props.topPadding};
                 padding-bottom: ${props.topPadding}`}
 `;
-
-//Container to sort children with many properties
-const FlexRow = styled.div`
-    display:flex;
-    flex-direction: row;
-    width:100%;
-    align-items: center;
-    ${props => `flex-direction: ${props.direction};`}
-    ${props => `justify-content: ${props.content};`}
-    ${props => `max-width: ${props.maxwidth};`}
-    ${props => `float: ${props.float};`}
-    ${props => `padding-right: ${props.padright};`}
-    ${props => `padding-left: ${props.padleft};`}
-`
 
 //Centers content to middle of the page
 const PageCenter = styled.div`
@@ -73,10 +60,6 @@ const TItleBanner = styled.div`
     display: Flex;
 `;
 
-const TextMaxWidth = styled.div`
-    //max-width: 750px;
-`;
-
 const Overlay = styled.div`
     width: 100%;
     background-color: ${Colors.standard.secondary};
@@ -87,4 +70,4 @@ const Overlay = styled.div`
     align-items: center;
 `;
 
-export {PageCenter, Content, Wrapper, TItleBanner, MarginContainer,  FlexRow, TextMaxWidth, Overlay}
+export {PageCenter, Content, Wrapper, TItleBanner, MarginContainer, Overlay}

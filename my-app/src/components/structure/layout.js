@@ -3,7 +3,6 @@ import HeaderContainer from '../header/mainHeader/mainHeader';
 import SubHeaderContainer from '../header/subHeader/subHeader';
 import {Wrapper, Content, MarginContainer, Overlay} from './containers';
 import {Title} from '../../misc/fonts';
-import styled, {css} from 'styled-components';
 
 //For landing/login page
 export const LandingLayout = ({children, imageUrl}) => (
@@ -28,10 +27,10 @@ const WebStructure = ({children, imageUrl}) => (
 export const TextLayout = ({children, imageUrl, title, content}) => (
     <WebStructure imageUrl={imageUrl}>
         <MarginContainer content='center' direction='column'>
-            <Title banner>About TF2 Lobby</Title>
+            <Title banner>{title}</Title>
         </MarginContainer>
         <Overlay>
-            <MarginContainer>
+            <MarginContainer direction={'column'}>
                 {children}
             </MarginContainer>
         </Overlay>

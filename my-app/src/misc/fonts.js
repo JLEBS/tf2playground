@@ -181,22 +181,6 @@ export const BtnText = styled.p`
     `}
 `;
 
-export const ProfileHeader = styled.h1`
-    font-size: 20px;
-    font-style: normal;
-    font-weight: bold;
-    color: #EEEEEE;
-    background-color: ${Colors.standard.secondary};
-    padding: 25px;
-    border-radius: 10px 10px 0px 0px;
-    text-align: center;
-    text-transform: capitalize;
-
-    ${props => props.profile && css`
-        display: none;
-    `}
-`;
-
 export const UserHeading = styled.h3`
     font-size: 20px;
     font-style: normal;

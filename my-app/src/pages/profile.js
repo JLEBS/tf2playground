@@ -1,15 +1,15 @@
 import React from 'react';
-import RectangleContainer from './../components/profile/infoRectangle'
+import { ClassContainer, LifeTimeStatContainer, RectangleContainer, CLASS_STATS, SVG_ICONS} from './../components/profile/infoRectangle'
 
 const ProfilePage = () => (
     <>
-        <RectangleContainer header={'class wins'} content={''}/>
-        <RectangleContainer header={'Overall'} content={'testing123'}/>
-        <RectangleContainer header={'Win Rate'} content={'testing123'}/>
-        <RectangleContainer header={'Win Perctange'} content={'testing123'}/>
-        <RectangleContainer header={'Tempus Ranks'} content={'testing123'}/>
-        <RectangleContainer header={'Overall'} content={'testing123'}/>   
-         
+       <RectangleContainer  maxWidth='500px' minWidth='350px' header={'Overall'} content={'space-between'}>
+            <LifeTimeStatContainer lifetimeStats={SVG_ICONS} />
+        </RectangleContainer> 
+        <RectangleContainer direction='column' maxWidth='400px' minWidth='350px' header={'class wins'} content={'space-between'}>
+            <ClassContainer classArray={CLASS_STATS} />
+        </RectangleContainer>
+     
     </>
 );
 export default ProfilePage;

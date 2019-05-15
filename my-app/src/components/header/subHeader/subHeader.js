@@ -3,7 +3,7 @@ import styled, {css, keyframes} from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import Colors from '../../../misc/colors';
 import { LobbyFont } from '../../../misc/fonts';
-import {FlexRow} from '../../structure/containers';
+import {MarginContainer} from '../../structure/containers';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
@@ -31,6 +31,8 @@ const SubHeader = styled.div`
     right: 0;
     left: 0;
     z-index: 3;
+    display:flex;
+    flex-direction:row;
 `;
 
 const grow = keyframes`
@@ -108,6 +110,7 @@ const BackgroundOverlay = styled.div`
     z-index: 2;
     cursor: w-resize;
     display: none;
+
 `;
 
 const SubHeaderContainer = () => {
@@ -129,7 +132,6 @@ const SubHeaderContainer = () => {
 
     const fadeIn = panelOpen ? FADEIN : FADEOUT;
 
-
     const panelContents = {
         [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
         [ONLINE_PANEL] : () => <p>This is a Online Panel</p>,
@@ -148,31 +150,31 @@ const SubHeaderContainer = () => {
     }
  
     return (
-        <div>
+        <>
             <SubHeader>
-                <FlexRow>
-                    <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
-                        <LobbyFont>Chat</LobbyFont>
-                        <ChatMod/>
-                    </SocialGroup>
-                    <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
-                        <LobbyFont>Online</LobbyFont>
-                        <UsersMod/>
-                    </SocialGroup>
-                    <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
-                        <LobbyFont>Streams</LobbyFont>
-                        <VideoMod/>
-                    </SocialGroup>
-                    <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
-                        <div>
-                            <DropWindow className={`${currentAnimation}`} >
-                                <DeleteThis>
-                                    <CurrentPanel/>
-                                </DeleteThis>
-                            </DropWindow>
-                        </div>
-                    </CSSTransition>
-                </FlexRow>
+              
+                <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
+                    <LobbyFont>Chat</LobbyFont>
+                    <ChatMod/>
+                </SocialGroup>
+                <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
+                    <LobbyFont>Online</LobbyFont>
+                    <UsersMod/>
+                </SocialGroup>
+                <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
+                    <LobbyFont>Streams</LobbyFont>
+                    <VideoMod/>
+                </SocialGroup>
+                <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
+                    <>
+                        <DropWindow className={`${currentAnimation}`} >
+                            <DeleteThis>
+                                <CurrentPanel/>
+                            </DeleteThis>
+                        </DropWindow>
+                    </>
+                </CSSTransition>
+             
             </SubHeader>
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
@@ -182,7 +184,7 @@ const SubHeaderContainer = () => {
                     <BackgroundOverlay className={`${fadeIn}`} onClick={() => closePanel()}/>
                 </div>
             </CSSTransition>
-        </div>
+        </>
     );
 };
 

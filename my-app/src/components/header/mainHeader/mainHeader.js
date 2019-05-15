@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import React from 'react';
 import Colors from '../../../misc/colors';
 import { Link, TitleLogo, Title } from '../../../misc/fonts';
-import {FlexRow, MarginContainer} from '../../structure/containers';
+import {MarginContainer} from '../../structure/containers';
 import LoginBtn from '../../../components/buttons/steamBtn';
+import {ReactComponent as Megaphone} from '../../../assets/imgs/icons/svgs/volume_mute_solid.svg'
 
 const MainHeader = styled.div`
     background-color: ${Colors.standard.secondary};
@@ -15,23 +16,30 @@ const MainHeader = styled.div`
     z-index:4;
 `;
 
+const SpeakerMod = styled(Megaphone)`
+    height: 25px;
+    color:white;
+    margin-right:24px;
+`;
+
 const HeaderContainer = () => (
     <MainHeader>
-        <MarginContainer content='space-between' topPadding='unset'>
-            <FlexRow content='flex-start' maxwidth='600px' float='unset' padright='1rem'>
+        <MarginContainer content='space-between' topPadding='unset' align='center'>
+            <MarginContainer topPadding='unset' sidePadding='unset' align='center'>
                 <TitleLogo header/>
                 <Title header>Playground</Title>
-            </FlexRow>
-            <FlexRow content='space-between' maxwidth='700px' float='right' padleft='1rem'>
+            </MarginContainer>
+            <MarginContainer content='space-between' maxwidth='700px' float='right'>
                 <Link to="/about">about</Link>
                 <Link to="/rules">rules</Link>
                 <Link to="/stats">stats</Link>
                 <Link to="/conduct">conduct</Link>
                 <Link to="/donate">donate</Link>
-            </FlexRow>
-            <FlexRow content='flex-end' maxwidth='300px' float='right' padleft='1rem'>
+            </MarginContainer>
+            <MarginContainer direction='row' sidePadding='unset' topPadding='unset' content='space-between' align='center'>
+                <SpeakerMod/>
                 <LoginBtn smallbtn='smallbtn'/>
-            </FlexRow>
+            </MarginContainer>
         </MarginContainer>
     </MainHeader>
 );

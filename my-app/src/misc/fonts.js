@@ -181,8 +181,8 @@ export const BtnText = styled.p`
     `}
 `;
 
-export const UserHeading = styled.h3`
-    font-size: 20px;
+export const UserHeading = styled.h2`
+    font-size: 24px;
     font-style: normal;
     font-weight: 600;
     text-align: center;
@@ -197,7 +197,17 @@ export const UserHeading = styled.h3`
     `}
 `;
 
-export const UserSubHeading = styled.h4`
+export const UserSubHeading = styled.h3`
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    text-transform: capitalize;
+    color: ${colorSecondary};
+    float: left;
+    margin-left:12px;
+`;
+
+export const UserContent = styled.h4`
     font-style: normal;
     font-weight: 600;
     font-size: 16px;

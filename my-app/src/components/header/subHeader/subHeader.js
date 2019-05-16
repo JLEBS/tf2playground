@@ -96,6 +96,7 @@ const DropWindow = styled.li`
     left:0px;
     z-index:-3;
     color: white;
+    display: none;
 `;
 
 const DeleteThis = styled.div`
@@ -110,7 +111,6 @@ const BackgroundOverlay = styled.div`
     z-index: 2;
     cursor: w-resize;
     display: none;
-
 `;
 
 const SubHeaderContainer = () => {

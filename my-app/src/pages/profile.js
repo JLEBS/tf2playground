@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS} from './../components/profile/infoRectangle'
+import { ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS} from './../components/profile/infoRectangle'
 
 const ProfilePage = () => (
     <>

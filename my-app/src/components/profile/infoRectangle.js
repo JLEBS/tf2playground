@@ -4,6 +4,10 @@ import {UserHeading, UserSubHeading, UserContent} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {useSpring, useSprings, animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
+import { LineChart, Line, CartesianGrid } from 'recharts';
+import moment from 'moment';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -270,8 +274,117 @@ const FlexStart = styled.div`
     justify-content: flex-start;
 `;
 
+const ChartContainer = styled.div`
+    height:300px;
+    padding-top:30px;
+    margin-left:-20px;
+
+`
+
+function getIntroOfPage(label) {
+    if (label === 'Jan') {
+      return `January`;
+    } if (label === 'Feb') {
+      return `Febuary`;
+    } if (label === 'Mar') {
+      return `March`;
+    } if (label === 'Apr') {
+      return `April`;
+    } if (label === 'May') {
+      return `May`;
+    } if (label === 'Jun') {
+      return `June`;
+    }
+  }
+  
+const ToolTipContainer = styled.div`
+    background-color: white;
+    padding:6px;
+    font-size: 16px;
+    min-width:75px;
+    outline:2px dotted lightgrey;
+    text-align: center;
+
+    span{
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    span:nth-child(3) {
+        color: #EB008A;
+    }
+    span:nth-child(2) {
+        color:#009EFF;
+    }
+`;
+const SoldierGraph = styled.div`
+
+`;
+
+function CustomTooltip({ payload, label, active }) {
+    if (active) {
+      return (
+        <ToolTipContainer>
+             <p className="intro">{getIntroOfPage(label)}</p>
+            <span>
+                <ClassInstance icon imageUrl={TEMPUS_POINTS[1].image}/>
+                {`${payload[1].value}`}
+            </span>
+
+            <span>
+                <ClassInstance icon imageUrl={TEMPUS_POINTS[0].image}/>
+                {`${payload[0].value}`}
+            </span>
+            
+        
+         
+        
+        </ToolTipContainer>
+      );
+    }
+  
+    return null;
+  }
+
+const Chart = () => {
+    const chartData = [
+        { Time: moment('2019-01-01').format('MMM'), SoldierRank: 708, DemoRank: 1000},
+        { Time: moment('2019-02-02').format('MMM'), SoldierRank: 705, DemoRank: 958},
+        { Time: moment('2019-03-03').format('MMM'), SoldierRank: 677, DemoRank: 965},
+        { Time: moment('2019-04-04').format('MMM'), SoldierRank: 658, DemoRank: 1210},
+        { Time: moment('2019-05-05').format('MMM'), SoldierRank: 655, DemoRank: 987},
+        { Time: moment('2019-06-06').format('MMM'), SoldierRank: 659, DemoRank: 800},
+        // { Time: moment('2019-07-07').format('MMM'), SoldierRank: 650, DemoRank: 700},
+        // { Time: moment('2019-08-08').format('MMM'), SoldierRank: 432, DemoRank: 657},
+        // { Time: moment('2019-09-09').format('MMM'), SoldierRank: 470, DemoRank: 623},
+        // { Time: moment('2019-10-10').format('MMM'), SoldierRank: 553, DemoRank: 588},
+        // { Time: moment('2019-11-11').format('MMM'), SoldierRank: 500, DemoRank: 600},
+        // { Time: moment('2019-12-12').format('MMM'), SoldierRank: 432, DemoRank: 676},
+
+     ];
+    return (
+    <ChartContainer>
+        <ResponsiveContainer>
+          <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+            <XAxis dataKey='Time' tick={{ fontSize: 16 }} />
+            <YAxis orientation='left' domain={[0, 'dataMax']} />
+            <Tooltip  content={<CustomTooltip />}/>
+            <CartesianGrid stroke="#ccc" />
+            <Area type='monotone' dataKey='SoldierRank' stroke='#EB008A' fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='DemoRank' stroke='#009EFF' fill='none' strokeWidth={3} />
+            {/* <ReferenceLine y={300} stroke='#aaaaaa' strokeDasharray='3 3' />
+            <ReferenceLine y={1200} stroke='#aaaaaa' strokeDasharray='3 3' /> */}
+          </AreaChart>
+        </ResponsiveContainer>
+      </ChartContainer>
+    );
+};
+
 const TempusContainer = ({tempusStats, data}) => {
     return (
+        <div>
         <OuterDivForReal>
           {tempusStats.map((tempus, i) => (
                 <TestOuterDiv>
@@ -303,9 +416,14 @@ const TempusContainer = ({tempusStats, data}) => {
                             <Percentage>-3</Percentage>
                         </FlexStart>
                     </ClassWrapper>
+                
                </TestOuterDiv>
+             
             ))}
+             
         </OuterDivForReal>
+           <Chart/>
+           </div>
     );
 }
 
@@ -320,4 +438,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS}
+export { ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS}

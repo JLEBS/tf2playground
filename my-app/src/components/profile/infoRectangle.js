@@ -1,13 +1,16 @@
+import CountUp from 'react-countup';
 import React from 'react';
 import styled, {css} from 'styled-components';
 import {UserHeading, UserSubHeading, UserContent} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {useSpring, useSprings, animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
-import { LineChart, Line, CartesianGrid } from 'recharts';
+import {CartesianGrid} from 'recharts';
+
+import {Pies, Transform } from 'rumble-charts';
+
 import moment from 'moment';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -211,24 +214,23 @@ const Percentage = styled(animated.div)`
 `;
 
 const ClassContainer = () => {
-
-    const numberRise = useSpring({ config: {duration: 2500}, from: { val: 0 }, to: { val: 50 } });
-    
     return (
-        <Trail
-            items={CLASS_STATS}
-            keys={stat => stat.id}
-            from={{ marginLeft: -20, opacity: 0}}
-            to={{ marginLeft: 0, opacity: 1 }}
-        >
-        {stat => props => (
-          <ClassWrapper style={props}>
-                <ClassInstance icon imageUrl={stat.image}/>
-                <UserContent>{stat.name}</UserContent>
-                <Percentage percentage>{numberRise.val.interpolate(val => Math.floor(val))}</Percentage>
-          </ClassWrapper>
-        )}
-      </Trail>
+        <>
+            <Trail
+                items={CLASS_STATS}
+                keys={stat => stat.id}
+                from={{ marginLeft: -20, opacity: 0}}
+                to={{ marginLeft: 0, opacity: 1 }}
+            >
+            {stat => props => (
+            <ClassWrapper style={props}>
+                    <ClassInstance icon imageUrl={stat.image}/>
+                    <UserContent>{stat.name}</UserContent>
+                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
+            </ClassWrapper>
+            )}
+        </Trail>
+       </>
     );
 }
 
@@ -240,7 +242,7 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
                     <UserContent>{statistic.name}</UserContent>
                     <div>
                         <ClassInstance svg imageUrl={statistic.image}/>
-                        <Percentage>{statistic.testData}</Percentage>
+                        <Percentage> <CountUp useEasing={false} duration={3} end={statistic.testData}/></Percentage>
                     </div>
                 </ClassWrapper>
             ))}
@@ -256,11 +258,10 @@ const TestDiv = styled.div`
 `;
 
 const TestOuterDiv = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-
-min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
 `;
 
 const OuterDivForReal = styled.div`
@@ -280,36 +281,66 @@ const ChartContainer = styled.div`
     margin-left:-20px;
 
 `
-
+//Convert to switch statements
 function getIntroOfPage(label) {
     if (label === 'Jan') {
-      return `January`;
-    } if (label === 'Feb') {
-      return `Febuary`;
-    } if (label === 'Mar') {
-      return `March`;
-    } if (label === 'Apr') {
-      return `April`;
-    } if (label === 'May') {
-      return `May`;
-    } if (label === 'Jun') {
-      return `June`;
+        return `January`;
+    } 
+    if (label === 'Feb') {
+        return `Febuary`;
+    } 
+    if (label === 'Mar') {
+        return `March`;
+    } 
+    if (label === 'Apr') {
+        return `April`;
+    } 
+    if (label === 'May') {
+        return `May`;
+    } 
+    if (label === 'Jun') {
+        return `June`;
+    }
+    if (label === 'Jul') {
+        return `July`;
+    }
+    if (label === 'Aug') {
+        return `August`;
+    }
+    if (label === 'Sep') {
+        return `September`;
+    }
+    if (label === 'Oct') {
+        return `October`;
+    }
+    if (label === 'Nov') {
+        return `November`;
+    }
+    if (label === 'Dec') {
+        return `December`;
     }
   }
   
 const ToolTipContainer = styled.div`
-    background-color: white;
+    background-color: #ffffffe3;
     padding:6px;
-    font-size: 16px;
-    min-width:75px;
+    
+    min-width:100px;
     outline:2px dotted lightgrey;
     text-align: center;
+   
 
     span{
-        font-size: 20px;
+        font-size: 18px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        min-width:60px
+    }
+    p {
+        font-size: 16px;
+        font-weight: 600;
+        padding-bottom: 10px;
     }
 
     span:nth-child(3) {
@@ -319,9 +350,7 @@ const ToolTipContainer = styled.div`
         color:#009EFF;
     }
 `;
-const SoldierGraph = styled.div`
 
-`;
 
 function CustomTooltip({ payload, label, active }) {
     if (active) {
@@ -330,17 +359,13 @@ function CustomTooltip({ payload, label, active }) {
              <p className="intro">{getIntroOfPage(label)}</p>
             <span>
                 <ClassInstance icon imageUrl={TEMPUS_POINTS[1].image}/>
-                {`${payload[1].value}`}
+                #{`${payload[1].value}`}
             </span>
 
             <span>
                 <ClassInstance icon imageUrl={TEMPUS_POINTS[0].image}/>
-                {`${payload[0].value}`}
-            </span>
-            
-        
-         
-        
+                #{`${payload[0].value}`}
+            </span>     
         </ToolTipContainer>
       );
     }
@@ -371,11 +396,9 @@ const Chart = () => {
             <XAxis dataKey='Time' tick={{ fontSize: 16 }} />
             <YAxis orientation='left' domain={[0, 'dataMax']} />
             <Tooltip  content={<CustomTooltip />}/>
-            <CartesianGrid stroke="#ccc" />
+            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Area type='monotone' dataKey='SoldierRank' stroke='#EB008A' fill='none' strokeWidth={3} />
             <Area type='monotone' dataKey='DemoRank' stroke='#009EFF' fill='none' strokeWidth={3} />
-            {/* <ReferenceLine y={300} stroke='#aaaaaa' strokeDasharray='3 3' />
-            <ReferenceLine y={1200} stroke='#aaaaaa' strokeDasharray='3 3' /> */}
           </AreaChart>
         </ResponsiveContainer>
       </ChartContainer>
@@ -385,45 +408,45 @@ const Chart = () => {
 const TempusContainer = ({tempusStats, data}) => {
     return (
         <div>
-        <OuterDivForReal>
-          {tempusStats.map((tempus, i) => (
-                <TestOuterDiv>
-                    <TestDiv>
-                        <ClassInstance icon imageUrl={tempus.image}/>
-                        <UserSubHeading>{tempus.name}</UserSubHeading>
-                    </TestDiv>
+            <OuterDivForReal>
+            {tempusStats.map((tempus, i) => (
+                    <TestOuterDiv>
+                        <TestDiv>
+                            <ClassInstance icon imageUrl={tempus.image}/>
+                            <UserSubHeading>{tempus.name}</UserSubHeading>
+                        </TestDiv>
 
-                    <ClassWrapper column>
-                        <UserContent>{tempus.shortName} rank</UserContent>
-                        <FlexStart>
-                            <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                            <Percentage rank>{tempus.rank}</Percentage>
-                        </FlexStart>
-                    </ClassWrapper>
+                        <ClassWrapper column>
+                            <UserContent>{tempus.shortName} rank</UserContent>
+                            <FlexStart>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
+                                <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
+                            </FlexStart>
+                        </ClassWrapper>
+                    
+                        <ClassWrapper column>
+                            <UserContent>{tempus.shortName} points</UserContent>
+                            <FlexStart>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
+                            </FlexStart>
+                        </ClassWrapper>
 
-                    <ClassWrapper column>
-                        <UserContent>{tempus.shortName} points</UserContent>
-                        <FlexStart>
-                            <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                            <Percentage>{tempus.points}</Percentage>
-                        </FlexStart>
-                    </ClassWrapper>
-
-                    <ClassWrapper column>
-                        <UserContent>Fluctuation</UserContent>
-                        <FlexStart>
-                            <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                            <Percentage>-3</Percentage>
-                        </FlexStart>
-                    </ClassWrapper>
+                        <ClassWrapper column>
+                            <UserContent>Fluctuation</UserContent>
+                            <FlexStart>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                <Percentage>-3</Percentage>
+                            </FlexStart>
+                        </ClassWrapper>
+                    
+                </TestOuterDiv>
                 
-               </TestOuterDiv>
-             
-            ))}
-             
-        </OuterDivForReal>
-           <Chart/>
-           </div>
+                ))}
+                
+            </OuterDivForReal>
+            <Chart/>
+        </div>
     );
 }
 

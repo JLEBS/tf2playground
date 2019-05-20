@@ -15,7 +15,6 @@
     "react-spring": "^8.0.20",
     "react-transition-group": "^4.0.1",
     "recharts": "^1.6.0",
-    "rumble-charts": "^2.0.0",
     "styled-components": "^4.2.0"
   },
   "scripts": {

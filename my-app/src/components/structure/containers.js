@@ -39,6 +39,11 @@ const MarginContainer = styled.div`
                 padding-right: ${props.sidePadding}`}
     ${props => `padding-top: ${props.topPadding};
                 padding-bottom: ${props.topPadding}`}
+
+                  &.modify{
+        outline:1px solid red;
+        background-color: black;
+    }
 `;
 
 //Centers content to middle of the page

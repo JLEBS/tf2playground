@@ -3,14 +3,10 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import {UserHeading, UserSubHeading, UserContent} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
-import {useSpring, useSprings, animated} from 'react-spring';
+import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
-import {CartesianGrid} from 'recharts';
-
-import {Pies, Transform } from 'rumble-charts';
-
 import moment from 'moment';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -196,6 +192,8 @@ const ClassWrapper = styled.div`
             padding-bottom:6px;
         }
     `};
+
+  
 `;
 
 const Percentage = styled(animated.div)`
@@ -212,43 +210,6 @@ const Percentage = styled(animated.div)`
         }
 `};
 `;
-
-const ClassContainer = () => {
-    return (
-        <>
-            <Trail
-                items={CLASS_STATS}
-                keys={stat => stat.id}
-                from={{ marginLeft: -20, opacity: 0}}
-                to={{ marginLeft: 0, opacity: 1 }}
-            >
-            {stat => props => (
-            <ClassWrapper style={props}>
-                    <ClassInstance icon imageUrl={stat.image}/>
-                    <UserContent>{stat.name}</UserContent>
-                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
-            </ClassWrapper>
-            )}
-        </Trail>
-       </>
-    );
-}
-
-const LifeTimeStatContainer = ({lifetimeStats, data}) => {
-    return (
-        <>
-            {lifetimeStats.map((statistic, i) => (
-                <ClassWrapper column key={i}>
-                    <UserContent>{statistic.name}</UserContent>
-                    <div>
-                        <ClassInstance svg imageUrl={statistic.image}/>
-                        <Percentage> <CountUp useEasing={false} duration={3} end={statistic.testData}/></Percentage>
-                    </div>
-                </ClassWrapper>
-            ))}
-        </>
-    ); 
-};
 
 const TestDiv = styled.div`
     display: flex;
@@ -281,6 +242,128 @@ const ChartContainer = styled.div`
     margin-left:-20px;
 
 `
+const ToolTipContainer = styled.div`
+    background-color: #ffffffe3;
+    padding:6px;
+    
+    min-width:100px;
+    outline:2px dotted lightgrey;
+    text-align: center;
+   
+
+    span{
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width:60px
+    }
+    p {
+        font-size: 16px;
+        font-weight: 600;
+        padding-bottom: 10px;
+    }
+
+    span:nth-child(3) {
+        color: #EB008A;
+    }
+    span:nth-child(2) {
+        color:#009EFF;
+    }
+`;
+
+const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
+                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const RADIAN = Math.PI / 180;                    
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+ 	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+ 
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+    	{`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+class SimplePieChart extends React.Component {
+	render () {
+  	return (
+    	<PieChart className='modify' width={400} height={400} onMouseEnter={this.onPieEnter}>
+            <Pie
+            data={data} 
+            cx={300} 
+            cy={200} 
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80} 
+            fill="#8884d8"
+            >
+        	{
+          	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+          }
+        </Pie>
+      </PieChart>
+    );
+  }
+}
+
+const ClassContainerTest = () => {
+    return (
+        <>
+            <Trail
+                items={CLASS_STATS}
+                keys={stat => stat.id}
+                from={{ marginLeft: -20, opacity: 0}}
+                to={{ marginLeft: 0, opacity: 1 }}
+            >
+            {stat => props => (
+            <ClassWrapper style={props}>
+                    <ClassInstance icon imageUrl={stat.image}/>
+                    <UserContent>{stat.name}</UserContent>
+                    <Percentage percentage> <CountUp useEasing={false} duration={5} start={0} end={stat.testData}/> </Percentage>
+            </ClassWrapper>
+            )}
+        </Trail>
+       </>
+    );
+}
+
+const ClassContainer = ({classStats}) => {
+    return (
+        <>
+          {classStats.map((stat, i) => (
+            <ClassWrapper key={i}>
+                    <ClassInstance icon imageUrl={stat.image}/>
+                    <UserContent>{stat.name}</UserContent>
+                    <Percentage percentage> <CountUp useEasing={false} duration={5} start={0} end={stat.testData}/> </Percentage>
+            </ClassWrapper>
+            ))}
+       </>
+    );
+}
+
+const LifeTimeStatContainer = ({lifetimeStats, data}) => {
+    return (
+        <>
+            {lifetimeStats.map((statistic, i) => (
+                <ClassWrapper column key={i}>
+                    <UserContent>{statistic.name}</UserContent>
+                    <div>
+                        <ClassInstance svg imageUrl={statistic.image}/>
+                        <Percentage> <CountUp useEasing={false} duration={5} end={statistic.testData}/></Percentage>
+                    </div>
+                </ClassWrapper>
+            ))}
+            {/* <SimplePieChart/> */}
+        </>
+    ); 
+};
+
+
 //Convert to switch statements
 function getIntroOfPage(label) {
     if (label === 'Jan') {
@@ -320,37 +403,6 @@ function getIntroOfPage(label) {
         return `December`;
     }
   }
-  
-const ToolTipContainer = styled.div`
-    background-color: #ffffffe3;
-    padding:6px;
-    
-    min-width:100px;
-    outline:2px dotted lightgrey;
-    text-align: center;
-   
-
-    span{
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width:60px
-    }
-    p {
-        font-size: 16px;
-        font-weight: 600;
-        padding-bottom: 10px;
-    }
-
-    span:nth-child(3) {
-        color: #EB008A;
-    }
-    span:nth-child(2) {
-        color:#009EFF;
-    }
-`;
-
 
 function CustomTooltip({ payload, label, active }) {
     if (active) {
@@ -369,9 +421,8 @@ function CustomTooltip({ payload, label, active }) {
         </ToolTipContainer>
       );
     }
-  
     return null;
-  }
+}
 
 const Chart = () => {
     const chartData = [
@@ -420,7 +471,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} rank</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
+                                <Percentage rank><CountUp useEasing={false} start={69053} duration={5} end={tempus.rank}/></Percentage>
                             </FlexStart>
                         </ClassWrapper>
                     
@@ -428,7 +479,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} points</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
+                                <Percentage> <CountUp duration={5} end={tempus.points}/></Percentage>
                             </FlexStart>
                         </ClassWrapper>
 
@@ -452,9 +503,11 @@ const TempusContainer = ({tempusStats, data}) => {
 
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
     <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>
-        <UserHeading heading>
-            {header}
-        </UserHeading>
+        {header && (
+            <UserHeading heading>
+                {header}
+            </UserHeading>
+        )}
         <MarginContainer direction={direction} content={content}>
             {children}
         </MarginContainer>

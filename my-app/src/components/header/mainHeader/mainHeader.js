@@ -14,6 +14,7 @@ const MainHeader = styled.div`
     right: 0;
     left: 0;
     z-index:4;
+    
 `;
 
 const SpeakerMod = styled(Megaphone)`
@@ -24,17 +25,17 @@ const SpeakerMod = styled(Megaphone)`
 
 const HeaderContainer = () => (
     <MainHeader>
-        <MarginContainer content='space-between' topPadding='unset' align='center'>
-            <MarginContainer topPadding='unset' sidePadding='unset' align='center'>
+        <MarginContainer sidepadding spacebetween>
+            <MarginContainer>
                 <TitleLogo header/>
                 <Title header>Playground</Title>
             </MarginContainer>
             <MarginContainer content='space-between' maxwidth='700px' float='right'>
-                <Link to="/about">about</Link>
-                <Link to="/rules">rules</Link>
-                <Link to="/stats">stats</Link>
-                <Link to="/conduct">conduct</Link>
-                <Link to="/donate">donate</Link>
+                <Link margin to="/about">about</Link>
+                <Link margin to="/rules">rules</Link>
+                <Link margin to="/stats">stats</Link>
+                <Link margin to="/conduct">conduct</Link>
+                <Link margin to="/donate">donate</Link>
             </MarginContainer>
             <MarginContainer direction='row' sidePadding='unset' topPadding='unset' content='space-between' align='center'>
                 <SpeakerMod/>

@@ -29,21 +29,35 @@ const Content = styled.div`
 
 //Adds margin to left/right of the window and organises content
 const MarginContainer = styled.div`
-    padding: 2rem;
     display: flex;
-    flex-wrap: wrap;
-    ${props => `align-items: ${props.align};`}
-    ${props => `flex-direction: ${props.direction};`}
-    ${props => `justify-content: ${props.content};`}
-    ${props => `padding-left: ${props.sidePadding};
-                padding-right: ${props.sidePadding}`}
-    ${props => `padding-top: ${props.topPadding};
-                padding-bottom: ${props.topPadding}`}
+    align-items: center;
 
-                  &.modify{
-        outline:1px solid red;
-        background-color: black;
-    }
+    ${props => props.row && css`
+       flex-direction: row;
+    `}
+
+    ${props => props.columnn && css`
+        flex-direction: column;
+    `}
+
+    ${props => props.spacebetween && css`
+        justify-content: space-between;
+    `}
+
+    ${props => props.shrink && css`
+        align-items: flex-start;
+        flex-wrap: wrap;
+    `}
+
+    ${props => props.verticalpadding && css` 
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    `}
+
+    ${props => props.sidepadding && css` 
+        padding-left: 2rem;
+        padding-right: 2rem;
+    `}
 `;
 
 //Centers content to middle of the page

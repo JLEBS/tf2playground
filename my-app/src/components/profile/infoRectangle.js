@@ -1,7 +1,7 @@
 import CountUp from 'react-countup';
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {UserHeading, UserSubHeading, UserContent} from '../../misc/fonts';
+import {UserHeading, UserSubHeading, UserContent, UserLinks} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
@@ -24,6 +24,12 @@ import Clock from '../../assets/imgs/icons/svgs/clock.svg';
 import Medal from '../../assets/imgs/icons/svgs/medal.svg';
 import Injured from '../../assets/imgs/icons/svgs/broken_arm.svg';
 import PeopleCarry from '../../assets/imgs/icons/svgs/people_carry.svg';
+
+//Profile only
+import Twitch from '../../assets/imgs/icons/svgs/twitch.svg';
+import Discord from '../../assets/imgs/icons/svgs/discord.svg';
+import Steam_Logo from '../../assets/imgs/icons/svgs/steam_logo.svg';
+import eepilyProfile from '../../assets/imgs/user/eepilyProfile.jpg';
 
 const CLASS_STATS = [
     {   
@@ -142,6 +148,74 @@ const TEMPUS_POINTS = [
     }
 ];
 
+const PROFILE_INFO = [
+    {
+        steamId: '[U:1:81264176]',
+        steamCommunityId: '76561198041529904',
+        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ecb8f3dd89bcd796eaaeb77d5547794053cfb120_full.jpg',
+        steamName: 'eepily',
+        discordName: 'eepily#2645',
+        twitchName: 'eepily',
+        status: 1,
+        twitchStatus: true
+    }
+];
+
+const PROFILE_SVGS = [
+    {
+        id: 1,
+        name: 'steam',
+        image: Steam_Logo,
+        url: 'https://steamcommunity.com/profiles/'
+    },
+    {
+        id: 2,
+        name: 'discord',
+        image: Discord,
+        url: 'https://discordapp.com/'
+    },
+    {
+        id: 3,
+        name: 'twitch',
+        image: Twitch,
+        url: 'https://www.twitch.tv/'
+    }
+];
+
+//Only required SteamCommunity Id
+const PROFILE_URLS = [
+    {
+        id: 1,
+        name: 'logs.tf',
+        url: 'http://logs.tf/profile/',
+    },
+    {
+        id: 2,
+        name: 'etf2l',
+        url: 'http://etf2l.org/search/'
+    },
+    {
+        id: 3,
+        name: 'tf2center',
+        url: 'https://tf2center.com/profile/'
+    },
+    {
+        id: 4,
+        name: 'ugc',
+        url: 'https://www.ugcleague.com/players_page.cfm?player_id='
+    },
+    {
+        id: 5,
+        name: 'demos',
+        url: 'https://demos.tf/profiles/'
+    },
+    {
+        id: 6,
+        name: 'pugchamp',
+        url: 'https://eu.pug.champ.gg/player/'
+    }
+];
+
 const InfoRectangle = styled.div`
     border-radius: 10px;
     background-color: white;
@@ -178,7 +252,11 @@ const ClassWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     padding-top: 10px;
-    padding-bottom: 10px;
+    flex-wrap: wrap;
+
+    ${props => props.paddingBottom && css` 
+        padding-bottom: 40px;
+    `}
 
     ${props => props.column && css`
         flex-direction: column;
@@ -193,7 +271,10 @@ const ClassWrapper = styled.div`
         }
     `};
 
-  
+    ${props => props.row && css`
+        flex-direction: row;
+        width: 100%;
+    `}
 `;
 
 const Percentage = styled(animated.div)`
@@ -208,7 +289,7 @@ const Percentage = styled(animated.div)`
         :before{
             content:'#';
         }
-`};
+    `};
 `;
 
 const TestDiv = styled.div`
@@ -240,16 +321,13 @@ const ChartContainer = styled.div`
     height:300px;
     padding-top:30px;
     margin-left:-20px;
-
 `
 const ToolTipContainer = styled.div`
     background-color: #ffffffe3;
     padding:6px;
-    
     min-width:100px;
     outline:2px dotted lightgrey;
     text-align: center;
-   
 
     span{
         font-size: 18px;
@@ -263,7 +341,7 @@ const ToolTipContainer = styled.div`
         font-weight: 600;
         padding-bottom: 10px;
     }
-
+    
     span:nth-child(3) {
         color: #EB008A;
     }
@@ -278,15 +356,15 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;                    
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
- 	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy  + radius * Math.sin(-midAngle * RADIAN);
  
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
-    	{`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
+    return (
+        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+        </text>
+    );
 };
 
 class SimplePieChart extends React.Component {
@@ -311,6 +389,121 @@ class SimplePieChart extends React.Component {
   }
 }
 
+const StatusContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    letter-spacing:1.5px;
+    padding-left:30px
+    position: relative;
+
+    span:nth-child(1) {
+        font-size: 32px;
+        padding-bottom: 8px;
+    }
+    span:nth-child(2) {
+        padding-left: 20px;
+        display:flex;
+        text-transform: capitalize;
+        font-weight:600;
+
+         ::before{
+            content: '';
+            background-color: #6DCD40;
+            height: 12px;
+            width: 12px;
+            border-radius: 10px;
+            position: absolute;
+            margin-left:-20px;
+            margin-top:2px;
+        }
+    }
+`;
+
+const Avatar = styled.a`
+    background-image: url(${props => props.img});
+    background-position: center;
+    background-repeat: no-repeat;
+    max-width: 150px;
+    width: 100%;
+    background-size: cover;
+    padding-top: 48%;
+    border-radius: 100px;
+`;
+
+const FlexTesting = styled.div`
+    width: 60%;
+    display:flex;
+    align-items: center;
+`;
+
+const FlexTestAgain = styled.div`
+    display:flex;
+    flex-direction: row;
+`;
+
+const LinkTestContainer = styled.a`
+
+    width: 100px;
+    text-align: center;
+    background-color: lightgrey;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 15px;
+    transition: background-color 1s;
+
+    &:hover {
+        background-color: black;
+        color: white;
+
+        h3 {
+            color: white;
+        }
+    }
+`;
+
+const status = {
+    0: 'offline',
+    1: 'online',
+    2: 'away'
+}
+
+const ProfileContainer = ({userLinks, userData, userIcons}) => {
+    return (
+        <>
+            <ClassWrapper row>
+                <FlexTesting>
+                    <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steamCommunityId} classname='avatar'/>
+                    <StatusContainer classname='userActivity'>
+                        <span>
+                            {userData[0].steamName}
+                        </span>
+                        <span>
+                            {
+                                status[userData[0].status]
+                            }
+                        </span>
+                    </StatusContainer>
+                </FlexTesting>
+                <FlexTestAgain>
+                    {userIcons.map((icon, i) => ( 
+                        <a target="_bank" href={icon.url + userData[0].steamCommunityId} >
+                            <ClassInstance svg imageUrl={icon.image}/>
+                        </a>
+                    ))}
+                </FlexTestAgain>
+            </ClassWrapper>
+            <ClassWrapper row>
+                {userLinks.map((link, i) => ( 
+                    <LinkTestContainer  target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
+                        <UserLinks>{link.name}</UserLinks>
+                    </LinkTestContainer>
+                ))}
+            </ClassWrapper>
+        </>
+    ); 
+};
+
 const ClassContainerTest = () => {
     return (
         <>
@@ -324,7 +517,7 @@ const ClassContainerTest = () => {
             <ClassWrapper style={props}>
                     <ClassInstance icon imageUrl={stat.image}/>
                     <UserContent>{stat.name}</UserContent>
-                    <Percentage percentage> <CountUp useEasing={false} duration={5} start={0} end={stat.testData}/> </Percentage>
+                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
             </ClassWrapper>
             )}
         </Trail>
@@ -339,7 +532,7 @@ const ClassContainer = ({classStats}) => {
             <ClassWrapper key={i}>
                     <ClassInstance icon imageUrl={stat.image}/>
                     <UserContent>{stat.name}</UserContent>
-                    <Percentage percentage> <CountUp useEasing={false} duration={5} start={0} end={stat.testData}/> </Percentage>
+                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
             </ClassWrapper>
             ))}
        </>
@@ -353,8 +546,8 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
                 <ClassWrapper column key={i}>
                     <UserContent>{statistic.name}</UserContent>
                     <div>
-                        <ClassInstance svg imageUrl={statistic.image}/>
-                        <Percentage> <CountUp useEasing={false} duration={5} end={statistic.testData}/></Percentage>
+                        <ClassInstance tinysvg imageUrl={statistic.image}/>
+                        <Percentage> <CountUp useEasing={false} duration={3} end={statistic.testData}/></Percentage>
                     </div>
                 </ClassWrapper>
             ))}
@@ -362,7 +555,6 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
         </>
     ); 
 };
-
 
 //Convert to switch statements
 function getIntroOfPage(label) {
@@ -471,7 +663,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} rank</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <Percentage rank><CountUp useEasing={false} start={69053} duration={5} end={tempus.rank}/></Percentage>
+                                <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
                             </FlexStart>
                         </ClassWrapper>
                     
@@ -479,7 +671,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} points</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <Percentage> <CountUp duration={5} end={tempus.points}/></Percentage>
+                                <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
                             </FlexStart>
                         </ClassWrapper>
 
@@ -508,10 +700,10 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
                 {header}
             </UserHeading>
         )}
-        <MarginContainer direction={direction} content={content}>
+        <MarginContainer sidepadding verticalpadding columnn className={direction} className={content}>
             {children}
         </MarginContainer>
     </InfoRectangle>
 );
 
-export { ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}

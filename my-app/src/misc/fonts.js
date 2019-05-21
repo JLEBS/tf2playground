@@ -129,6 +129,24 @@ export const Link = styled(ReactRouterLink)`
     color: ${Colors.standard.navHover};
     transition: color 1s ease-out;
 
+    ${props => props.margin && css`
+
+        ${fluidRange(
+            {
+                prop: 'margin',
+                fromSize: '6px',
+                toSize: '32px',
+            },
+            '1200px',
+            '2000px',
+        )}
+
+        @media (max-width: 1200px){
+            display: none;
+        }
+    
+    `}
+
     :hover {
         color: ${colorPrimary};
         size: 120%;
@@ -148,14 +166,6 @@ export const MinorFont = styled.p`
         color: ${colorSecondary};
         font-weight: normal;
     `}
-`;
-
-export const UserLinks = styled.a`
-    font-style: normal;
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 14px;
-    letter-spacing: 0.05em;
 `;
 
 export const BtnText = styled.p`
@@ -193,7 +203,7 @@ export const UserHeading = styled.h2`
         background-color: ${Colors.standard.secondary};
         padding: 25px;
         border-radius: 10px 10px 0px 0px;
-        letter-spacing: 5%;
+        letter-spacing: 1.5px;
     `}
 `;
 
@@ -216,4 +226,14 @@ export const UserContent = styled.h4`
     color: ${colorSecondary};
     float: left;
     min-width: 120px;
+`;
+
+export const UserLinks = styled.h3`
+    font-style: normal;
+    font-weight: 600,
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: ${colorSecondary};
+    text-align: center;
 `;

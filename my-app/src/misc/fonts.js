@@ -144,7 +144,6 @@ export const Link = styled(ReactRouterLink)`
         @media (max-width: 1200px){
             display: none;
         }
-    
     `}
 
     :hover {

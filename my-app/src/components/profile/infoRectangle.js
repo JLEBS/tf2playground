@@ -224,6 +224,10 @@ const InfoRectangle = styled.div`
     flex-direction: column;
     ${props => `max-width: ${props.maxWidth};`};
     ${props => `min-width: ${props.minWidth};`};
+
+    @media (max-width: 510px){
+        width: 100%;
+    }
 `;
 
 const ClassInstance = styled.div`
@@ -254,6 +258,16 @@ const ClassWrapper = styled.div`
     padding-top: 10px;
     flex-wrap: wrap;
 
+    ${props => props.stat && css` 
+        @media (max-width: 510px){
+            width: 33%;
+        }  
+    `}
+
+    ${props => props.fill && css` 
+        width: 100%;
+    `}
+
     ${props => props.paddingBottom && css` 
         padding-bottom: 40px;
     `}
@@ -268,6 +282,8 @@ const ClassWrapper = styled.div`
             align-items: center;
             padding-top:6px;
             padding-bottom:6px;
+
+          
         }
     `};
 
@@ -304,12 +320,26 @@ const TestOuterDiv = styled.div`
     flex-direction: column;
     align-items: center;
     min-width: 150px;
+
+    @media (max-width: 510px){
+        width:100%;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 30px;
+
+        .classTitle{
+            width: 100%;
+        }
+    }
 `;
 
 const OuterDivForReal = styled.div`
     flex-direction: row;
     display: flex;
     justify-content:space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
 `;
 
 const FlexStart = styled.div`
@@ -321,6 +351,11 @@ const ChartContainer = styled.div`
     height:300px;
     padding-top:30px;
     margin-left:-20px;
+
+    .recharts-wrapper{
+        cursor: pointer !important;
+        width: 100% !important;
+    }
 `
 const ToolTipContainer = styled.div`
     background-color: #ffffffe3;
@@ -529,7 +564,7 @@ const ClassContainer = ({classStats}) => {
     return (
         <>
           {classStats.map((stat, i) => (
-            <ClassWrapper key={i}>
+            <ClassWrapper fill key={i}>
                     <ClassInstance icon imageUrl={stat.image}/>
                     <UserContent>{stat.name}</UserContent>
                     <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
@@ -648,18 +683,22 @@ const Chart = () => {
     );
 };
 
+const InternalContainer = styled.div`
+    width: 100%;
+`;
+
 const TempusContainer = ({tempusStats, data}) => {
     return (
-        <div>
+        <InternalContainer>
             <OuterDivForReal>
             {tempusStats.map((tempus, i) => (
                     <TestOuterDiv>
-                        <TestDiv>
+                        <TestDiv className='classTitle'>
                             <ClassInstance icon imageUrl={tempus.image}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
                         </TestDiv>
 
-                        <ClassWrapper column>
+                        <ClassWrapper stat classname='hickety' column>
                             <UserContent>{tempus.shortName} rank</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
@@ -667,7 +706,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             </FlexStart>
                         </ClassWrapper>
                     
-                        <ClassWrapper column>
+                        <ClassWrapper stat column>
                             <UserContent>{tempus.shortName} points</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
@@ -675,7 +714,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             </FlexStart>
                         </ClassWrapper>
 
-                        <ClassWrapper column>
+                        <ClassWrapper  stat column>
                             <UserContent>Fluctuation</UserContent>
                             <FlexStart>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
@@ -689,9 +728,10 @@ const TempusContainer = ({tempusStats, data}) => {
                 
             </OuterDivForReal>
             <Chart/>
-        </div>
+        </InternalContainer>
     );
 }
+
 
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
     <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>
@@ -700,7 +740,7 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
                 {header}
             </UserHeading>
         )}
-        <MarginContainer sidepadding verticalpadding columnn className={direction} className={content}>
+        <MarginContainer content={'space-between'} sidepadding verticalpadding shrink direction={direction}  >
             {children}
         </MarginContainer>
     </InfoRectangle>

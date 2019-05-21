@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components';
 import Colors from '../../misc/colors';
+import {fluidRange} from 'polished';
 
 //Wraps the content of the entire page can use prop to modify background
 const Wrapper = styled.div`
@@ -32,31 +33,61 @@ const MarginContainer = styled.div`
     display: flex;
     align-items: center;
 
-    ${props => props.row && css`
-       flex-direction: row;
+    ${props => props.direction && css`
+       flex-direction: ${props.direction};
     `}
 
-    ${props => props.columnn && css`
-        flex-direction: column;
-    `}
-
-    ${props => props.spacebetween && css`
-        justify-content: space-between;
+    ${props => props.content && css`
+        justify-content: ${props.content};
     `}
 
     ${props => props.shrink && css`
         align-items: flex-start;
         flex-wrap: wrap;
     `}
-
+    
     ${props => props.verticalpadding && css` 
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        ${fluidRange(
+            {
+                prop: 'padding-top',
+                fromSize: '1rem',
+                toSize: '2rem',
+            },
+        '400px',
+        '2000px',
+        )}
+
+        ${fluidRange(
+            {
+                prop: 'padding-bottom',
+                fromSize: '1rem',
+                toSize: '2rem',
+            },
+        '400px',
+        '2000px',
+        )}
     `}
 
     ${props => props.sidepadding && css` 
-        padding-left: 2rem;
-        padding-right: 2rem;
+        ${fluidRange(
+            {
+                prop: 'padding-left',
+                fromSize: '1rem',
+                toSize: '2rem',
+            },
+        '400px',
+        '2000px',
+        )}
+
+        ${fluidRange(
+            {
+                prop: 'padding-right',
+                fromSize: '1rem',
+                toSize: '2rem',
+            },
+        '400px',
+        '2000px',
+        )}
     `}
 `;
 

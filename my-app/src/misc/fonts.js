@@ -200,9 +200,21 @@ export const UserHeading = styled.h2`
     
     ${props => props.heading && css`
         background-color: ${Colors.standard.secondary};
-        padding: 25px;
+        ${fluidRange(
+            {
+                prop: 'padding',
+                fromSize: '12px',
+                toSize: '24px',
+            },
+            '1200px',
+            '2000px',
+        )}
         border-radius: 10px 10px 0px 0px;
         letter-spacing: 1.5px;
+
+        @media (max-width: 500px){
+            border-radius: unset;
+        }
     `}
 `;
 

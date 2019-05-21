@@ -227,6 +227,8 @@ const InfoRectangle = styled.div`
 
     @media (max-width: 510px){
         width: 100%;
+        border-radius: unset;
+        box-shadow: unset;
     }
 `;
 
@@ -255,14 +257,28 @@ const ClassWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
     flex-wrap: wrap;
 
-    ${props => props.stat && css` 
+    ${props => props.stat && css`
         @media (max-width: 510px){
             width: 33%;
         }  
     `}
+
+    ${props => props.percentage && css`
+        padding-top: 6px;
+        padding-bottom: 6px;
+    `}
+
+    ${props => props.profile && css` 
+        padding-top:10px;
+        padding-bottom: 10px;
+
+        @media (max-width: 510px){
+            flex-direction:column;
+        }
+    `}
+
 
     ${props => props.fill && css` 
         width: 100%;
@@ -280,8 +296,7 @@ const ClassWrapper = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top:6px;
-            padding-bottom:6px;
+            padding:6px;
 
           
         }
@@ -428,7 +443,6 @@ const StatusContainer = styled.div`
     display: flex;
     flex-direction: column;
     letter-spacing:1.5px;
-    padding-left:30px
     position: relative;
 
     span:nth-child(1) {
@@ -463,17 +477,30 @@ const Avatar = styled.a`
     background-size: cover;
     padding-top: 48%;
     border-radius: 100px;
+
+    @media(max-width: 510px){
+        padding-top: 40%;
+    }
 `;
 
 const FlexTesting = styled.div`
     width: 60%;
     display:flex;
     align-items: center;
+    justify-content: space-around;
+
+    @media (max-width: 510px){
+        width: 100%;
+    }
 `;
 
 const FlexTestAgain = styled.div`
     display:flex;
     flex-direction: row;
+    @media (max-width: 510px){
+        padding: 24px;
+    }
+    
 `;
 
 const LinkTestContainer = styled.a`
@@ -506,7 +533,7 @@ const status = {
 const ProfileContainer = ({userLinks, userData, userIcons}) => {
     return (
         <>
-            <ClassWrapper row>
+            <ClassWrapper profile row>
                 <FlexTesting>
                     <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steamCommunityId} classname='avatar'/>
                     <StatusContainer classname='userActivity'>
@@ -528,7 +555,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
                     ))}
                 </FlexTestAgain>
             </ClassWrapper>
-            <ClassWrapper row>
+            <ClassWrapper  row>
                 {userLinks.map((link, i) => ( 
                     <LinkTestContainer  target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
                         <UserLinks>{link.name}</UserLinks>
@@ -564,7 +591,7 @@ const ClassContainer = ({classStats}) => {
     return (
         <>
           {classStats.map((stat, i) => (
-            <ClassWrapper fill key={i}>
+            <ClassWrapper percentage fill key={i}>
                     <ClassInstance icon imageUrl={stat.image}/>
                     <UserContent>{stat.name}</UserContent>
                     <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>

@@ -50,8 +50,8 @@ const MarginContainer = styled.div`
         ${fluidRange(
             {
                 prop: 'padding-top',
-                fromSize: '1rem',
-                toSize: '2rem',
+                fromSize: '24px',
+                toSize: '32px',
             },
         '400px',
         '2000px',
@@ -60,8 +60,8 @@ const MarginContainer = styled.div`
         ${fluidRange(
             {
                 prop: 'padding-bottom',
-                fromSize: '1rem',
-                toSize: '2rem',
+                fromSize: '24px',
+                toSize: '32px',
             },
         '400px',
         '2000px',
@@ -72,8 +72,8 @@ const MarginContainer = styled.div`
         ${fluidRange(
             {
                 prop: 'padding-left',
-                fromSize: '1rem',
-                toSize: '2rem',
+                fromSize: '24px',
+                toSize: '32px',
             },
         '400px',
         '2000px',
@@ -82,8 +82,8 @@ const MarginContainer = styled.div`
         ${fluidRange(
             {
                 prop: 'padding-right',
-                fromSize: '1rem',
-                toSize: '2rem',
+                fromSize: '24px',
+                toSize: '32px',
             },
         '400px',
         '2000px',

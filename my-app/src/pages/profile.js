@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer,TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS} from './../components/profile/infoRectangle'
+import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS} from './../components/profile/infoRectangle'
 
 const ProfilePage = () => (
     <>
@@ -14,6 +14,9 @@ const ProfilePage = () => (
         </RectangleContainer>
         <RectangleContainer direction='column' maxWidth='510px' minWidth='300px' header={'win percentage'}>
             <ClassContainer classStats={CLASS_STATS} />
+        </RectangleContainer>
+        <RectangleContainer direction='column' maxWidth='510px' minWidth='300px' header={'win rate'}>
+            <PercentageContainer allWinStats={CLASS_STATS} />
         </RectangleContainer>
 
     </>

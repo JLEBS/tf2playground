@@ -37,6 +37,7 @@ const CLASS_STATS = [
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
+        winData: 32,
         testData: 85
     },
     {
@@ -44,6 +45,7 @@ const CLASS_STATS = [
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
+        winData: 8,
         testData: 37
     },
     {
@@ -51,6 +53,7 @@ const CLASS_STATS = [
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
+        winData: 9,
         testData: 83
     },
     {
@@ -58,6 +61,7 @@ const CLASS_STATS = [
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
+        winData: 9,
         testData: 21
     },
     {
@@ -65,6 +69,7 @@ const CLASS_STATS = [
         name: 'demoman',
         shortname: 'demo',
         image: demo,
+        winData: 12,
         testData: 1
     },
     {
@@ -72,6 +77,7 @@ const CLASS_STATS = [
         name: 'medic',
         shortname: 'medic',
         image: medic,
+        winData: 21,
         testData: 100
     }
 ];
@@ -292,7 +298,7 @@ const ClassWrapper = styled.div`
         flex-direction: column;
 
         & > * {
-            width:100%;
+            //width:100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -587,21 +593,8 @@ const ClassContainerTest = () => {
     );
 }
 
-const ClassContainer = ({classStats}) => {
-    return (
-        <>
-          {classStats.map((stat, i) => (
-            <ClassWrapper percentage fill key={i}>
-                    <ClassInstance icon imageUrl={stat.image}/>
-                    <UserContent>{stat.name}</UserContent>
-                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
-            </ClassWrapper>
-            ))}
-       </>
-    );
-}
 
-const LifeTimeStatContainer = ({lifetimeStats, data}) => {
+const LifeTimeStatContainer = ({lifetimeStats}) => {
     return (
         <>
             {lifetimeStats.map((statistic, i) => (
@@ -613,10 +606,66 @@ const LifeTimeStatContainer = ({lifetimeStats, data}) => {
                     </div>
                 </ClassWrapper>
             ))}
-            {/* <SimplePieChart/> */}
+           
         </>
     ); 
 };
+
+const Rectangle = styled.div`
+    border-radius: 10px;
+    width: ${props => props.width}px;
+    height: 5px;
+    background-color: red;
+
+`;
+
+const YetAgainAnotherFlex = styled.div`
+
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+`;
+
+
+const PercentageContainer = ({allWinStats}) => {
+    allWinStats.sort(function (a) {
+       console.log(a.winData);
+    });
+    //console.log(classStats);
+
+    console.log(allWinStats.sort(allWinStats.winData));
+
+    return (
+        <>
+              {allWinStats.map((win, i) => (
+                <ClassWrapper percentage column key={i}>
+                <YetAgainAnotherFlex>
+                    <Rectangle width={win.winData}/>
+                    <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
+                    <UserContent>{win.name}</UserContent>
+                    </YetAgainAnotherFlex>
+                </ClassWrapper>
+             ))}
+            <SimplePieChart/>
+        </>
+    );
+};
+
+const ClassContainer = ({classStats}) => {
+
+    return (
+        <>
+          {classStats.map((stat, i) => (
+            <ClassWrapper percentage fill key={i}>
+                <ClassInstance icon imageUrl={stat.image}/>
+                <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
+                <UserContent>{stat.name}</UserContent>
+                
+            </ClassWrapper>
+            ))}
+       </>
+    );
+}
 
 //Convert to switch statements
 function getIntroOfPage(label) {
@@ -718,39 +767,39 @@ const TempusContainer = ({tempusStats, data}) => {
     return (
         <InternalContainer>
             <OuterDivForReal>
-            {tempusStats.map((tempus, i) => (
-                    <TestOuterDiv>
-                        <TestDiv className='classTitle'>
-                            <ClassInstance icon imageUrl={tempus.image}/>
-                            <UserSubHeading>{tempus.name}</UserSubHeading>
-                        </TestDiv>
+                {tempusStats.map((tempus, i) => (
+                        <TestOuterDiv>
+                            <TestDiv className='classTitle'>
+                                <ClassInstance icon imageUrl={tempus.image}/>
+                                <UserSubHeading>{tempus.name}</UserSubHeading>
+                            </TestDiv>
 
-                        <ClassWrapper stat classname='hickety' column>
-                            <UserContent>{tempus.shortName} rank</UserContent>
-                            <FlexStart>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
-                            </FlexStart>
-                        </ClassWrapper>
-                    
-                        <ClassWrapper stat column>
-                            <UserContent>{tempus.shortName} points</UserContent>
-                            <FlexStart>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
-                            </FlexStart>
-                        </ClassWrapper>
+                            <ClassWrapper stat classname='hickety' column>
+                                <UserContent>{tempus.shortName} rank</UserContent>
+                                <FlexStart>
+                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
+                                    <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
+                                </FlexStart>
+                            </ClassWrapper>
+                        
+                            <ClassWrapper stat column>
+                                <UserContent>{tempus.shortName} points</UserContent>
+                                <FlexStart>
+                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                    <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
+                                </FlexStart>
+                            </ClassWrapper>
 
-                        <ClassWrapper  stat column>
-                            <UserContent>Fluctuation</UserContent>
-                            <FlexStart>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <Percentage>-3</Percentage>
-                            </FlexStart>
-                        </ClassWrapper>
+                            <ClassWrapper  stat column>
+                                <UserContent>Fluctuation</UserContent>
+                                <FlexStart>
+                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                    <Percentage>-3</Percentage>
+                                </FlexStart>
+                            </ClassWrapper>
+                        
+                    </TestOuterDiv>
                     
-                </TestOuterDiv>
-                
                 ))}
                 
             </OuterDivForReal>
@@ -773,4 +822,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}

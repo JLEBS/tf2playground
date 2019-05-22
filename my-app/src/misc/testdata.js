@@ -274,58 +274,58 @@ const CLASS_ICONS = [
     }
 ];
 
-const SVG_ICONS = [
-    {
-        stats: {
-            lobbiesPlayed: {
-                description: 'fist_raised',
-                image: Fist,
-            },
-            trophy: {
-                name: 'total wins',
-                description: 'trophy',
-                image: Trophy
-            },
-            { 
-                name: 'hours played',
-                description: 'trophy',
-                image: Clock,
-            },
-            {
-                name: 'ETF2L div',
-                description: 'medal',
-                image: Medal,
-            },
-            {   
-                name: 'disconnects',
-                description: 'brokenarm',
-                image: Injured,
-            },
-            { 
-                name: 'sub count',
-                description: 'carry',
-                image: PeopleCarry
-            }
-    },
-        urls: {
-            {
-                name: 'steam',
-                image: Steam_Logo,
-                url: 'https://steamcommunity.com/profiles/'
-            },
-            {
-                name: 'discord',
-                image: Discord,
-                url: 'https://discordapp.com/'
-            },
-            {
-                name: 'twitch',
-                image: Twitch,
-                url: 'https://www.twitch.tv/'
-            }
-        }
-    }
-];
+// const SVG_ICONS = [
+//     {
+//         stats: {
+//             lobbiesPlayed: {
+//                 description: 'fist_raised',
+//                 image: Fist
+//             },
+//             trophy: {
+//                 name: 'total wins',
+//                 description: 'trophy',
+//                 image: Trophy
+//             },
+//             { 
+//                 name: 'hours played',
+//                 description: 'trophy',
+//                 image: Clock,
+//             },
+//             {
+//                 name: 'ETF2L div',
+//                 description: 'medal',
+//                 image: Medal,
+//             },
+//             {   
+//                 name: 'disconnects',
+//                 description: 'brokenarm',
+//                 image: Injured,
+//             },
+//             { 
+//                 name: 'sub count',
+//                 description: 'carry',
+//                 image: PeopleCarry
+//             }
+//     },
+//         urls: {
+//             {
+//                 name: 'steam',
+//                 image: Steam_Logo,
+//                 url: 'https://steamcommunity.com/profiles/'
+//             },
+//             {
+//                 name: 'discord',
+//                 image: Discord,
+//                 url: 'https://discordapp.com/'
+//             },
+//             {
+//                 name: 'twitch',
+//                 image: Twitch,
+//                 url: 'https://www.twitch.tv/'
+//             }
+//         }
+//     }
+// ];
 
 
 //Only required SteamCommunity Id

@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import React from 'react';
 import Colors from '../../../misc/colors';
 import { Link, TitleLogo, Title } from '../../../misc/fonts';
@@ -38,7 +38,7 @@ const HeaderContainer = () => (
             </MarginContainer>
             <MarginContainer direction='row' sidePadding='unset' topPadding='unset' content='space-between' align='center'>
                 <SpeakerMod/>
-                <LoginBtn smallbtn='smallbtn'/>
+                <LoginBtn/>
             </MarginContainer>
         </MarginContainer>
     </MainHeader>

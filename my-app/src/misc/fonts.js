@@ -7,10 +7,10 @@ import tf2logo from './../assets/imgs/themes/tf2logo.png';
 const colorPrimary = Colors.standard.primary;
 const colorSecondary = Colors.standard.secondary;
 
-const TypeFace = {
-    TF2Main: 'TF2 Main',
-    TF2Secondary: 'TF2 Secondary'
-};
+// const TypeFace = {
+//     TF2Main: 'TF2 Main',
+//     TF2Secondary: 'TF2 Secondary'
+// };
 
 export const TitleLogo = styled.div`
     background-image: url(${tf2logo});

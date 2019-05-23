@@ -88,42 +88,42 @@ const SVG_ICONS = [
         name: 'lobbies played',
         description: 'fist raised',
         image: Fist,
-        testData: '41'
+        testData: 41
     },
     {
         id: 2,
         name: 'total wins',
         description: 'trophy',
         image: Trophy,
-        testData: '10'
+        testData: 10
     },
     {
         id: 3,
         name: 'hours played',
         description: 'clock',
         image: Clock,
-        testData: '8973'
+        testData: 8973
     },
     {
         id: 4,
         name: 'ETF2L div',
         description: 'medal',
         image: Medal,
-        testData: '2'
+        testData: 2
     },
     {
         id: 5,
         name: 'disconnects',
         description: 'brokenarm',
         image: Injured,
-        testData: '3'
+        testData: 3
     },
     {
         id: 6,
         name: 'sub count',
         description: 'carry',
         image: PeopleCarry,
-        testData: '7'
+        testData: 7
     },
 ];
 
@@ -406,45 +406,6 @@ const ToolTipContainer = styled.div`
     }
 `;
 
-const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-const RADIAN = Math.PI / 180;                    
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy  + radius * Math.sin(-midAngle * RADIAN);
- 
-    return (
-        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
-        </text>
-    );
-};
-
-class SimplePieChart extends React.Component {
-	render () {
-  	return (
-    	<PieChart className='modify' width={400} height={400} onMouseEnter={this.onPieEnter}>
-            <Pie
-            data={data} 
-            cx={300} 
-            cy={200} 
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={80} 
-            fill="#8884d8"
-            >
-        	{
-          	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
-          }
-        </Pie>
-      </PieChart>
-    );
-  }
-}
-
 const StatusContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -547,15 +508,13 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
                             {userData[0].steamName}
                         </span>
                         <span>
-                            {
-                                status[userData[0].status]
-                            }
+                            {status[userData[0].status]}
                         </span>
                     </StatusContainer>
                 </FlexTesting>
                 <FlexTestAgain>
                     {userIcons.map((icon, i) => ( 
-                        <a target="_bank" href={icon.url + userData[0].steamCommunityId} >
+                        <a  key={i} target="_bank" href={icon.url + userData[0].steamCommunityId} >
                             <ClassInstance svg imageUrl={icon.image}/>
                         </a>
                     ))}
@@ -563,7 +522,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
             </ClassWrapper>
             <ClassWrapper  row>
                 {userLinks.map((link, i) => ( 
-                    <LinkTestContainer  target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
+                    <LinkTestContainer key={i} target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
                         <UserLinks>{link.name}</UserLinks>
                     </LinkTestContainer>
                 ))}
@@ -613,9 +572,13 @@ const LifeTimeStatContainer = ({lifetimeStats}) => {
 
 const Rectangle = styled.div`
     border-radius: 10px;
+    padding:5px;
+    padding-left: 5px;
+    padding-right: 5px;
     width: ${props => props.width}px;
     height: 5px;
-    background-color: red;
+    background-color: #${props => props.color};
+    border: 1px dotted grey;
 
 `;
 
@@ -627,11 +590,58 @@ const YetAgainAnotherFlex = styled.div`
 `;
 
 
+const data = [
+                {name: 'Group A', value: 400}, 
+                {name: 'Group B', value: 300},
+                {name: 'Group C', value: 300}, 
+                {name: 'Group D', value: 200},
+                {name: 'Group E', value: 200},
+                {name: 'Group F', value: 200}
+            ];
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const RADIAN = Math.PI / 180;                    
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+ 
+    return (
+        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+        </text>
+    );
+};
+
+class SimplePieChart extends React.Component {
+	render () {
+  	return (
+    	<PieChart className='modify' width={400} height={400} onMouseEnter={this.onPieEnter}>
+            <Pie
+            data={data} 
+            cx={300} 
+            cy={200} 
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={80} 
+            fill="#8884d8"
+            >
+        	{
+          	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+          }
+        </Pie>
+      </PieChart>
+    );
+  }
+}
+
 const PercentageContainer = ({allWinStats}) => {
     allWinStats.sort(function (a) {
        console.log(a.winData);
     });
     //console.log(classStats);
+
 
     console.log(allWinStats.sort(allWinStats.winData));
 
@@ -640,7 +650,7 @@ const PercentageContainer = ({allWinStats}) => {
               {allWinStats.map((win, i) => (
                 <ClassWrapper percentage column key={i}>
                 <YetAgainAnotherFlex>
-                    <Rectangle width={win.winData}/>
+                    <Rectangle color={Math.floor(Math.random()*16777215).toString(16)} width={win.winData}/>
                     <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
                     <UserContent>{win.name}</UserContent>
                     </YetAgainAnotherFlex>
@@ -768,7 +778,7 @@ const TempusContainer = ({tempusStats, data}) => {
         <InternalContainer>
             <OuterDivForReal>
                 {tempusStats.map((tempus, i) => (
-                        <TestOuterDiv>
+                        <TestOuterDiv key={i}>
                             <TestDiv className='classTitle'>
                                 <ClassInstance icon imageUrl={tempus.image}/>
                                 <UserSubHeading>{tempus.name}</UserSubHeading>

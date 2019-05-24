@@ -7,6 +7,8 @@ import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
 import moment from 'moment';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
+import {Chart} from 'react-google-charts';
+
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -354,7 +356,6 @@ const TestOuterDiv = styled.div`
         }
     }
 `;
-
 const OuterDivForReal = styled.div`
     flex-direction: row;
     display: flex;
@@ -467,7 +468,7 @@ const FlexTestAgain = styled.div`
     @media (max-width: 510px){
         padding: 24px;
     }
-    
+  
 `;
 
 const LinkTestContainer = styled.a`
@@ -552,7 +553,6 @@ const ClassContainerTest = () => {
     );
 }
 
-
 const LifeTimeStatContainer = ({lifetimeStats}) => {
     return (
         <>
@@ -579,84 +579,144 @@ const Rectangle = styled.div`
     height: 5px;
     background-color: #${props => props.color};
     border: 1px dotted grey;
-
 `;
 
 const YetAgainAnotherFlex = styled.div`
-
     display:flex;
     justify-content: space-between;
     width:100%;
 `;
 
-
 const data = [
-                {name: 'Group A', value: 400}, 
-                {name: 'Group B', value: 300},
-                {name: 'Group C', value: 300}, 
-                {name: 'Group D', value: 200},
-                {name: 'Group E', value: 200},
-                {name: 'Group F', value: 200}
+                {name: 'Pocket Scout', color: '#009eff', value: 32}, 
+                {name: 'Flank Scout', color: 'gold', value: 21},
+                {name: 'Pocket Soldier', color: 'green', value: 12}, 
+                {name: 'Roamer', color: 'purple', value: 9},
+                {name: 'Demo', color: '#ff7200', value: 8},
+                {name: 'Med', color: '#EB008A', value: 8}
             ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#009eff', 'gold', 'green', 'purple', '#ff7200', '#EB008A'];
 
-const RADIAN = Math.PI / 180;                    
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy  + radius * Math.sin(-midAngle * RADIAN);
- 
-    return (
-        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
-        </text>
-    );
-};
+const RADIAN = Math.PI / 180;   
+
+// const renderCustomizedLabel = ({ percent }) => {
+
+//     return (
+//         <text fill="black">
+//             text
+//         </text>
+//     );
+// };
+
+//recharts-layer recharts-pie-labels contains text
 
 class SimplePieChart extends React.Component {
 	render () {
   	return (
-    	<PieChart className='modify' width={400} height={400} onMouseEnter={this.onPieEnter}>
+    	<PieChart className='modify' width={300} height={300} onMouseEnter={this.onPieEnter}>
             <Pie
             data={data} 
-            cx={300} 
-            cy={200} 
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={80} 
-            fill="#8884d8"
+            labelLine={true}
+            label
+            outerRadius={100} 
+            fill="#009eff"
             >
         	{
-          	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+          	data.map((entry, index, color) => <Cell fill={COLORS[index % COLORS.length]}/>)
           }
         </Pie>
+        <Tooltip/>
       </PieChart>
     );
   }
 }
 
+const COLORSs = ['#009eff', 'gold', 'green', 'purple', '#ff7200', '#EB008A'];
+
+const pieOptions = {
+    title: "",
+    pieHole: 0.6,
+    slices: [
+      {
+        color: "#2BB673"
+      },
+      {
+        color: "#d91e48"
+      },
+      {
+        color: "#007fad"
+      },
+      {
+        color: "#e9a227"
+      }
+    ],
+    legend: {
+      position: "bottom",
+      alignment: "center",
+      textStyle: {
+        color: "233238",
+        fontSize: 14
+      }
+    },
+    tooltip: {
+      showColorCode: true
+    },
+    chartArea: {
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "80%"
+    },
+    animation: {
+        duration: 1000,
+         easing: 'in',
+       startup: true
+}
+   
+  };
+  class NewChart extends React.Component {
+    state = {
+      chartImageURI: ""
+    };
+    render() {
+      return (
+        <div className="App">
+          <Chart
+            chartType="PieChart"
+            data={[["Age", "Weight"], ["Pocket Scout", 12], ["Flank Scout", 5.5], ['Pocket Soldier', 6], ['Roamer', 7], ['Demoman', 10], ['Medic', 12]]}
+            options={pieOptions}
+            graph_id="PieChart"
+            width={"100%"}
+            height={"400px"}
+            legend_toggle
+          />
+        </div>
+      );
+    }
+  }
+
 const PercentageContainer = ({allWinStats}) => {
-    allWinStats.sort(function (a) {
-       console.log(a.winData);
-    });
-    //console.log(classStats);
-
-
-    console.log(allWinStats.sort(allWinStats.winData));
+    // allWinStats.sort(function (a) {
+    //    console.log(a.winData);
+    // });
+    // //console.log(classStats);
+    // console.log(allWinStats.sort(allWinStats.winData));
 
     return (
         <>
-              {allWinStats.map((win, i) => (
+              {allWinStats.map((win, Colors, i) => (
                 <ClassWrapper percentage column key={i}>
                 <YetAgainAnotherFlex>
-                    <Rectangle color={Math.floor(Math.random()*16777215).toString(16)} width={win.winData}/>
+                    <Rectangle width={win.winData} color={'0993ff'}/>
                     <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
                     <UserContent>{win.name}</UserContent>
                     </YetAgainAnotherFlex>
                 </ClassWrapper>
              ))}
-            <SimplePieChart/>
+            <NewChart/>
+                <SimplePieChart/>
+          
         </>
     );
 };
@@ -737,7 +797,7 @@ function CustomTooltip({ payload, label, active }) {
     return null;
 }
 
-const Chart = () => {
+const Graph = () => {
     const chartData = [
         { Time: moment('2019-01-01').format('MMM'), SoldierRank: 708, DemoRank: 1000},
         { Time: moment('2019-02-02').format('MMM'), SoldierRank: 705, DemoRank: 958},
@@ -813,7 +873,7 @@ const TempusContainer = ({tempusStats, data}) => {
                 ))}
                 
             </OuterDivForReal>
-            <Chart/>
+            <Graph/>
         </InternalContainer>
     );
 }
@@ -832,4 +892,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Chart, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, COLORS, PROFILE_SVGS}

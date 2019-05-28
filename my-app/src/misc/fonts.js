@@ -197,6 +197,11 @@ export const UserHeading = styled.h2`
     text-align: center;
     text-transform: capitalize;
     color: ${colorPrimary};
+    position:relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
     
     ${props => props.heading && css`
         background-color: ${Colors.standard.secondary};
@@ -214,6 +219,24 @@ export const UserHeading = styled.h2`
 
         @media (max-width: 500px){
             border-radius: unset;
+        }
+
+        &::after{
+            content: '>';
+            position:absolute;
+            right: 0;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        &::before{
+            content: '<';
+            position:absolute;
+            left: 0;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 16px;
         }
     `}
 `;

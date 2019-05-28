@@ -39,49 +39,64 @@ const CLASS_STATS = [
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
-        winData: 32,
-        testData: 85
+        value: 102,       
+        color: '#000099'
     },
     {
         id: 2,
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
-        winData: 8,
-        testData: 37
+        value: 462,       
+        color: '#920087'
     },
     {
         id: 3,
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
-        winData: 9,
-        testData: 83
+        value: 793,       
+        color: '#d20069'
     },
     {
         id: 4,
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
-        winData: 9,
-        testData: 21
+        value: 336,       
+        color: '#f60049'
     },
     {
         id: 5,
         name: 'demoman',
         shortname: 'demo',
         image: demo,
-        winData: 12,
-        testData: 1
+        value: 346,      
+        color: '#ff6827'
     },
     {
         id: 6,
         name: 'medic',
         shortname: 'medic',
         image: medic,
-        winData: 21,
-        testData: 100
+        value: 712,
+        color: '#ffa600'
     }
+];
+
+const chartData = [
+    { Time: moment('2019-01-01').format('MMM'), SoldierPoints: 1, SoldierRank: 708, DemoPoints: 11, DemoRank: 1000},
+    { Time: moment('2019-02-02').format('MMM'), SoldierPoints: 2, SoldierRank: 705, DemoPoints: 22, DemoRank: 958},
+    { Time: moment('2019-03-03').format('MMM'), SoldierPoints: 3, SoldierRank: 677, DemoPoints: 33, DemoRank: 965},
+    { Time: moment('2019-04-04').format('MMM'), SoldierPoints: 4, SoldierRank: 658, DemoPoints: 44, DemoRank: 1210},
+    { Time: moment('2019-05-05').format('MMM'), SoldierPoints: 52321, SoldierRank: 655, DemoPoints: 34543, DemoRank: 987},
+    { Time: moment('2019-06-06').format('MMM'), SoldierPoints: 6, SoldierRank: 659, DemoPoints: 66, DemoRank: 800},
+    // { Time: moment('2019-07-07').format('MMM'), SoldierRank: 650, DemoRank: 700},
+    // { Time: moment('2019-08-08').format('MMM'), SoldierRank: 432, DemoRank: 657},
+    // { Time: moment('2019-09-09').format('MMM'), SoldierRank: 470, DemoRank: 623},
+    // { Time: moment('2019-10-10').format('MMM'), SoldierRank: 553, DemoRank: 588},
+    // { Time: moment('2019-11-11').format('MMM'), SoldierRank: 500, DemoRank: 600},
+    // { Time: moment('2019-12-12').format('MMM'), SoldierRank: 432, DemoRank: 676},
 ];
 
 const SVG_ICONS = [
@@ -266,6 +281,7 @@ const ClassWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+ 
 
     ${props => props.stat && css`
         @media (max-width: 510px){
@@ -277,6 +293,10 @@ const ClassWrapper = styled.div`
         padding-top: 6px;
         padding-bottom: 6px;
     `}
+
+    ${props => `border-left:  4px solid ${props.fill}  !important;
+    margin: 6px;
+    padding-left:6px;`};
 
     ${props => props.profile && css` 
         padding-top:10px;
@@ -318,8 +338,9 @@ const ClassWrapper = styled.div`
 
 const Percentage = styled(animated.div)`
     min-width:40px;
-    text-align: right;
+    text-align: center;
     ${props => props.percentage && css`
+    text-align: right;
         :after{
             content:'%';
         }
@@ -362,6 +383,10 @@ const OuterDivForReal = styled.div`
     justify-content:space-between;
     flex-wrap: wrap;
     justify-content: space-around;
+
+    ${props => props.maxWidth && css`
+        max-width: 240px
+    `}
 `;
 
 const FlexStart = styled.div`
@@ -372,11 +397,36 @@ const FlexStart = styled.div`
 const ChartContainer = styled.div`
     height:300px;
     padding-top:30px;
-    margin-left:-20px;
+
+    ${props => props.graph && css`
+        margin-left:-20px;
+        cursor: pointer !important;
+    `}
 
     .recharts-wrapper{
-        cursor: pointer !important;
         width: 100% !important;
+    }
+
+    .recharts-sector{
+        cursor: pointer;
+    }
+
+    .chartInnerLabel{
+        ${props => `fill: ${props.fill}  !important;`};
+        font-size: 18px;
+        text-transform: capitalize;
+    }
+
+    .chartOuterLabel{
+        ${props => `fill: ${props.fill}  !important;`};
+        font-weight; 600;
+        font-size: 16px;
+    }
+
+    .chartOuterLabelTwo{
+        fill: darkgrey;
+        font-size: 14px;
+        font-weight: 100;
     }
 `
 const ToolTipContainer = styled.div`
@@ -392,6 +442,7 @@ const ToolTipContainer = styled.div`
         align-items: center;
         justify-content: space-between;
         min-width:60px
+        padding: 3px;
     }
     p {
         font-size: 16px;
@@ -399,11 +450,24 @@ const ToolTipContainer = styled.div`
         padding-bottom: 10px;
     }
     
-    span:nth-child(3) {
+    .miniSoldierSpan{
+        color:#009EFF;
+    }
+   
+    .miniDemoSpan {
         color: #EB008A;
     }
-    span:nth-child(2) {
-        color:#009EFF;
+
+    .miniSoldierSpan, .miniDemoSpan {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        div:nth-child(2){
+           font-size: 12px;
+            color: grey;
+           padding:6px;
+        }
     }
 `;
 
@@ -532,26 +596,6 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
     ); 
 };
 
-const ClassContainerTest = () => {
-    return (
-        <>
-            <Trail
-                items={CLASS_STATS}
-                keys={stat => stat.id}
-                from={{ marginLeft: -20, opacity: 0}}
-                to={{ marginLeft: 0, opacity: 1 }}
-            >
-            {stat => props => (
-            <ClassWrapper style={props}>
-                    <ClassInstance icon imageUrl={stat.image}/>
-                    <UserContent>{stat.name}</UserContent>
-                    <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
-            </ClassWrapper>
-            )}
-        </Trail>
-       </>
-    );
-}
 
 const LifeTimeStatContainer = ({lifetimeStats}) => {
     return (
@@ -587,120 +631,16 @@ const YetAgainAnotherFlex = styled.div`
     width:100%;
 `;
 
-const data = [
-                {name: 'Pocket Scout', color: '#009eff', value: 32}, 
-                {name: 'Flank Scout', color: 'gold', value: 21},
-                {name: 'Pocket Soldier', color: 'green', value: 12}, 
-                {name: 'Roamer', color: 'purple', value: 9},
-                {name: 'Demo', color: '#ff7200', value: 8},
-                {name: 'Med', color: '#EB008A', value: 8}
-            ];
-
-const COLORS = ['#009eff', 'gold', 'green', 'purple', '#ff7200', '#EB008A'];
 
 const RADIAN = Math.PI / 180;   
 
-// const renderCustomizedLabel = ({ percent }) => {
 
-//     return (
-//         <text fill="black">
-//             text
-//         </text>
-//     );
-// };
+const COLORSs = ['#2BB673', '#d91e48', '#007fad', '#e9a227', '#ff7200', '#EB008A'];
 
-//recharts-layer recharts-pie-labels contains text
-
-
-class SimplePieChart extends React.Component {
-	render () {
-  	return (
-    	<PieChart className='modify' width={300} height={300} onMouseEnter={this.onPieEnter}>
-            <Pie
-            data={data} 
-            labelLine={true}
-            label
-            outerRadius={100} 
-            fill="#009eff"
-            legendType={'circle'}
-            
-            >
-        	{
-          	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
-          }
-        </Pie>
-        <Tooltip/>
-      </PieChart>
-    );
-  }
-}
-
-const COLORSs = ['#009eff', 'gold', 'green', 'purple', '#ff7200', '#EB008A'];
-
-//OLD PIE CHARTS
-const pieOptions = {
-    title: "",
-    pieHole: 0.6,
-    slices: [
-      {
-        color: "#2BB673"
-      },
-      {
-        color: "#d91e48"
-      },
-      {
-        color: "#007fad"
-      },
-      {
-        color: "#e9a227"
-      }
-    ],
-    legend: {
-      position: "bottom",
-      alignment: "center",
-      textStyle: {
-        color: "233238",
-        fontSize: 14
-      }
-    },
-    tooltip: {
-      showColorCode: true
-    },
-    chartArea: {
-      left: 0,
-      top: 0,
-      width: "100%",
-      height: "100%"
-    }
-   
-  };
-  class NewChart extends React.Component {
-    state = {
-      chartImageURI: ""
-    };
-    render() {
-      return (
-        <div className="App">
-          <Chart
-            chartType="PieChart"
-            data={[["Age", "Weight"], ["Pocket Scout", 12], ["Flank Scout", 5.5], ['Pocket Soldier', 6], ['Roamer', 7], ['Demoman', 10], ['Medic', 12]]}
-            options={pieOptions}
-            graph_id="PieChart"
-            width={"100%"}
-            height={"400px"}
-            legend_toggle
-          />
-        </div>
-      );
-    }
-  }
-
-
-  //CURRENT VERSION
-  const renderActiveShape = (props) => {
+const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
     const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle,
-      fill, payload, percent, value } = props;
+    fill, payload, percent, value } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
     const sx = cx + (outerRadius + 10) * cos;
@@ -710,88 +650,96 @@ const pieOptions = {
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     const textAnchor = cos >= 0 ? 'start' : 'end';
-  
+
     return (
-      <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>{payload.name}</text>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          fill={fill}
-        />
-        <Sector
-          cx={cx}
-          cy={cy}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          innerRadius={outerRadius + 6}
-          outerRadius={outerRadius + 10}
-          fill={fill}
-        />
-        <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none"/>
-        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none"/>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#009EFF">{`${value} Wins`}</text>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="red">
-          {`(Rate ${(percent * 100).toFixed(2)}%)`}
-        </text>
-      </g>
+
+        <g>
+            <text className='chartInnerLabel' x={cx} y={cy} dy={8} textAnchor="middle" fill={payload.color}>
+                {payload.shortname}
+            </text>
+            <Sector
+                cx={cx}
+                cy={cy}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                fill={payload.color}
+            />
+            <Sector
+                cx={cx}
+                cy={cy}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                innerRadius={outerRadius + 6}
+                outerRadius={outerRadius + 10}
+                fill={payload.color}
+            />
+            <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={payload.color} fill="none"/>
+            <circle cx={ex} cy={ey} r={2} fill={payload.color} stroke="none"/>
+            <text className='chartOuterLabel' x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={payload.color}>
+                {`${value} Wins`}
+            </text>
+            <text className='chartOuterLabelTwo' x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor}>
+                {`(${(percent * 100).toFixed(2)}%)`}
+            </text>
+        </g>
     );
-  };
+};
     
 class TwoLevelPieChart extends React.Component{
+ 
     constructor(props){
         super(props);
         this.state = {activeIndex: 0}
     }
   
     onPieEnter = (data, index) => {
-      this.setState({
+        this.setState({
         activeIndex: index,
-      });
-    }
+    });}
 
-      render () {
-        return (
-          <PieChart className='modify' width={400} height={300} >
-          <Pie 
-              activeIndex={this.state.activeIndex}
-            activeShape={renderActiveShape} 
-            data={data} 
-            cx={200} 
-            cy={120} 
-            innerRadius={60}
-            outerRadius={80} 
-            fill={COLORS[3]}
-            onMouseEnter={this.onPieEnter}
-
-    
-          />
-         </PieChart>
-      );
-    }
+        render () {
+            return (
+                
+                <ChartContainer>
+                <PieChart className='modify' width={450} height={270} >
+                    <Pie 
+                        activeIndex={this.state.activeIndex}
+                        activeShape={renderActiveShape} 
+                        data={this.props.data} 
+                        cx={220} 
+                        cy={130} 
+                        innerRadius={65}
+                        outerRadius={90} 
+                        fill={'black'}
+                        onMouseEnter={this.onPieEnter}
+                    >
+                    {this.props.data.map((stat, i) => (
+                        <Cell className={'segment-' + i} fill={stat.color}/>
+                    ))}
+                    </Pie>
+                </PieChart>
+                </ChartContainer>
+         );
+        }
   }
 
 const PercentageContainer = ({allWinStats}) => {
 
     return (
         <>
-              {allWinStats.map((win, Colors, i) => (
+            {allWinStats.map((win, Colors, i) => (
                 <ClassWrapper percentage column key={i}>
-                <YetAgainAnotherFlex>
-                    <Rectangle width={win.winData} color={'0993ff'}/>
-                    <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
-                    <UserContent>{win.name}</UserContent>
+                    <YetAgainAnotherFlex>
+                        <Rectangle width={win.winData} color={'0993ff'}/>
+                        <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
+                        <UserContent>{win.name}</UserContent>
                     </YetAgainAnotherFlex>
                 </ClassWrapper>
-             ))}
-                {/* <NewChart/>
-                <SimplePieChart/> */}
-                <TwoLevelPieChart/>
-          
+            ))}
+            <TwoLevelPieChart/>
+
         </>
     );
 };
@@ -799,16 +747,23 @@ const PercentageContainer = ({allWinStats}) => {
 const ClassContainer = ({classStats}) => {
 
     return (
-        <>
-          {classStats.map((stat, i) => (
-            <ClassWrapper percentage fill key={i}>
-                <ClassInstance icon imageUrl={stat.image}/>
-                <Percentage percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.testData}/> </Percentage>
-                <UserContent>{stat.name}</UserContent>
-                
-            </ClassWrapper>
-            ))}
-       </>
+        <InternalContainer flex>
+            <OuterDivForReal maxWidth>
+                <ClassWrapper percentage fill>
+                    <UserContent>Class Role</UserContent>
+                    <Percentage>Wins</Percentage>
+                </ClassWrapper>
+
+                {classStats.map((stat, i) => (
+                    <ClassWrapper percentage fill={stat.color} key={i}>
+                        <ClassInstance icon imageUrl={stat.image}/>
+                        <UserContent>{stat.name}</UserContent>
+                        <Percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.value}/> </Percentage>
+                    </ClassWrapper>
+                ))}
+            </OuterDivForReal>
+            <TwoLevelPieChart data={classStats}/>
+        </InternalContainer>
     );
 }
 
@@ -857,15 +812,24 @@ function CustomTooltip({ payload, label, active }) {
       return (
         <ToolTipContainer>
              <p className="intro">{getIntroOfPage(label)}</p>
+
             <span>
                 <ClassInstance icon imageUrl={TEMPUS_POINTS[1].image}/>
-                #{`${payload[1].value}`}
+                <span className='miniDemoSpan'>
+                    <div>#{`${payload[1].value}`}</div>
+                    <div>{`${payload[1].payload.DemoPoints} Points`}</div>
+                </span>
             </span>
 
             <span>
                 <ClassInstance icon imageUrl={TEMPUS_POINTS[0].image}/>
-                #{`${payload[0].value}`}
+                <span className='miniSoldierSpan'>
+                    <div>#{`${payload[0].value}`}</div>
+                    <div>{`${payload[0].payload.SoldierPoints} Points`}</div>
+                </span>
             </span>     
+
+     
         </ToolTipContainer>
       );
     }
@@ -873,39 +837,32 @@ function CustomTooltip({ payload, label, active }) {
 }
 
 const Graph = () => {
-    const chartData = [
-        { Time: moment('2019-01-01').format('MMM'), SoldierRank: 708, DemoRank: 1000},
-        { Time: moment('2019-02-02').format('MMM'), SoldierRank: 705, DemoRank: 958},
-        { Time: moment('2019-03-03').format('MMM'), SoldierRank: 677, DemoRank: 965},
-        { Time: moment('2019-04-04').format('MMM'), SoldierRank: 658, DemoRank: 1210},
-        { Time: moment('2019-05-05').format('MMM'), SoldierRank: 655, DemoRank: 987},
-        { Time: moment('2019-06-06').format('MMM'), SoldierRank: 659, DemoRank: 800},
-        // { Time: moment('2019-07-07').format('MMM'), SoldierRank: 650, DemoRank: 700},
-        // { Time: moment('2019-08-08').format('MMM'), SoldierRank: 432, DemoRank: 657},
-        // { Time: moment('2019-09-09').format('MMM'), SoldierRank: 470, DemoRank: 623},
-        // { Time: moment('2019-10-10').format('MMM'), SoldierRank: 553, DemoRank: 588},
-        // { Time: moment('2019-11-11').format('MMM'), SoldierRank: 500, DemoRank: 600},
-        // { Time: moment('2019-12-12').format('MMM'), SoldierRank: 432, DemoRank: 676},
 
-     ];
     return (
-    <ChartContainer>
+    <ChartContainer graph>
         <ResponsiveContainer>
           <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
             <XAxis dataKey='Time' tick={{ fontSize: 16 }} />
             <YAxis orientation='left' domain={[0, 'dataMax']} />
             <Tooltip  content={<CustomTooltip />}/>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Area type='monotone' dataKey='SoldierRank' stroke='#EB008A' fill='none' strokeWidth={3} />
-            <Area type='monotone' dataKey='DemoRank' stroke='#009EFF' fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='DemoRank' stroke='#EB008A' fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='SoldierRank' stroke='#009EFF' fill='none' strokeWidth={3} />
           </AreaChart>
         </ResponsiveContainer>
       </ChartContainer>
     );
 };
 
+const O2 = '03448090202';
+
 const InternalContainer = styled.div`
     width: 100%;
+
+    ${props => props.flex && css`
+        display flex;
+        flex-direction: row;
+    `}
 `;
 
 const TempusContainer = ({tempusStats, data}) => {
@@ -967,4 +924,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, COLORS, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}

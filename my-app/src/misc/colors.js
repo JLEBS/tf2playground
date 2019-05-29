@@ -2,7 +2,10 @@ const Colors = {
 
     standard: {
         primary: '#FFFFFF',
+        primaryTransparent: '#ffffffe3',
         secondary: '#242424',
+        darkGrey: '#949494',
+        lightGrey: 'lightgrey',
         navHover: '#8F8F8F',
         oddRectangle: '#1E1E1E',
         classSelection: '#141414',
@@ -17,7 +20,24 @@ const Colors = {
         abandonBtnHover: '#FF5C5C',
         redTeam: '#BB3C3E',
         bluTeam: '#58798A',
-        contentBackground: '#E5E5E5'
+        contentBackground: '#E5E5E5',
+        status: {
+            online: '#6DCD40',
+            away: '#E28D0E',
+            offline: 'darkgrey'
+        },
+        class : {
+            pocketScout: '#009cbf',
+            flankScout: '#c600b7',
+            pocketSoldier: '#EB008A',
+            roamer: '#f60049',
+            demoman: '#ff611d',
+            medic: '#008000'
+        },
+        tempus: {
+            soldier: '#009EFF',
+            demo: '#EB008A',
+        }
     },
 
     darkmode: {

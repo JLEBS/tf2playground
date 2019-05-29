@@ -8,7 +8,7 @@ import {Trail} from 'react-spring/renderprops';
 import moment from 'moment';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
 import {Chart} from 'react-google-charts';
-
+import Colors from '../../misc/colors';
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -40,7 +40,7 @@ const CLASS_STATS = [
         shortname: 'pocket scout',
         image: pocketScout,
         value: 102,       
-        color: '#000099'
+        color: Colors.standard.class.pocketScout
     },
     {
         id: 2,
@@ -48,7 +48,7 @@ const CLASS_STATS = [
         shortname: 'flank scout',
         image: scout,
         value: 462,       
-        color: '#920087'
+        color: Colors.standard.class.flankScout
     },
     {
         id: 3,
@@ -56,7 +56,7 @@ const CLASS_STATS = [
         shortname: 'pocket',
         image: pocketSoldier,
         value: 793,       
-        color: '#d20069'
+        color: Colors.standard.class.pocketSoldier
     },
     {
         id: 4,
@@ -64,7 +64,7 @@ const CLASS_STATS = [
         shortname: 'roamer',
         image: soldier,
         value: 336,       
-        color: '#f60049'
+        color: Colors.standard.class.roamer
     },
     {
         id: 5,
@@ -72,7 +72,7 @@ const CLASS_STATS = [
         shortname: 'demo',
         image: demo,
         value: 346,      
-        color: '#ff6827'
+        color: Colors.standard.class.demoman
     },
     {
         id: 6,
@@ -80,7 +80,7 @@ const CLASS_STATS = [
         shortname: 'medic',
         image: medic,
         value: 712,
-        color: '#ffa600'
+        color: Colors.standard.class.medic
     }
 ];
 
@@ -241,7 +241,7 @@ const PROFILE_URLS = [
 
 const InfoRectangle = styled.div`
     border-radius: 10px;
-    background-color: white;
+    background-color: ${Colors.standard.primary};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
@@ -339,6 +339,7 @@ const ClassWrapper = styled.div`
 const Percentage = styled(animated.div)`
     min-width:40px;
     text-align: center;
+    color: ${Colors.standard.secondary};
     ${props => props.percentage && css`
     text-align: right;
         :after{
@@ -424,16 +425,16 @@ const ChartContainer = styled.div`
     }
 
     .chartOuterLabelTwo{
-        fill: darkgrey;
+        fill: ${Colors.standard.darkGrey};
         font-size: 14px;
         font-weight: 100;
     }
 `
 const ToolTipContainer = styled.div`
-    background-color: #ffffffe3;
+    background-color: ${Colors.standard.primaryTransparent}
     padding:6px;
     min-width:100px;
-    outline:2px dotted lightgrey;
+    outline:2px dotted ${Colors.standard.lightGrey};
     text-align: center;
 
     span{
@@ -451,11 +452,11 @@ const ToolTipContainer = styled.div`
     }
     
     .miniSoldierSpan{
-        color:#009EFF;
+        color:${Colors.standard.tempus.soldier}
     }
    
     .miniDemoSpan {
-        color: #EB008A;
+        color:${Colors.standard.tempus.demo};
     }
 
     .miniSoldierSpan, .miniDemoSpan {
@@ -464,9 +465,9 @@ const ToolTipContainer = styled.div`
         justify-content: center;
 
         div:nth-child(2){
-           font-size: 12px;
-            color: grey;
-           padding:6px;
+            font-size: 12px;
+            color: ${Colors.standard.darkGrey};
+            padding:6px;
         }
     }
 `;
@@ -478,18 +479,20 @@ const StatusContainer = styled.div`
     position: relative;
 
     span:nth-child(1) {
+        color: ${Colors.standard.secondary};
         font-size: 32px;
         padding-bottom: 8px;
     }
     span:nth-child(2) {
         padding-left: 20px;
+        color: ${Colors.standard.secondary};
         display:flex;
         text-transform: capitalize;
         font-weight:600;
 
          ::before{
             content: '';
-            background-color: #6DCD40;
+            background-color: ${Colors.standard.status.online};
             height: 12px;
             width: 12px;
             border-radius: 10px;
@@ -539,21 +542,27 @@ const LinkTestContainer = styled.a`
 
     width: 100px;
     text-align: center;
-    background-color: lightgrey;
+    background-color: ${Colors.standard.lightGrey};
     border-radius: 10px;
     margin: 10px;
     padding: 10px 20px 10px 20px;
     border-radius: 15px;
-    transition: background-color 1s;
+    transition: background-color 0.5s;
 
     &:hover {
-        background-color: black;
-        color: white;
+        background-color: ${Colors.standard.secondary};
+        color: ${Colors.standard.primary};
 
         h3 {
-            color: white;
+            color: ${Colors.standard.primary};
         }
     }
+`;
+
+const YetAgainAnotherFlex = styled.div`
+    display:flex;
+    justify-content: space-between;
+    width:100%;
 `;
 
 const status = {
@@ -613,29 +622,6 @@ const LifeTimeStatContainer = ({lifetimeStats}) => {
         </>
     ); 
 };
-
-const Rectangle = styled.div`
-    border-radius: 10px;
-    padding:5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    width: ${props => props.width}px;
-    height: 5px;
-    background-color: #${props => props.color};
-    border: 1px dotted grey;
-`;
-
-const YetAgainAnotherFlex = styled.div`
-    display:flex;
-    justify-content: space-between;
-    width:100%;
-`;
-
-
-const RADIAN = Math.PI / 180;   
-
-
-const COLORSs = ['#2BB673', '#d91e48', '#007fad', '#e9a227', '#ff7200', '#EB008A'];
 
 const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
@@ -712,7 +698,6 @@ class TwoLevelPieChart extends React.Component{
                         cy={130} 
                         innerRadius={65}
                         outerRadius={90} 
-                        fill={'black'}
                         onMouseEnter={this.onPieEnter}
                     >
                     {this.props.data.map((stat, i) => (
@@ -725,24 +710,6 @@ class TwoLevelPieChart extends React.Component{
         }
   }
 
-const PercentageContainer = ({allWinStats}) => {
-
-    return (
-        <>
-            {allWinStats.map((win, Colors, i) => (
-                <ClassWrapper percentage column key={i}>
-                    <YetAgainAnotherFlex>
-                        <Rectangle width={win.winData} color={'0993ff'}/>
-                        <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
-                        <UserContent>{win.name}</UserContent>
-                    </YetAgainAnotherFlex>
-                </ClassWrapper>
-            ))}
-            <TwoLevelPieChart/>
-
-        </>
-    );
-};
 
 const ClassContainer = ({classStats}) => {
 
@@ -846,8 +813,8 @@ const Graph = () => {
             <YAxis orientation='left' domain={[0, 'dataMax']} />
             <Tooltip  content={<CustomTooltip />}/>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Area type='monotone' dataKey='DemoRank' stroke='#EB008A' fill='none' strokeWidth={3} />
-            <Area type='monotone' dataKey='SoldierRank' stroke='#009EFF' fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='DemoRank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='SoldierRank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />
           </AreaChart>
         </ResponsiveContainer>
       </ChartContainer>
@@ -924,4 +891,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}

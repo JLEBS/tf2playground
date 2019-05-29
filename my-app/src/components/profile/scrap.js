@@ -100,3 +100,23 @@ class SimplePieChart extends React.Component {
     );
   }
 }
+
+
+const PercentageContainer = ({allWinStats}) => {
+
+    return (
+        <>
+            {allWinStats.map((win, Colors, i) => (
+                <ClassWrapper percentage column key={i}>
+                    <YetAgainAnotherFlex>
+                        <Rectangle width={win.winData} color={'0993ff'}/>
+                        <Percentage> <CountUp useEasing={false} duration={3} end={win.winData}/>%</Percentage>
+                        <UserContent>{win.name}</UserContent>
+                    </YetAgainAnotherFlex>
+                </ClassWrapper>
+            ))}
+            <TwoLevelPieChart/>
+
+        </>
+    );
+};

@@ -1,6 +1,6 @@
 import CountUp from 'react-countup';
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, {css, keyframes} from 'styled-components';
 import {UserHeading, UserSubHeading, UserContent, UserLinks} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {animated} from 'react-spring';
@@ -39,7 +39,7 @@ const CLASS_STATS = [
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
-        value: 102,       
+        value: 350,       
         color: Colors.standard.class.pocketScout
     },
     {
@@ -47,7 +47,7 @@ const CLASS_STATS = [
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
-        value: 462,       
+        value: 42,       
         color: Colors.standard.class.flankScout
     },
     {
@@ -55,7 +55,7 @@ const CLASS_STATS = [
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
-        value: 793,       
+        value: 758,       
         color: Colors.standard.class.pocketSoldier
     },
     {
@@ -63,7 +63,7 @@ const CLASS_STATS = [
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
-        value: 336,       
+        value: 332,       
         color: Colors.standard.class.roamer
     },
     {
@@ -281,18 +281,56 @@ const ClassWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
- 
+    position: relative;
+
+    ${props => props.class && css`
+
+        @media (max-width: 510px) {
+
+            opacity: 1;
+
+            &::after{
+                opacity: 0;
+                display: flex;
+                content: '${props => props.percentage}%';
+                font-size: 16px;
+                font-weight: 600;
+                background-color: ${Colors.standard.secondary};
+                width: 40px;
+                position: absolute;
+                height: 100%;
+                right: 90px;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s;
+                color: ${Colors.standard.primary};
+                border-radius: 5px;
+            }
+
+            &:hover{
+                margin-left: 10px;
+                cursor: pointer;
+
+                &::after{
+                    opacity: 1;
+       
+                }
+            }
+        }
+    `}
 
     ${props => props.stat && css`
         @media (max-width: 510px){
             width: 33%;
+            margin: 0px;
+            padding: 0px;
         }  
     `}
 
-    ${props => props.percentage && css`
-        padding-top: 6px;
-        padding-bottom: 6px;
-    `}
+    // ${props => props.percentage && css`
+    //     padding-top: 6px;
+    //     padding-bottom: 6px;
+    // `}
 
     ${props => `border-left:  4px solid ${props.fill}  !important;
     margin: 6px;
@@ -337,11 +375,13 @@ const ClassWrapper = styled.div`
 `;
 
 const Percentage = styled(animated.div)`
+
     min-width:40px;
     text-align: center;
     color: ${Colors.standard.secondary};
+
     ${props => props.percentage && css`
-    text-align: right;
+        text-align: right;
         :after{
             content:'%';
         }
@@ -387,6 +427,10 @@ const OuterDivForReal = styled.div`
 
     ${props => props.maxWidth && css`
         max-width: 240px
+
+        @media(max-width: 510px){
+            max-width: 100%;
+        }
     `}
 `;
 
@@ -402,6 +446,12 @@ const ChartContainer = styled.div`
     ${props => props.graph && css`
         margin-left:-20px;
         cursor: pointer !important;
+    `}
+
+    ${props => props.piechart && css`
+        @media (max-width: 510px){
+            display: none;
+        }
     `}
 
     .recharts-wrapper{
@@ -450,7 +500,10 @@ const ToolTipContainer = styled.div`
         font-weight: 600;
         padding-bottom: 10px;
     }
-    
+    .intro{
+        color: ${Colors.standard.secondary};
+    }
+
     .miniSoldierSpan{
         color:${Colors.standard.tempus.soldier}
     }
@@ -548,7 +601,8 @@ const LinkTestContainer = styled.a`
     padding: 10px 20px 10px 20px;
     border-radius: 15px;
     transition: background-color 0.5s;
-
+    box-shadow: 1px 2px ${Colors.standard.secondary};
+    
     &:hover {
         background-color: ${Colors.standard.secondary};
         color: ${Colors.standard.primary};
@@ -570,6 +624,42 @@ const status = {
     1: 'online',
     2: 'away'
 }
+
+const MiniRectangleContainer = styled.div`
+    display: flex;
+    width: 100px;
+    justify-content: flex-end;
+    position:relative;
+`;
+
+const animatedGrow = (width) => {
+
+    return keyframes`
+        0% {
+            width: 0%;
+        }
+        100% {
+            width: ${width}%;
+    }`
+}
+
+const Rectangle = styled.div`
+    border-radius: 10px;
+    padding:5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 5px;
+    background-color: ${props => props.color};
+   
+    ${props => props.mobile && css`
+        display: none;
+
+        @media(max-width: 510px){
+            display: block;
+            animation: ${animatedGrow(props.width)} 3s forwards;
+        }
+    `};
+`;
 
 const ProfileContainer = ({userLinks, userData, userIcons}) => {
     return (
@@ -604,6 +694,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
         </>
     ); 
 };
+
 
 
 const LifeTimeStatContainer = ({lifetimeStats}) => {
@@ -688,7 +779,7 @@ class TwoLevelPieChart extends React.Component{
         render () {
             return (
                 
-                <ChartContainer>
+            <ChartContainer piechart>
                 <PieChart className='modify' width={450} height={270} >
                     <Pie 
                         activeIndex={this.state.activeIndex}
@@ -705,27 +796,47 @@ class TwoLevelPieChart extends React.Component{
                     ))}
                     </Pie>
                 </PieChart>
-                </ChartContainer>
+            </ChartContainer>
          );
-        }
-  }
+    }
+}
 
+Array.prototype.sum = function (prop) {
+    var total = 0
+    for ( var i = 0, _len = this.length; i < _len; i++ ) {
+        total += this[i][prop]
+    }
+    return total
+}
 
 const ClassContainer = ({classStats}) => {
+
+    let Total = classStats.sum('value');
+
+    
+      
+    console.log(classStats.sort(function(a,b) {return (b.value > a.value) ? 1 : ((a.value > b.value) ? -1 : 0);} ));
 
     return (
         <InternalContainer flex>
             <OuterDivForReal maxWidth>
-                <ClassWrapper percentage fill>
-                    <UserContent>Class Role</UserContent>
-                    <Percentage>Wins</Percentage>
+                <ClassWrapper fill>
+                    <UserSubHeading>class role</UserSubHeading>
+                    <UserSubHeading>wins</UserSubHeading>
+                    <UserSubHeading mobile>percentage</UserSubHeading>
                 </ClassWrapper>
 
                 {classStats.map((stat, i) => (
-                    <ClassWrapper percentage fill={stat.color} key={i}>
+
+                    
+                    <ClassWrapper percentage={Math.round(stat.value / Total * 100)} class fill={stat.color} key={i}>
                         <ClassInstance icon imageUrl={stat.image}/>
                         <UserContent>{stat.name}</UserContent>
                         <Percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.value}/> </Percentage>
+                        <MiniRectangleContainer>
+                            <Rectangle classname='rectangle' mobile color={stat.color} width={(Math.round(stat.value / Total * 100) *2)} />
+                        </MiniRectangleContainer>
+                       
                     </ClassWrapper>
                 ))}
             </OuterDivForReal>
@@ -733,6 +844,9 @@ const ClassContainer = ({classStats}) => {
         </InternalContainer>
     );
 }
+
+
+
 
 //Convert to switch statements
 function getIntroOfPage(label) {
@@ -843,7 +957,7 @@ const TempusContainer = ({tempusStats, data}) => {
                                 <UserSubHeading>{tempus.name}</UserSubHeading>
                             </TestDiv>
 
-                            <ClassWrapper stat classname='hickety' column>
+                            <ClassWrapper stat column>
                                 <UserContent>{tempus.shortName} rank</UserContent>
                                 <FlexStart>
                                     <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>

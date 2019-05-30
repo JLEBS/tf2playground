@@ -249,6 +249,13 @@ export const UserSubHeading = styled.h3`
     color: ${colorSecondary};
     float: left;
     margin-left:12px;
+
+    ${props => props.mobile && css`
+        display: none;
+        @media(max-width: 510px){
+            display: block;
+        }
+    `};
 `;
 
 export const UserContent = styled.h4`

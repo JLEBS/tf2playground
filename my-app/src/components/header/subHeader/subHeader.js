@@ -35,26 +35,6 @@ const SubHeader = styled.div`
     flex-direction:row;
 `;
 
-const grow = keyframes`
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.1);
-    }
-`;
-
-const fade = keyframes`
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 0.7;
-    }
-`;
-
 const SocialGroup = styled.button`
     display: flex;
     flex-direction: row;
@@ -88,7 +68,8 @@ const SocialGroup = styled.button`
 
 const DropWindow = styled.li`
     background-color: ${Colors.standard.secondary};
-    width: 487px;
+    width:100%;
+    max-width: 487px;
     padding-top:50px;
     padding-bottom: 50px;
     position: absolute;
@@ -96,6 +77,7 @@ const DropWindow = styled.li`
     left:0px;
     z-index:-3;
     color: white;
+
     display: none;
 `;
 
@@ -110,8 +92,8 @@ const BackgroundOverlay = styled.div`
     position: absolute;
     z-index: 2;
     cursor: w-resize;
-    display: none;
 `;
+
 
 const SubHeaderContainer = () => {
 
@@ -119,18 +101,27 @@ const SubHeaderContainer = () => {
     const ONLINE_PANEL = 'ONLINE_PANEL';
     const STREAM_PANEL = 'STREAM_PANEL';
 
-    const SLIDEIN = 'animated slideInLeft faster';
-    const SLIDEOUT = 'animated slideOutLeft faster';
+    //Old
+    // let SLIDEIN = 'animated slideInLeft faster';
+    // let SLIDEOUT = 'animated slideOutLeft faster';
+    // let FADEIN = 'animated fadeIn faster';
+    // let FADEOUT = 'animated fadeOut faster';
 
-    const FADEIN = 'animated fadeIn faster';
-    const FADEOUT = 'animated fadeOut faster';
+    // const TRANSITIONIN;
+    // const TRANSITIONOUT;
+
+    //New
+    // SLIDEIN = 'chat-window-enter';
+    // SLIDEOUT = 'chat-window-exit';
+    // FADEIN = 'chat-window-enter';
+    // FADEOUT = 'chat-window-exit-active';
   
     const [activePanel, setActivePanel] = useState(CHAT_PANEL);
     const [ panelOpen, setPanelOpen ] = useState(false);
 
-    const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
+    // const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
 
-    const fadeIn = panelOpen ? FADEIN : FADEOUT;
+    // const fadeIn = panelOpen ? FADEIN : FADEOUT;
 
     const panelContents = {
         [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
@@ -165,25 +156,38 @@ const SubHeaderContainer = () => {
                     <LobbyFont>Streams</LobbyFont>
                     <VideoMod/>
                 </SocialGroup>
-                <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
-                    <>
-                        <DropWindow className={`${currentAnimation}`} >
+             
+                    <CSSTransition in={panelOpen} timeout={500} classNames={{
+                        appear: 'slideOutLeft faster',
+                        appearActive: 'animated slideInLeft faster',
+                        appearDone: 'slideInLeft',
+                        // enter: 'my-enter',
+                        // enterActive: 'my-active-enter',
+                        // enterDone: 'my-done-enter',
+                        exit: 'slideInLeft faster',
+                        exitActive: 'animated slideOutLeft faster',
+                        exitDone: 'slideOutLeft faster',
+                        }}>
+                        <DropWindow >
                             <DeleteThis>
                                 <CurrentPanel/>
                             </DeleteThis>
                         </DropWindow>
-                    </>
-                </CSSTransition>
+                    </CSSTransition>
+       
              
             </SubHeader>
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
             )} */}
-            <CSSTransition in={panelOpen} timeout={200} classNames="my-node">
+            { panelOpen && (
+            <div in={panelOpen} timeout={200} classNames="chat-window">
                 <div active={activePanel == true && panelOpen === true}>
-                    <BackgroundOverlay className={`${fadeIn}`} onClick={() => closePanel()}/>
+                    <BackgroundOverlay  onClick={() => closePanel()}/>
                 </div>
-            </CSSTransition>
+            </div>
+
+            )}
         </>
     );
 };

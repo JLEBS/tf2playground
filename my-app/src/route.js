@@ -16,6 +16,8 @@ import sunshine from './assets/imgs/maps/sunshine.jpg';
 import gullywash from './assets/imgs/maps/gullywash.jpg';
 import grannary from './assets/imgs/maps/grannary.jpg';
 import ravine from './assets/imgs/themes/ravine.png';
+import interlaced from './assets/imgs/background/interlaced.png';
+
 
 //Home
 const Home = () => (
@@ -81,7 +83,7 @@ const Matches = () => (
 
 //Displays a specifically chosen user or match from the database (singular)
 const Profile = () => (
-    <ProfileLayout imageUrl={grannary}>
+    <ProfileLayout pattern imageUrl={interlaced}>
         <ProfilePage></ProfilePage>
     </ProfileLayout>
 );

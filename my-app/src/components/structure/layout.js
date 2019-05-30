@@ -12,8 +12,8 @@ export const LandingLayout = ({children, imageUrl}) => (
 );
 
 //Structure of entire website (except login page!) This should never ever refresh/change, only the children should change between pages
-const WebStructure = ({children, imageUrl}) => (
-    <Wrapper imageUrl={imageUrl}>
+const WebStructure = ({children, imageUrl, pattern}) => (
+    <Wrapper pattern={pattern} imageUrl={imageUrl}>
         <HeaderContainer className='mainHeader'/>
         <SubHeaderContainer className='subHeader'/>
        
@@ -39,7 +39,7 @@ export const TextLayout = ({children, imageUrl, title, content}) => (
 
 //Profile Layout
 export const ProfileLayout = ({children, imageUrl}) => (
-    <WebStructure imageUrl={imageUrl}>
+    <WebStructure pattern imageUrl={imageUrl}>
         <MarginContainer shrink>
             {children}
         </MarginContainer>

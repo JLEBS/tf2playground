@@ -16,6 +16,11 @@ const Wrapper = styled.div`
     background-color: #EEEEEE;
     display:flex;
     overflow-y: scroll;
+
+    ${props => props.pattern && css`
+        background-size: auto; 
+        background-repeat: repeat;
+    `}
 `;
 
 //Wraps the entire content of the page excluding the navigation bar

@@ -76,7 +76,7 @@ const DropWindow = styled.div`
     padding-bottom: 50px;
     position: absolute;
     top: 57px;
-    left: 0;
+    left: -787px;
     z-index:-3;
     color: white;
 `;
@@ -96,12 +96,12 @@ const BackgroundOverlay = styled.div`
 
 const Box = posed.div({
     enter: {
-        opacity: 1,
-        transition: { duration: 500 },
+        transition: { duration: 400 },
+        x:300
     },
     exit: {
-        opacity: 0,
-        transition: { duration: 500 }
+        transition: { duration: 400 },
+        x: 0
     }
   });
 

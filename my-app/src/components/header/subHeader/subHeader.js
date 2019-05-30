@@ -7,6 +7,7 @@ import {MarginContainer} from '../../structure/containers';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
+import posed, {PoseGroup, Transition} from 'react-pose';
 
 const ChatMod = styled(Chat)`
     height: 25px;
@@ -68,17 +69,14 @@ const SocialGroup = styled.button`
 
 const DropWindow = styled.li`
     background-color: ${Colors.standard.secondary};
-    width:100%;
-    max-width: 487px;
+    width: 487px;
     padding-top:50px;
     padding-bottom: 50px;
     position: absolute;
     top: 57px;
-    left:0px;
+    left: 0;
     z-index:-3;
     color: white;
-
-    display: none;
 `;
 
 const DeleteThis = styled.div`
@@ -94,6 +92,18 @@ const BackgroundOverlay = styled.div`
     cursor: w-resize;
 `;
 
+const Box = posed.div({
+    enter: {
+        opacity: 1,
+        duration: 100,
+        x: 0
+    },
+    exit: {
+        opacity: 0,
+        delay: 300,
+        x: 0
+    }
+  });
 
 const SubHeaderContainer = () => {
 
@@ -156,36 +166,28 @@ const SubHeaderContainer = () => {
                     <LobbyFont>Streams</LobbyFont>
                     <VideoMod/>
                 </SocialGroup>
-             
-                    <CSSTransition in={panelOpen} timeout={500} classNames={{
-                        appear: 'slideOutLeft faster',
-                        appearActive: 'animated slideInLeft faster',
-                        appearDone: 'slideInLeft',
-                        // enter: 'my-enter',
-                        // enterActive: 'my-active-enter',
-                        // enterDone: 'my-done-enter',
-                        exit: 'slideInLeft faster',
-                        exitActive: 'animated slideOutLeft faster',
-                        exitDone: 'slideOutLeft faster',
-                        }}>
-                        <DropWindow >
-                            <DeleteThis>
-                                <CurrentPanel/>
-                            </DeleteThis>
-                        </DropWindow>
-                    </CSSTransition>
-       
+                <PoseGroup>
+                    { panelOpen && (
+                        <Box key='model'>
+                            <DropWindow >
+                                <DeleteThis>
+                                    <CurrentPanel/>
+                                </DeleteThis>
+                            </DropWindow>
+                        </Box>
+                    )}
+                </PoseGroup>
              
             </SubHeader>
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
             )} */}
             { panelOpen && (
-            <div in={panelOpen} timeout={200} classNames="chat-window">
+            
                 <div active={activePanel == true && panelOpen === true}>
                     <BackgroundOverlay  onClick={() => closePanel()}/>
                 </div>
-            </div>
+         
 
             )}
         </>

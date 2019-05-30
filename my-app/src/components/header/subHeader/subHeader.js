@@ -67,8 +67,10 @@ const SocialGroup = styled.button`
     `}
 `;
 
-const DropWindow = styled.li`
+const DropWindow = styled.div`
     background-color: ${Colors.standard.secondary};
+    // width: 100%;
+    // max-width: 487px;
     width: 487px;
     padding-top:50px;
     padding-bottom: 50px;
@@ -95,13 +97,11 @@ const BackgroundOverlay = styled.div`
 const Box = posed.div({
     enter: {
         opacity: 1,
-        duration: 100,
-        x: 0
+        transition: { duration: 500 },
     },
     exit: {
         opacity: 0,
-        delay: 300,
-        x: 0
+        transition: { duration: 500 }
     }
   });
 

@@ -1,7 +1,7 @@
 import CountUp from 'react-countup';
 import React from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import {UserHeading, UserSubHeading, UserContent, UserLinks} from '../../misc/fonts';
+import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
@@ -39,7 +39,7 @@ const CLASS_STATS = [
         name: 'pocket scout',
         shortname: 'pocket scout',
         image: pocketScout,
-        value: 350,       
+        value: 1234,       
         color: Colors.standard.class.pocketScout
     },
     {
@@ -47,7 +47,7 @@ const CLASS_STATS = [
         name: 'flank scout',
         shortname: 'flank scout',
         image: scout,
-        value: 42,       
+        value: 529,       
         color: Colors.standard.class.flankScout
     },
     {
@@ -55,7 +55,7 @@ const CLASS_STATS = [
         name: 'pocket soldier',
         shortname: 'pocket',
         image: pocketSoldier,
-        value: 758,       
+        value: 627,       
         color: Colors.standard.class.pocketSoldier
     },
     {
@@ -63,7 +63,7 @@ const CLASS_STATS = [
         name: 'roaming soldier',
         shortname: 'roamer',
         image: soldier,
-        value: 332,       
+        value: 123,       
         color: Colors.standard.class.roamer
     },
     {
@@ -71,7 +71,7 @@ const CLASS_STATS = [
         name: 'demoman',
         shortname: 'demo',
         image: demo,
-        value: 346,      
+        value: 256,      
         color: Colors.standard.class.demoman
     },
     {
@@ -79,7 +79,7 @@ const CLASS_STATS = [
         name: 'medic',
         shortname: 'medic',
         image: medic,
-        value: 712,
+        value: 0,
         color: Colors.standard.class.medic
     }
 ];
@@ -239,6 +239,7 @@ const PROFILE_URLS = [
     }
 ];
 
+//Main Wrapper for each content section
 const InfoRectangle = styled.div`
     border-radius: 10px;
     background-color: ${Colors.standard.primary};
@@ -255,6 +256,7 @@ const InfoRectangle = styled.div`
     }
 `;
 
+//Icon Component for class images/svgs, should be ammended in future to allow SVG fil change
 const ClassInstance = styled.div`
     ${props => `background-image: url(${props.imageUrl});`};
     background-repeat: no-repeat;
@@ -276,148 +278,7 @@ const ClassInstance = styled.div`
     `}
 `;
 
-const ClassWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    position: relative;
 
-    ${props => props.class && css`
-
-        @media (max-width: 510px) {
-
-            opacity: 1;
-
-            &::after{
-                opacity: 0;
-                display: flex;
-                content: '${props => props.percentage}%';
-                font-size: 16px;
-                font-weight: 600;
-                background-color: ${Colors.standard.secondary};
-                width: 40px;
-                position: absolute;
-                height: 100%;
-                right: 90px;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.5s;
-                color: ${Colors.standard.primary};
-                border-radius: 5px;
-            }
-
-            &:hover{
-                margin-left: 10px;
-                cursor: pointer;
-
-                &::after{
-                    opacity: 1;
-       
-                }
-            }
-        }
-    `}
-
-    ${props => props.stat && css`
-        @media (max-width: 510px){
-            width: 33%;
-            margin: 0px;
-            padding: 0px;
-        }  
-    `}
-
-    // ${props => props.percentage && css`
-    //     padding-top: 6px;
-    //     padding-bottom: 6px;
-    // `}
-
-    ${props => `border-left:  4px solid ${props.fill}  !important;
-    margin: 6px;
-    padding-left:6px;`};
-
-    ${props => props.profile && css` 
-        padding-top:10px;
-        padding-bottom: 10px;
-
-        @media (max-width: 510px){
-            flex-direction:column;
-        }
-    `}
-
-
-    ${props => props.fill && css` 
-        width: 100%;
-    `}
-
-    ${props => props.paddingBottom && css` 
-        padding-bottom: 40px;
-    `}
-
-    ${props => props.column && css`
-        flex-direction: column;
-
-        & > * {
-            //width:100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding:6px;
-
-          
-        }
-    `};
-
-    ${props => props.row && css`
-        flex-direction: row;
-        width: 100%;
-    `}
-`;
-
-const Percentage = styled(animated.div)`
-
-    min-width:40px;
-    text-align: center;
-    color: ${Colors.standard.secondary};
-
-    ${props => props.percentage && css`
-        text-align: right;
-        :after{
-            content:'%';
-        }
-    `};
-    ${props => props.rank && css`
-        :before{
-            content:'#';
-        }
-    `};
-`;
-
-const TestDiv = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start
-    padding-bottom:16px;
-`;
-
-const TestOuterDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 150px;
-
-    @media (max-width: 510px){
-        width:100%;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-between;
-        padding-bottom: 30px;
-
-        .classTitle{
-            width: 100%;
-        }
-    }
-`;
 const OuterDivForReal = styled.div`
     flex-direction: row;
     display: flex;
@@ -432,11 +293,6 @@ const OuterDivForReal = styled.div`
             max-width: 100%;
         }
     `}
-`;
-
-const FlexStart = styled.div`
-    display: flex;
-    justify-content: flex-start;
 `;
 
 const ChartContainer = styled.div`
@@ -465,19 +321,21 @@ const ChartContainer = styled.div`
     .chartInnerLabel{
         ${props => `fill: ${props.fill}  !important;`};
         font-size: 18px;
+        font-weight: 600;
         text-transform: capitalize;
     }
 
     .chartOuterLabel{
         ${props => `fill: ${props.fill}  !important;`};
-        font-weight; 600;
         font-size: 16px;
+        font-weight: 400;
     }
 
     .chartOuterLabelTwo{
         fill: ${Colors.standard.darkGrey};
         font-size: 14px;
         font-weight: 100;
+
     }
 `
 const ToolTipContainer = styled.div`
@@ -497,7 +355,6 @@ const ToolTipContainer = styled.div`
     }
     p {
         font-size: 16px;
-        font-weight: 600;
         padding-bottom: 10px;
     }
     .intro{
@@ -541,7 +398,6 @@ const StatusContainer = styled.div`
         color: ${Colors.standard.secondary};
         display:flex;
         text-transform: capitalize;
-        font-weight:600;
 
          ::before{
             content: '';
@@ -582,15 +438,7 @@ const FlexTesting = styled.div`
     }
 `;
 
-const FlexTestAgain = styled.div`
-    display:flex;
-    flex-direction: row;
-    @media (max-width: 510px){
-        padding: 24px;
-    }
-  
-`;
-
+//Steam External Links
 const LinkTestContainer = styled.a`
 
     width: 100px;
@@ -613,27 +461,13 @@ const LinkTestContainer = styled.a`
     }
 `;
 
-const YetAgainAnotherFlex = styled.div`
-    display:flex;
-    justify-content: space-between;
-    width:100%;
-`;
-
 const status = {
     0: 'offline',
     1: 'online',
     2: 'away'
 }
 
-const MiniRectangleContainer = styled.div`
-    display: flex;
-    width: 100px;
-    justify-content: flex-end;
-    position:relative;
-`;
-
 const animatedGrow = (width) => {
-
     return keyframes`
         0% {
             width: 0%;
@@ -643,28 +477,36 @@ const animatedGrow = (width) => {
     }`
 }
 
+const MiniRectangleContainer = styled.div`
+    display: none;
+    width: 200px;
+    justify-content: flex-end;
+    position:relative;
+    border: 1px solid #00000021;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+
+    @media(max-width: 510px){
+        display: flex;
+    }
+`;
+
 const Rectangle = styled.div`
     border-radius: 10px;
-    padding:5px;
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
     background-color: ${props => props.color};
-   
-    ${props => props.mobile && css`
-        display: none;
 
-        @media(max-width: 510px){
-            display: block;
-            animation: ${animatedGrow(props.width)} 3s forwards;
-        }
+    ${props => props.mobile && css`
+        animation: ${animatedGrow(props.width)} 3s forwards;
     `};
 `;
 
 const ProfileContainer = ({userLinks, userData, userIcons}) => {
     return (
         <>
-            <ClassWrapper profile row>
+            <MarginContainer profile direction='row' size='100%' content='space-around'>
                 <FlexTesting>
                     <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steamCommunityId} classname='avatar'/>
                     <StatusContainer classname='userActivity'>
@@ -676,24 +518,66 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
                         </span>
                     </StatusContainer>
                 </FlexTesting>
-                <FlexTestAgain>
+                <MarginContainer>
                     {userIcons.map((icon, i) => ( 
                         <a  key={i} target="_bank" href={icon.url + userData[0].steamCommunityId} >
                             <ClassInstance svg imageUrl={icon.image}/>
                         </a>
                     ))}
-                </FlexTestAgain>
-            </ClassWrapper>
-            <ClassWrapper  row>
+                </MarginContainer>
+            </MarginContainer>
+            <MarginContainer shrink content='space-around'>
                 {userLinks.map((link, i) => ( 
                     <LinkTestContainer key={i} target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
                         <UserLinks>{link.name}</UserLinks>
                     </LinkTestContainer>
                 ))}
-            </ClassWrapper>
+            </MarginContainer>
         </>
     ); 
 };
+
+const TempusContainer = ({tempusStats, data}) => {
+    return (
+        <InternalContainer>
+            <MarginContainer content='space-between' shrink>
+                {tempusStats.map((tempus, i) => (
+                    <MarginContainer tempus direction='column' wrap key={i}>
+                        <MarginContainer statTitle direction='column' content='flex-start'>
+                            <ClassInstance icon imageUrl={tempus.image}/>
+                            <UserSubHeading>{tempus.name}</UserSubHeading>
+                        </MarginContainer>
+
+                        <MarginContainer size='100%' stat column>
+                            <UserContent>{tempus.shortName} rank</UserContent>
+                            <MarginContainer className='statData'>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
+                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></UserValue>
+                            </MarginContainer>
+                        </MarginContainer>
+                    
+                        <MarginContainer size='100%' stat column>
+                            <UserContent>{tempus.shortName} points</UserContent>
+                            <MarginContainer className='statData'>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
+                            </MarginContainer>
+                        </MarginContainer>
+
+                        <MarginContainer size='100%' stat column>
+                            <UserContent>Fluctuation</UserContent>
+                            <MarginContainer className='statData'>
+                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
+                                <UserValue>-3</UserValue>
+                            </MarginContainer>
+                        </MarginContainer>
+                    </MarginContainer>
+                ))}
+            </MarginContainer>
+            <Graph/>
+        </InternalContainer>
+    );
+}
 
 
 
@@ -701,15 +585,14 @@ const LifeTimeStatContainer = ({lifetimeStats}) => {
     return (
         <>
             {lifetimeStats.map((statistic, i) => (
-                <ClassWrapper column key={i}>
+                <MarginContainer size='33%'  stat key={i}>
                     <UserContent>{statistic.name}</UserContent>
-                    <div>
+                    <MarginContainer className='statData'>
                         <ClassInstance tinysvg imageUrl={statistic.image}/>
-                        <Percentage> <CountUp useEasing={false} duration={3} end={statistic.testData}/></Percentage>
-                    </div>
-                </ClassWrapper>
+                        <UserValue> <CountUp useEasing={false} duration={3} end={statistic.testData}/></UserValue>
+                    </MarginContainer>
+                </MarginContainer>
             ))}
-           
         </>
     ); 
 };
@@ -813,39 +696,33 @@ const ClassContainer = ({classStats}) => {
 
     let Total = classStats.sum('value');
 
-    
-      
-    console.log(classStats.sort(function(a,b) {return (b.value > a.value) ? 1 : ((a.value > b.value) ? -1 : 0);} ));
-
     return (
         <InternalContainer flex>
-            <OuterDivForReal maxWidth>
-                <ClassWrapper fill>
+            <MarginContainer content='space-between' shrink maxWidth>
+                <MarginContainer content='space-between' size='100%' >
                     <UserSubHeading>class role</UserSubHeading>
                     <UserSubHeading>wins</UserSubHeading>
-                    <UserSubHeading mobile>percentage</UserSubHeading>
-                </ClassWrapper>
+                    <UserSubHeading >percentage</UserSubHeading>
+                </MarginContainer>
 
                 {classStats.map((stat, i) => (
-
                     
-                    <ClassWrapper percentage={Math.round(stat.value / Total * 100)} class fill={stat.color} key={i}>
+                    <MarginContainer size='100%' content='space-between' fill={stat.color} key={i}>
                         <ClassInstance icon imageUrl={stat.image}/>
-                        <UserContent>{stat.name}</UserContent>
-                        <Percentage> <CountUp useEasing={false} duration={3} start={0} end={stat.value}/> </Percentage>
+                        <UserContent grow >{stat.name}</UserContent>
+                        <UserValue> <CountUp useEasing={false} duration={3} start={0} end={stat.value}/> </UserValue>
                         <MiniRectangleContainer>
-                            <Rectangle classname='rectangle' mobile color={stat.color} width={(Math.round(stat.value / Total * 100) *2)} />
+                            <UserValue percentage> <CountUp useEasing={false} duration={3} start={0} end={(Math.round(stat.value / Total * 100))}/> </UserValue>
+                            <Rectangle classname='rectangle' mobile color={stat.color} width={(Math.round(stat.value / Total * 100))} />
                         </MiniRectangleContainer>
                        
-                    </ClassWrapper>
+                    </MarginContainer>
                 ))}
-            </OuterDivForReal>
+            </MarginContainer>
             <TwoLevelPieChart data={classStats}/>
         </InternalContainer>
     );
 }
-
-
 
 
 //Convert to switch statements
@@ -945,52 +822,6 @@ const InternalContainer = styled.div`
         flex-direction: row;
     `}
 `;
-
-const TempusContainer = ({tempusStats, data}) => {
-    return (
-        <InternalContainer>
-            <OuterDivForReal>
-                {tempusStats.map((tempus, i) => (
-                        <TestOuterDiv key={i}>
-                            <TestDiv className='classTitle'>
-                                <ClassInstance icon imageUrl={tempus.image}/>
-                                <UserSubHeading>{tempus.name}</UserSubHeading>
-                            </TestDiv>
-
-                            <ClassWrapper stat column>
-                                <UserContent>{tempus.shortName} rank</UserContent>
-                                <FlexStart>
-                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                    <Percentage rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></Percentage>
-                                </FlexStart>
-                            </ClassWrapper>
-                        
-                            <ClassWrapper stat column>
-                                <UserContent>{tempus.shortName} points</UserContent>
-                                <FlexStart>
-                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                    <Percentage> <CountUp duration={3} end={tempus.points}/></Percentage>
-                                </FlexStart>
-                            </ClassWrapper>
-
-                            <ClassWrapper  stat column>
-                                <UserContent>Fluctuation</UserContent>
-                                <FlexStart>
-                                    <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                    <Percentage>-3</Percentage>
-                                </FlexStart>
-                            </ClassWrapper>
-                        
-                    </TestOuterDiv>
-                    
-                ))}
-                
-            </OuterDivForReal>
-            <Graph/>
-        </InternalContainer>
-    );
-}
-
 
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
     <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>

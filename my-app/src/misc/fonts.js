@@ -39,8 +39,8 @@ export const TitleLogo = styled.div`
 
 export const Title = styled.h1`
     font-style: normal;
-    font-weight: 600;
     font-size: 70px;
+    font-weight: 900;
     text-transform: uppercase;
     color: ${colorPrimary};
     text-shadow: -3px -3px  #000000;
@@ -96,8 +96,7 @@ export const LobbyFont = styled.p`
         margin: 0 auto;
         padding-top: 1rem;
         padding-bottom: 1rem;
-        font-weight: 600;
-
+        f
         ${fluidRange(
         {
             prop: 'font-size',
@@ -122,8 +121,8 @@ export const LobbyFont = styled.p`
 
 export const Link = styled(ReactRouterLink)`
     font-style: normal;
-    font-weight: 600;
     font-size: 16px;
+    font-weight: 600;
     line-height: 24px;
     text-transform: uppercase;
     color: ${Colors.standard.navHover};
@@ -159,18 +158,16 @@ export const MinorFont = styled.p`
 
     ${props => props.lobby && css`
         color: ${colorPrimary};
-        font-weight: 600;
-    `}
+            `}
     ${props => props.user && css`
         color: ${colorSecondary};
-        font-weight: normal;
+        
     `}
 `;
 
 export const BtnText = styled.p`
     font-size: 24px;
     font-style: normal;
-    font-weight: bold;
     text-transform: uppercase;
     transition: background 1s ease;
     transition: color 1s ease;
@@ -192,8 +189,8 @@ export const BtnText = styled.p`
 
 export const UserHeading = styled.h2`
     font-size: 24px;
-    font-style: normal;
     font-weight: 600;
+    font-style: normal;
     text-align: center;
     text-transform: capitalize;
     color: ${colorPrimary};
@@ -243,38 +240,69 @@ export const UserHeading = styled.h2`
 
 export const UserSubHeading = styled.h3`
     font-style: normal;
+    font-size: 18px;
     font-weight: 600;
-    font-size: 20px;
     text-transform: capitalize;
     color: ${colorSecondary};
     float: left;
-    margin-left:12px;
-
-    ${props => props.mobile && css`
-        display: none;
-        @media(max-width: 510px){
-            display: block;
-        }
-    `};
+    padding:10px;
+   // border-right: 1px solid green;
 `;
 
 export const UserContent = styled.h4`
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
+    font-size: 14px;
+
     text-transform: capitalize;
     color: ${colorSecondary};
     float: left;
-    min-width: 120px;
+    ${props => props.grow && css`
+        min-width: 120px;
+    `};
+   // border-right: 1px solid blue;
 `;
 
 export const UserLinks = styled.h3`
     font-style: normal;
-    font-weight: 600,
     font-size: 14px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: ${colorSecondary};
     text-align: center;
+`;
+
+//Numerical calculator, 
+export const UserValue = styled.div`
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 600;
+    width:60px;
+    text-align: center;
+    text-transform: uppercase;
+    color: ${Colors.standard.secondary};
+
+    ${props => props.percentage && css`
+        max-width: 40px;
+        position: absolute;
+        left: 8px;
+        height: 100%;
+        max-width: 40px;
+        font-size: 12px;
+        font-weight: 600;
+        padding-top:5px;
+        :after{
+            content:'%';
+        }
+    `};
+
+
+    ${props => props.rank && css`
+        :before{
+            content:'#';
+        }
+    `};
+
+   // border-bottom: 1px solid red;
 `;

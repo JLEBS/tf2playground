@@ -11,7 +11,7 @@ const ProfilePage = () => (
         <RectangleContainer direction='row' maxWidth='510px' minWidth='300px' header={'Overall'} >
             <LifeTimeStatContainer lifetimeStats={SVG_ICONS} />
         </RectangleContainer> 
-        <RectangleContainer maxWidth='700px' minWidth='250px' header={'tempus progression'}>
+        <RectangleContainer  minWidth='500px' header={'tempus progression'}>
             <TempusContainer tempusStats={TEMPUS_POINTS} />
         </RectangleContainer>
         <RectangleContainer direction='row' maxWidth='800px' minWidth='300px' header={'class wins'}>

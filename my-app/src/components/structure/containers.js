@@ -50,7 +50,83 @@ const MarginContainer = styled.div`
         align-items: flex-start;
         flex-wrap: wrap;
     `}
-    
+
+    ${props => props.wrap && css`
+        @media (max-width: 510px){
+            width:100%;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .classTitle{
+                width: 100%;
+            }
+        }
+    `}
+
+    //Grows to outer container
+    ${props => props.size && css`
+        width: ${props.size};
+    `}
+
+    //For Border Color & Class
+    ${props => props.fill && css`
+        border-left:  4px solid ${props.fill}  !important;
+        padding-left:10px;
+
+        @media (max-width: 510px){
+           margin-top:12px;
+           margin-bottom:12px;
+        }  
+    `};
+
+    //For Tempus points and lifetime/class stats
+    ${props => props.tempus && css`
+        max-width:120px;
+        padding:6px;
+        border: 1px dotted grey;
+
+        @media(max-width: 510px){
+          
+        }
+    `}
+
+    ${props => props.statTitle && css`
+        padding:20px;
+        @media (max-width: 510px){
+            width: 100%;
+            padding-left: 0px;
+            align-items: center;
+            flex-direction: row;
+         }  
+    `}
+
+    ${props => props.stat && css`
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 10px;
+        padding-top: 10px;
+
+        .statData{
+            width: 100%;
+            justify-content: space-around;
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        @media (max-width: 510px){
+            width: 30%;
+            margin: 0px;
+            padding: 0px;
+        }  
+    `}
+
+    ${props => props.profile && css` 
+        @media (max-width: 510px){
+            flex-direction:column;
+        }
+    `}
+
     ${props => props.verticalpadding && css` 
         ${fluidRange(
             {

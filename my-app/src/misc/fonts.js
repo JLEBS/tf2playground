@@ -246,21 +246,18 @@ export const UserSubHeading = styled.h3`
     color: ${colorSecondary};
     float: left;
     padding:10px;
-   // border-right: 1px solid green;
 `;
 
 export const UserContent = styled.h4`
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-
     text-transform: capitalize;
     color: ${colorSecondary};
     float: left;
     ${props => props.grow && css`
         min-width: 120px;
     `};
-   // border-right: 1px solid blue;
 `;
 
 export const UserLinks = styled.h3`
@@ -297,12 +294,9 @@ export const UserValue = styled.div`
         }
     `};
 
-
     ${props => props.rank && css`
         :before{
             content:'#';
         }
     `};
-
-   // border-bottom: 1px solid red;
 `;

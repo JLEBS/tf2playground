@@ -335,15 +335,19 @@ const ChartContainer = styled.div`
         fill: ${Colors.standard.darkGrey};
         font-size: 14px;
         font-weight: 100;
-
     }
 `
 const ToolTipContainer = styled.div`
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+    color: ${Colors.standard.secondary};
     background-color: ${Colors.standard.primaryTransparent}
+    outline:2px dotted ${Colors.standard.lightGrey};
     padding:6px;
     min-width:100px;
-    outline:2px dotted ${Colors.standard.lightGrey};
-    text-align: center;
 
     span{
         font-size: 18px;
@@ -352,9 +356,10 @@ const ToolTipContainer = styled.div`
         justify-content: space-between;
         min-width:60px
         padding: 3px;
+        
     }
     p {
-        font-size: 16px;
+
         padding-bottom: 10px;
     }
     .intro{
@@ -376,7 +381,8 @@ const ToolTipContainer = styled.div`
 
         div:nth-child(2){
             font-size: 12px;
-            color: ${Colors.standard.darkGrey};
+            font-weight: 600;
+            color: ${Colors.standard.secondary};
             padding:6px;
         }
     }

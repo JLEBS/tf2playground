@@ -57,7 +57,6 @@ const MarginContainer = styled.div`
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: space-between;
-
             .classTitle{
                 width: 100%;
             }
@@ -84,10 +83,9 @@ const MarginContainer = styled.div`
     ${props => props.tempus && css`
         max-width:120px;
         padding:6px;
-        border: 1px dotted grey;
 
         @media(max-width: 510px){
-          
+          max-width: 100%;
         }
     `}
 

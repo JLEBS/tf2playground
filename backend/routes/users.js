@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
    
   app.connection.connect();
   
-  app.connection.query('SELECT * FROM user, tempus', function (error, results, fields) {
+  app.connection.query('SELECT * FROM user', function (error, results, fields) {
     if (error) {
       ok: false,
         res.status(500).json({
@@ -25,5 +25,31 @@ router.get('/', function(req, res, next) {
   app.connection.end();
 
 });
+
+router.get('/:user', (req, res) => {
+
+  const userId = req.params.user
+
+  console.log(userId);
+  
+  app.connection.connect();
+  app.connection.query(`SELECT * FROM user WHERE user_id = ${userId}`, (error, result, fields) => {
+    if (error) {
+      ok: false,
+        res.status(500).json({
+        error
+      })
+    }
+
+    console.log('The solution is: ', result);
+    res.json({
+      ok: true,
+      data: result
+    });
+  })
+  app.connection.end();
+
+
+})
 
 module.exports = router;

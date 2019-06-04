@@ -32,7 +32,7 @@ const useFetch = url => {
 
 function Example() {
 
-  const {loading,data} = useFetch("https://jsonplaceholder.typicode.com/todos/2");
+  const {loading,data} = useFetch("https://jsonplaceholder.typicode.com/todos/4");
 
   return (
     <AjaxDiv>

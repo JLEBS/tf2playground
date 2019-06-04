@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
    
   app.connection.connect();
   
-  app.connection.query('SELECT * FROM user', function (error, results, fields) {
+  app.connection.query('SELECT * FROM user, tempus', function (error, results, fields) {
     if (error) {
       ok: false,
         res.status(500).json({

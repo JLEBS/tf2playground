@@ -1,5 +1,5 @@
 import CountUp from 'react-countup';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled, {css, keyframes} from 'styled-components';
 import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
@@ -32,6 +32,7 @@ import Twitch from '../../assets/imgs/icons/svgs/twitch.svg';
 import Discord from '../../assets/imgs/icons/svgs/discord.svg';
 import Steam_Logo from '../../assets/imgs/icons/svgs/steam_logo.svg';
 import eepilyProfile from '../../assets/imgs/user/eepilyProfile.jpg';
+
 
 const CLASS_STATS = [
     {   

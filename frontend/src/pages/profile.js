@@ -1,6 +1,7 @@
 import React from 'react';
-import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, COLORS, PROFILE_SVGS} from './../components/profile/infoRectangle'
+import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, PercentageContainer, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, COLORS, PROFILE_SVGS} from './../components/profile/infoRectangle';
 import {Masonry} from 'react-masonry'
+import Example from './../components/profile/testajax';
 
 const ProfilePage = () => (
     
@@ -17,6 +18,7 @@ const ProfilePage = () => (
         <RectangleContainer direction='row' maxWidth='800px' minWidth='300px' header={'class wins'}>
             <ClassContainer classStats={CLASS_STATS} />
         </RectangleContainer>
+        <Example/>
      </>
 );
 export default ProfilePage;

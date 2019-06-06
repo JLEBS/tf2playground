@@ -145,46 +145,6 @@ const SVG_ICONS = [
     },
 ];
 
-const TEMPUS_POINTS = [
-    {
-        id: 1,
-        name: 'soldier',
-        shortName: 'soldier',
-        image: soldier,
-        rank: 1,
-        points: 248433,
-    },
-    {
-        id: 2,
-        name: 'demoman',
-        shortName: 'demo',
-        image: demo,
-        rank: 10,
-        points: 66398
-    },
-    {
-        id: 3,
-        name: 'average',
-        shortName: 'total',
-        image: demoAndSoldier,
-        rank: 1,
-        points: 314831
-    }
-];
-
-const PROFILE_INFO = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198041529904',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ecb8f3dd89bcd796eaaeb77d5547794053cfb120_full.jpg',
-        steamName: 'eepily',
-        discordName: 'eepily#2645',
-        twitchName: 'eepily',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
 const PROFILE_SVGS = [
     {
         id: 1,
@@ -545,13 +505,20 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
 };
 
 const TempusContainer = ({tempusStats, data}) => {
+
+    console.log(tempusStats);
     return (
         <InternalContainer>
+       
             <MarginContainer content='space-between' shrink>
                 {tempusStats.map((tempus, i) => (
+
+                 
+                
                     <MarginContainer tempus direction='column' wrap key={i}>
+                        {console.log(tempus)}
                         <MarginContainer statTitle direction='column' content='flex-start'>
-                            <ClassInstance icon imageUrl={tempus.image}/>
+                            <ClassInstance icon imageUrl={tempus.rank}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
                         </MarginContainer>
 
@@ -559,7 +526,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} rank</UserContent>
                             <MarginContainer className='statData'>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></UserValue>
+                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.data.rank}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
                     
@@ -567,7 +534,7 @@ const TempusContainer = ({tempusStats, data}) => {
                             <UserContent>{tempus.shortName} points</UserContent>
                             <MarginContainer className='statData'>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
+                                <UserValue> <CountUp duration={3} end={tempus.data.points}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
 
@@ -772,14 +739,14 @@ function getIntroOfPage(label) {
     }
   }
 
-function CustomTooltip({ payload, label, active }) {
+function CustomTooltip({ payload, label, active, data }) {
     if (active) {
       return (
         <ToolTipContainer>
              <p className="intro">{getIntroOfPage(label)}</p>
 
             <span>
-                <ClassInstance icon imageUrl={TEMPUS_POINTS[1].image}/>
+                <ClassInstance icon imageUrl={'TEMPUS_POINTS[1].image'}/>
                 <span className='miniDemoSpan'>
                     <div>#{`${payload[1].value}`}</div>
                     <div>{`${payload[1].payload.DemoPoints} Points`}</div>
@@ -787,7 +754,7 @@ function CustomTooltip({ payload, label, active }) {
             </span>
 
             <span>
-                <ClassInstance icon imageUrl={TEMPUS_POINTS[0].image}/>
+                <ClassInstance icon imageUrl={'TEMPUS_POINTS[0].image'}/>
                 <span className='miniSoldierSpan'>
                     <div>#{`${payload[0].value}`}</div>
                     <div>{`${payload[0].payload.SoldierPoints} Points`}</div>
@@ -843,4 +810,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Graph, TEMPUS_POINTS, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_INFO, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Graph, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_SVGS}

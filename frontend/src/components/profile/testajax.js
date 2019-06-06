@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import ReactDOM from "react-dom";
 
-
 const AjaxDiv = styled.div`
     font-size: 20px;
     padding:30px;
@@ -11,12 +10,11 @@ const AjaxDiv = styled.div`
     color: white;
 `
 
-
 const useFetch = url => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  async function fetchData() {
+    async function fetchData() {
     const response = await fetch(url);
     const json = await response.json();
     setData(json);
@@ -30,20 +28,44 @@ const useFetch = url => {
   return {loading,data};
 };
 
+// const TEMPUSREAL = [
+//     {
+//         name: 'soldier',
+//         shortName: 'soldier',
+//         image: 'soldier',
+//     },
+//     {
+//         name: 'demoman',
+//         shortName: 'demo',
+//         image: 'demo',
+//     },  
+//     {
+//         name: 'average',
+//         shortName: 'total',
+//         image: 'demoAndSoldier',
+
+//     }
+// ];
+
 function Example() {
 
-  const {loading,data} = useFetch("https://jsonplaceholder.typicode.com/todos/4");
+    const {loading,data} = useFetch('https://tempus.xyz/api/players/steamid/76561198041529904/rank');
 
-  return (
-    <AjaxDiv>
-      {loading ? <div>Loading...</div> :
-      <ul>
-       <li>{data.id}</li>
-       <li>{data.title}</li>
-      </ul>
-      }
-    </AjaxDiv>
-  )
+    return (
+        <AjaxDiv>
+            {loading ? <div>Loading...</div> :
+         
+                <ul>
+                    <li>{data.class_rank_info[3].rank}</li>
+                    <li>{data.class_rank_info[3].points}</li>
+                    <li>{data.class_rank_info[4].rank}</li>
+                    <li>{data.class_rank_info[4].points}</li>
+                    <li>{data.rank_info.rank}</li>
+                    <li>{data.rank_info.points}</li>
+                </ul>
+            }
+        </AjaxDiv>
+    )
 }
 
 export default Example;

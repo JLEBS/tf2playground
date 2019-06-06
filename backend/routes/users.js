@@ -33,7 +33,7 @@ router.get('/:user', (req, res) => {
   console.log(userId);
   
   app.connection.connect();
-  app.connection.query(`SELECT * FROM user WHERE user_id = ${userId}`, (error, result, fields) => {
+  app.connection.query(`SELECT * FROM user WHERE steam64id = ${userId}`, (error, result, fields) => {
     if (error) {
       ok: false,
         res.status(500).json({

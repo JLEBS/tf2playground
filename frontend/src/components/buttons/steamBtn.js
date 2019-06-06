@@ -38,7 +38,7 @@ const SteamLogo = styled(Steam)`
 `;
 
 const LoginBtn = ({ smallbtn, largebtn }) => {
-    console.log(largebtn)
+    //console.log(largebtn)
     return (
         <SteamBtn smallbtn={smallbtn} largebtn={largebtn}>
             <ButtonContainer>

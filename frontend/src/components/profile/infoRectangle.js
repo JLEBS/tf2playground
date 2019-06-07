@@ -1,7 +1,7 @@
 import CountUp from 'react-countup';
 import React, {useState, useEffect} from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue} from '../../misc/fonts';
+import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
@@ -80,7 +80,7 @@ const CLASS_STATS = [
         name: 'medic',
         shortname: 'medic',
         image: medic,
-        value: 0,
+        value: 362,
         color: Colors.standard.class.medic
     }
 ];
@@ -428,12 +428,6 @@ const LinkTestContainer = styled.a`
     }
 `;
 
-const status = {
-    0: 'offline',
-    1: 'online',
-    2: 'away'
-}
-
 const animatedGrow = (width) => {
     return keyframes`
         0% {
@@ -470,7 +464,16 @@ const Rectangle = styled.div`
     `};
 `;
 
+
 const ProfileContainer = ({userLinks, userData, userIcons}) => {
+
+    const status = {
+        0: 'offline',
+        1: 'online',
+        2: 'away'
+    }
+
+    
     return (
         <>
             <MarginContainer profile direction='row' size='100%' content='space-around'>
@@ -507,19 +510,41 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
 const TempusContainer = ({tempusStats, data}) => {
 
     console.log(tempusStats);
+
+    const TitleColor = {
+        'Emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
+        'King' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
+        'Archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
+        'Lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
+        'Duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
+        'Prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
+        'Earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
+        'Sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
+        'Count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
+        'Baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
+        'Knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
+        'Noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
+        'Esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
+        'Jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
+        'Plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
+        'Peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
+        'Peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
+    }
+      
     return (
         <InternalContainer>
        
             <MarginContainer content='space-between' shrink>
                 {tempusStats.map((tempus, i) => (
 
-                 
-                
                     <MarginContainer tempus direction='column' wrap key={i}>
-                        {console.log(tempus)}
+                       
                         <MarginContainer statTitle direction='column' content='flex-start'>
-                            <ClassInstance icon imageUrl={tempus.rank}/>
+                            <ClassInstance icon imageUrl={tempus.image}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
+                            {  tempus.data.title && (
+                                <TempusTitle bracket={TitleColor[tempus.data.title][0]} color={TitleColor[tempus.data.title][1]}>{tempus.data.title}</TempusTitle> 
+                            )}   
                         </MarginContainer>
 
                         <MarginContainer size='100%' stat column>
@@ -746,7 +771,7 @@ function CustomTooltip({ payload, label, active, data }) {
              <p className="intro">{getIntroOfPage(label)}</p>
 
             <span>
-                <ClassInstance icon imageUrl={'TEMPUS_POINTS[1].image'}/>
+                <ClassInstance icon imageUrl={soldier}/>
                 <span className='miniDemoSpan'>
                     <div>#{`${payload[1].value}`}</div>
                     <div>{`${payload[1].payload.DemoPoints} Points`}</div>
@@ -754,7 +779,7 @@ function CustomTooltip({ payload, label, active, data }) {
             </span>
 
             <span>
-                <ClassInstance icon imageUrl={'TEMPUS_POINTS[0].image'}/>
+                <ClassInstance icon imageUrl={demo}/>
                 <span className='miniSoldierSpan'>
                     <div>#{`${payload[0].value}`}</div>
                     <div>{`${payload[0].payload.SoldierPoints} Points`}</div>

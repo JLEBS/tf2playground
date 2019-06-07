@@ -4,7 +4,6 @@ import {Masonry} from 'react-masonry'
 import Example from './../components/profile/testajax';
 import { ninvoke } from 'q';
 
-
 //Class imports
 import scout from './../assets/imgs/icons/classes/scout.png';
 import pocketScout from './../assets/imgs/icons/classes/pocketScout.png';
@@ -14,8 +13,7 @@ import demo from './../assets/imgs/icons/classes/demo.png';
 import medic from './../assets/imgs/icons/classes/medic.png';
 import demoAndSoldier from './../assets/imgs/icons/classes/demoAndSoldier.png';
 
-
-const PROFILE_INFO = [
+const PROFILE_sdsINFOss = [
     {
         steamId: '[U:1:81264176]',
         steamCommunityId: '76561198041529904',
@@ -23,6 +21,58 @@ const PROFILE_INFO = [
         steamName: 'eepily',
         discordName: 'eepily#2645',
         twitchName: 'eepily',
+        status: 1,
+        twitchStatus: true
+    }
+];
+
+const PROFsdfsfILE_INFO = [
+    {
+        steamId: '[U:1:81264176]',
+        steamCommunityId: '76561198028929109',
+        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/05/051ff2ea8a6ac560f2410dc38952dea2b93122f8_full.jpg',
+        steamName: 'planck',
+        discordName: 'planck#2645',
+        twitchName: 'planccck',
+        status: 1,
+        twitchStatus: true
+    }
+];
+
+const PROFILsdsfE_INFO = [
+    {
+        steamId: '[U:1:81264176]',
+        steamCommunityId: '76561198041285102',
+        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b1/b1869d8a45b5cf9c05f6288f5a18a496d7ef0915_full.jpg',
+        steamName: '009eff',
+        discordName: '009eff#2645',
+        twitchName: '009eff',
+        status: 1,
+        twitchStatus: true
+    }
+];
+
+const PROFILE_INFO = [
+    {
+        steamId: '[U:1:81264176]',
+        steamCommunityId: '76561198001371660',
+        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/82/8238710cae8e9aa37c07adb5362992950cb288fe_full.jpg',
+        steamName: 'Mac',
+        discordName: 'Mac#2645',
+        twitchName: 'Mac',
+        status: 1,
+        twitchStatus: true
+    }
+];
+
+const PROFILE_INFOb = [
+    {
+        steamId: '[U:1:81264176]',
+        steamCommunityId: '76561198046601398',
+        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f6/f6723c28f8dbc034330c57b4a5a6d6cc9228d683_full.jpg',
+        steamName: 'Boshy',
+        discordName: 'Boshy#2645',
+        twitchName: 'Boshy',
         status: 1,
         twitchStatus: true
     }
@@ -45,62 +95,11 @@ const useFetch = url => {
     return {loading,data};
 };
 
-// const TEMPUS_POINTS = [
-//     {
-//         id: 1,
-//         name: 'soldier',
-//         shortName: 'soldier',
-//         image: soldier,
-//         rank: 1,
-//         points: 248433,
-//     },
-//     {
-//         id: 2,
-//         name: 'demoman',
-//         shortName: 'demo',
-//         image: demo,
-//         rank: 10,
-//         points: 66398
-//     },
-//     {
-//         id: 3,
-//         name: 'average',
-//         shortName: 'total',
-//         image: demoAndSoldier,
-//         rank: 1,
-//         points: 314831
-//     }
-// ];
-
-
 const ProfilePage = () => {
 
-    let test;
     const {loading,data} = useFetch(`https://tempus.xyz/api/players/steamid/${PROFILE_INFO[0].steamCommunityId}/rank`);
 
     let TEMPUS_POINTS;
-    // const NEW_TEMPUS = {
-    //     className1: {
-    //         title: 'noble',
-    //         image: 'soldier',
-    //         rank: 0,
-    //         points: 0,
-    //     },
-    //     className2: {
-    //         title: 'esquire',
-    //         image: 'demo',
-    //         rank: 0,
-    //         points: 0
-    //     },
-    //     total: {
-    //         title: null,
-    //         image: 'demoAndSoldier',
-    //         rank: 0,
-    //         points: 0
-    //     }
-    // };
-
-
 
     if (data) {
         
@@ -110,10 +109,6 @@ const ProfilePage = () => {
             'total': 'data'
         }
 
-        const images = {
-
-        }
-        
         const TEMPUS_INFO = {...data.class_rank_info};
         TEMPUS_INFO.total = {...data.rank_info};
 
@@ -121,6 +116,13 @@ const ProfilePage = () => {
             const newKey = names[key] || key;
             return { [newKey] : TEMPUS_INFO[key] };
         });
+
+        TEMPUS_POINTS[0].name = 'soldier';
+        TEMPUS_POINTS[0].image = soldier;
+        TEMPUS_POINTS[1].name = 'demo';
+        TEMPUS_POINTS[1].image = demo;
+        TEMPUS_POINTS[2].name = 'total';
+        TEMPUS_POINTS[2].image = demoAndSoldier;
     }
 
     return (

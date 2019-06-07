@@ -246,6 +246,11 @@ export const UserSubHeading = styled.h3`
     color: ${colorSecondary};
     float: left;
     padding:10px;
+
+    ${props => props.color && css`
+        color: ${props.color};
+        background-color: black;
+    `}
 `;
 
 export const UserContent = styled.h4`
@@ -269,6 +274,7 @@ export const UserLinks = styled.h3`
     color: ${colorSecondary};
     text-align: center;
 `;
+
 
 //Numerical calculator, 
 export const UserValue = styled.div`
@@ -300,3 +306,17 @@ export const UserValue = styled.div`
         }
     `};
 `;
+
+export const TempusTitle = styled.span`
+    color: ${props => props.color};
+    font-weight: 600;
+    &::before{
+        color: ${props => props.bracket};
+        content: '[';
+    }
+
+    &::after{
+        color: ${props => props.bracket};
+        content: ']';
+    }
+`

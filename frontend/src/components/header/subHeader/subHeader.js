@@ -79,6 +79,7 @@ const DropWindow = styled.div`
     left: -787px;
     z-index:-3;
     color: white;
+    display: none;
 `;
 
 const DeleteThis = styled.div`
@@ -92,18 +93,19 @@ const BackgroundOverlay = styled.div`
     position: absolute;
     z-index: 2;
     cursor: w-resize;
+    display: none;
 `;
 
-const Box = posed.div({
-    enter: {
-        transition: { duration: 400 },
-        x:300
-    },
-    exit: {
-        transition: { duration: 400 },
-        x: 0
-    }
-  });
+// const Box = posed.div({
+//     enter: {
+//         transition: { duration: 400 },
+//         x:300
+//     },
+//     exit: {
+//         transition: { duration: 400 },
+//         x: 0
+//     }
+//   });
 
 const SubHeaderContainer = () => {
 
@@ -166,7 +168,7 @@ const SubHeaderContainer = () => {
                     <LobbyFont>Streams</LobbyFont>
                     <VideoMod/>
                 </SocialGroup>
-                <PoseGroup>
+                {/* <PoseGroup>
                     { panelOpen && (
                         <Box key='model'>
                             <DropWindow >
@@ -176,20 +178,20 @@ const SubHeaderContainer = () => {
                             </DropWindow>
                         </Box>
                     )}
-                </PoseGroup>
+                </PoseGroup> */}
              
             </SubHeader>
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
             )} */}
-            { panelOpen && (
+            {/* { panelOpen && (
             
                 <div active={activePanel == true && panelOpen === true}>
                     <BackgroundOverlay  onClick={() => closePanel()}/>
                 </div>
          
 
-            )}
+            )} */}
         </>
     );
 };

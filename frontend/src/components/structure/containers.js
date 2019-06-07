@@ -91,9 +91,11 @@ const MarginContainer = styled.div`
 
     ${props => props.statTitle && css`
         padding:20px;
+        min-height: 90px;
+
         @media (max-width: 510px){
             width: 100%;
-            padding-left: 0px;
+            padding: 0px;
             align-items: center;
             flex-direction: row;
          }  

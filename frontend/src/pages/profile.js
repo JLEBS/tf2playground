@@ -52,7 +52,7 @@ const PROFILsdsfE_INFO = [
     }
 ];
 
-const PROFILE_INFO = [
+const PROFILE_INFOhgh = [
     {
         steamId: '[U:1:81264176]',
         steamCommunityId: '76561198001371660',
@@ -65,7 +65,7 @@ const PROFILE_INFO = [
     }
 ];
 
-const PROFILE_INFOb = [
+const PROFILE_INFO = [
     {
         steamId: '[U:1:81264176]',
         steamCommunityId: '76561198046601398',

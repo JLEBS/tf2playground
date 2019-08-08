@@ -473,7 +473,6 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
         2: 'away'
     }
 
-    
     return (
         <>
             <MarginContainer profile direction='row' size='100%' content='space-around'>

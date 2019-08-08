@@ -11,7 +11,7 @@ const ConductPage = () => (
     PugChamp worked in a similar vain to TF2Pickup, the main issue is the opposite of TF2Center, where only very specific individuals get chance to play due to the picking system. This results in only the best players/regular players from being picked, which is offputting to players of a lower skillset or are less regular.
 
     To rectify this, the main goal of TF2Playground is emulate the mechanics of TF2Pickup whilst simplifying the design to be as minimal as possible. This lobby system will not support highlander or simultaneous lobbies, and will exlusively support 6 vs 6. Whereas tf2pickup would pre-emitvely choose the map, TF2Playground allows players to choose the map themselves through a voting system, which unlike pugchamp, is not exclusive to only captains.
-</LobbyFont>
+    </LobbyFont>
 );
 
 export default ConductPage;

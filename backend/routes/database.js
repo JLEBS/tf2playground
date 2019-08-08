@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const pool = mysql.createPool({
     connectionLimit: 10,
     host     : 'localhost',
-    port     : '8889',
+    port     : '8898',
     user     : 'root',
     password : 'root',
     database : 'tf2playground'

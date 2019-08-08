@@ -28,24 +28,6 @@ const useFetch = url => {
   return {loading,data};
 };
 
-// const TEMPUSREAL = [
-//     {
-//         name: 'soldier',
-//         shortName: 'soldier',
-//         image: 'soldier',
-//     },
-//     {
-//         name: 'demoman',
-//         shortName: 'demo',
-//         image: 'demo',
-//     },  
-//     {
-//         name: 'average',
-//         shortName: 'total',
-//         image: 'demoAndSoldier',
-
-//     }
-// ];
 
 function Example() {
 

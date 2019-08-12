@@ -82,9 +82,9 @@ const Matches = () => (
 //END
 
 //Displays a specifically chosen user or match from the database (singular)
-const Profile = () => (
+const Profile = props => (
     <ProfileLayout pattern imageUrl={interlaced}>
-        <ProfilePage></ProfilePage>
+        <ProfilePage {...props}></ProfilePage>
     </ProfileLayout>
 );
 
@@ -115,7 +115,7 @@ const AppRouter = () => {
                 <Route path="/donate" component={Donate} />
                 <Route path="/users" component={Users} />
                 <Route path="/matches" component={Matches} />
-                <Route path="/profile" component={Profile} />
+                <Route path="/profile/:steamID" component={Profile} />
                 <Route path="/settings" component={Settings} />
             </Switch>
         </Router>

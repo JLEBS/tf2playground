@@ -46,5 +46,4 @@ router.get('/:map', (req, res) => {
   })
 })
 
-
 module.exports = router;

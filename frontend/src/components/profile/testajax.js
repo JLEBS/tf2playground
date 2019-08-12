@@ -29,8 +29,9 @@ const useFetch = url => {
 };
 
 
-function Example() {
+function Example(props) {
 
+    console.log('props = ', props);
     const {loading,data} = useFetch('https://tempus.xyz/api/players/steamid/76561198041529904/rank');
 
     return (

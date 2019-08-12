@@ -506,9 +506,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
     ); 
 };
 
-const TempusContainer = ({tempusStats, data}) => {
-
-    console.log(tempusStats);
+const TempusContainer = ({tempusStats}) => {
 
     const TitleColor = {
         'Emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
@@ -572,7 +570,7 @@ const TempusContainer = ({tempusStats, data}) => {
                     </MarginContainer>
                 ))}
             </MarginContainer>
-            <Graph/>
+            <Graph tempusStats={(tempusStats)}/>
         </InternalContainer>
     );
 }
@@ -792,8 +790,8 @@ function CustomTooltip({ payload, label, active, data }) {
     return null;
 }
 
-const Graph = () => {
-
+const Graph = ({tempusHistory}) => {
+    console.log('props are', tempusHistory);
     return (
     <ChartContainer graph>
         <ResponsiveContainer>

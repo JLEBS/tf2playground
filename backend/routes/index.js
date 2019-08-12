@@ -8,10 +8,8 @@ router.get('/', function(req, res, next) {
       if (error) throw error;
       console.log('The solution is: ', results[0].solution);
     });
-    
 
   	res.render('index', { title: 'Express' });
-
 });
 
 module.exports = router;

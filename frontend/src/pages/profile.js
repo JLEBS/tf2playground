@@ -13,71 +13,6 @@ import demo from './../assets/imgs/icons/classes/demo.png';
 import medic from './../assets/imgs/icons/classes/medic.png';
 import demoAndSoldier from './../assets/imgs/icons/classes/demoAndSoldier.png';
 
-const PROFILE_sdsINFOss = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198041529904',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ecb8f3dd89bcd796eaaeb77d5547794053cfb120_full.jpg',
-        steamName: 'eepily',
-        discordName: 'eepily#2645',
-        twitchName: 'eepily',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
-const PROFsdfsfILE_INFO = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198028929109',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/05/051ff2ea8a6ac560f2410dc38952dea2b93122f8_full.jpg',
-        steamName: 'planck',
-        discordName: 'planck#2645',
-        twitchName: 'planccck',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
-const PROFILsdsfE_INFO = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198041285102',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b1/b1869d8a45b5cf9c05f6288f5a18a496d7ef0915_full.jpg',
-        steamName: '009eff',
-        discordName: '009eff#2645',
-        twitchName: '009eff',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
-const PROFILE_INFO = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198001371660',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/82/8238710cae8e9aa37c07adb5362992950cb288fe_full.jpg',
-        steamName: 'Mac',
-        discordName: 'Mac#2645',
-        twitchName: 'Mac',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
-const PROFILE_INFOff = [
-    {
-        steamId: '[U:1:81264176]',
-        steamCommunityId: '76561198046601398',
-        avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f6/f6723c28f8dbc034330c57b4a5a6d6cc9228d683_full.jpg',
-        steamName: 'Boshy',
-        discordName: 'Boshy#2645',
-        twitchName: 'Boshy',
-        status: 1,
-        twitchStatus: true
-    }
-];
-
 const useFetch = url => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -95,11 +30,40 @@ const useFetch = url => {
     return {loading,data};
 };
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 
-    const {loading,data} = useFetch(`https://tempus.xyz/api/players/steamid/${PROFILE_INFO[0].steamCommunityId}/rank`);
+    console.log('props = ', props);
+    const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
+    const fetchProfile = useFetch(`http://localhost:3001/users/${props.match.params.steamID}`);
+    //const fetchTemus = useFetch(`http://localhost:3001/user_tempus/${props.match.params.steamID}`);
 
+    let PROFILE_INFO = [
+        {
+            steamCommunityId: props.match.params.steamID,
+        }
+    ];
+
+    let TEMPUS_HISTORY;
     let TEMPUS_POINTS;
+
+    if(fetchProfile.data) {
+
+
+        PROFILE_INFO = [
+            {
+                steamCommunityId: props.match.params.steamID,
+                avatar: fetchProfile.data.data[0].avatar,
+                steamName: fetchProfile.data.data[0].realname,
+                discordName: 'Mac#2645',
+                twitchName: fetchProfile.data,
+                status: fetchProfile.data.data[0].personstate,
+                twitchStatus: fetchProfile.data.data[0].avatar
+            }
+            
+        ];
+        console.log('DATA', fetchProfile.data.data[0].avatar);
+        
+    }
 
     if (data) {
         
@@ -128,7 +92,13 @@ const ProfilePage = () => {
     return (
         <>
             <RectangleContainer direction='column' maxWidth='600px'>
-                <ProfileContainer userIcons={PROFILE_SVGS} userLinks={PROFILE_URLS} userData={PROFILE_INFO}/>
+                { !fetchProfile && (
+                    <div>Fetching Profile Data...</div>
+                )}
+                { fetchProfile && (
+                    
+                    <ProfileContainer userIcons={PROFILE_SVGS} userLinks={PROFILE_URLS} userData={PROFILE_INFO}/>
+                )}
             </RectangleContainer> 
             <RectangleContainer direction='row' maxWidth='510px' minWidth='300px' header={'Overall'} >
                 <LifeTimeStatContainer lifetimeStats={SVG_ICONS} />
@@ -138,14 +108,15 @@ const ProfilePage = () => {
                     <div>Fetching Tempus Data...</div>
                 )}
                 { data && (
-                    <TempusContainer tempusStats={TEMPUS_POINTS} />
+                    <TempusContainer tempusHistory={TEMPUS_HISTORY} tempusStats={TEMPUS_POINTS} />
                 )}
             </RectangleContainer>
             <RectangleContainer direction='row' maxWidth='800px' minWidth='300px' header={'class wins'}>
                 <ClassContainer classStats={CLASS_STATS} />
             </RectangleContainer>
-            {/* <Example/> */}
+            <Example/>
         </>
     )
 };
+
 export default ProfilePage;

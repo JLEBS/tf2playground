@@ -310,6 +310,7 @@ export const UserValue = styled.div`
 export const TempusTitle = styled.span`
     color: ${props => props.color};
     font-weight: 600;
+    text-transform: capitalize;
     &::before{
         color: ${props => props.bracket};
         content: '[';

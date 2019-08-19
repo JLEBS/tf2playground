@@ -3,6 +3,8 @@ import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleConta
 import {Masonry} from 'react-masonry'
 import Example from './../components/profile/testajax';
 import { ninvoke } from 'q';
+import moment from 'moment';
+import { parse, format } from 'date-fns';
 
 //Class imports
 import scout from './../assets/imgs/icons/classes/scout.png';
@@ -16,7 +18,15 @@ import demoAndSoldier from './../assets/imgs/icons/classes/demoAndSoldier.png';
 const useFetch = url => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [pending, setPending] = useState(false);
+
     async function fetchData() {
+        if (!url) {
+            setPending(true);
+            return;
+        }
+
+        setPending(false);
         const response = await fetch(url);
         const json = await response.json();
         setData(json);
@@ -25,17 +35,25 @@ const useFetch = url => {
 
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [ url ]);
 
-    return {loading,data};
+    return {
+        pending,
+        loading,
+        data
+    };
 };
 
 const ProfilePage = (props) => {
 
-    console.log('props = ', props);
     const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
     const fetchProfile = useFetch(`http://localhost:3001/users/${props.match.params.steamID}`);
-    //const fetchTemus = useFetch(`http://localhost:3001/user_tempus/${props.match.params.steamID}`);
+
+    const fetchTempus = useFetch(
+        fetchProfile.data
+            ? `http://localhost:3001/tempus-history/${fetchProfile.data.data[0].user_id}`
+            : null
+    );
 
     let PROFILE_INFO = [
         {
@@ -43,12 +61,12 @@ const ProfilePage = (props) => {
         }
     ];
 
+    let TEMPUS_DATA;
     let TEMPUS_HISTORY;
     let TEMPUS_POINTS;
 
+    //Fetch Profile Data
     if(fetchProfile.data) {
-
-
         PROFILE_INFO = [
             {
                 steamCommunityId: props.match.params.steamID,
@@ -59,12 +77,58 @@ const ProfilePage = (props) => {
                 status: fetchProfile.data.data[0].personstate,
                 twitchStatus: fetchProfile.data.data[0].avatar
             }
-            
         ];
-        console.log('DATA', fetchProfile.data.data[0].avatar);
-        
     }
 
+    //Fetch SINGLE Tempus Data
+    if(fetchTempus.data) {
+
+        //Most recent tempus record with index of 0
+        TEMPUS_DATA = [
+            {
+                name: 'soldier', 
+                image: soldier,
+                points: fetchTempus.data.data[0].soldier_points,
+                title: fetchTempus.data.data[0].soldier_title,
+                rank: fetchTempus.data.data[0].soldier_rank
+            },
+            { 
+                name: 'demo', 
+                image: soldier,
+                points: fetchTempus.data.data[0].demo_points,
+                title: fetchTempus.data.data[0].demo_title,
+                rank: fetchTempus.data.data[0].demo_rank 
+            },
+            { 
+                name: 'total', 
+                image: demoAndSoldier,
+                points: fetchTempus.data.data[0].total_points, 
+                rank: fetchTempus.data.data[0].total_rank,
+            }
+        ]
+      
+        //All tempus records 
+        TEMPUS_HISTORY = fetchTempus.data.data;
+        TEMPUS_HISTORY.forEach(function(part, index) {
+
+            let date = parse(part.timestamp[index]);
+
+            part.timestamp = format(date, 'MMM');
+
+            console.log(date, index);
+          });
+
+        // chartData = [
+        //     { timestamp: moment('2019-01-01').format('MMM'), soldier_points: 1, soldier_rank: 100, demo_points: 99, demo_rank: 1},
+        //     { timestamp: moment('2019-02-02').format('MMM'), soldier_points: 1, soldier_rank: 352, demo_points: 99, demo_rank: 958},
+        //     { timestamp: moment('2019-03-03').format('MMM'), soldier_points: 1, soldier_rank: 251, demo_points: 99, demo_rank: 1},
+        //     { timestamp: moment('2019-04-04').format('MMM'), soldier_points: 1, soldier_rank: 684, demo_points: 99, demo_rank: 1400},
+        //     { timestamp: moment('2019-05-05').format('MMM'), soldier_points: 1, soldier_rank: 135, demo_points: 99, demo_rank: 1},
+        //     { timestamp: moment('2019-05-06').format('MMM'), soldier_points: 1, soldier_rank: 2, demo_points: 99, demo_rank: 800}
+        // ];
+    }
+
+    //Shouldn't use this anymore, this calls on the API rather than the SQL Database Will be used for registration instead
     if (data) {
         
         const names = {
@@ -87,6 +151,8 @@ const ProfilePage = (props) => {
         TEMPUS_POINTS[1].image = demo;
         TEMPUS_POINTS[2].name = 'total';
         TEMPUS_POINTS[2].image = demoAndSoldier;
+
+        console.log('testing tempus API', TEMPUS_POINTS);
     }
 
     return (
@@ -96,7 +162,6 @@ const ProfilePage = (props) => {
                     <div>Fetching Profile Data...</div>
                 )}
                 { fetchProfile && (
-                    
                     <ProfileContainer userIcons={PROFILE_SVGS} userLinks={PROFILE_URLS} userData={PROFILE_INFO}/>
                 )}
             </RectangleContainer> 
@@ -104,11 +169,11 @@ const ProfilePage = (props) => {
                 <LifeTimeStatContainer lifetimeStats={SVG_ICONS} />
             </RectangleContainer> 
             <RectangleContainer  minWidth='500px' header={'tempus progression'}>
-                { !data && (
+                { !fetchTempus && (
                     <div>Fetching Tempus Data...</div>
                 )}
-                { data && (
-                    <TempusContainer tempusHistory={TEMPUS_HISTORY} tempusStats={TEMPUS_POINTS} />
+                { (fetchTempus.data) && (
+                    <TempusContainer tempusStats={TEMPUS_DATA} tempusHistory={TEMPUS_HISTORY} />
                 )}
             </RectangleContainer>
             <RectangleContainer direction='row' maxWidth='800px' minWidth='300px' header={'class wins'}>

@@ -36,8 +36,8 @@ const Colors = {
             medic: '#008000'
         },
         tempus: {
-            soldier: '#009EFF',
-            demo: '#EB008A',
+            demo: '#009EFF',
+            soldier: '#EB008A',
         }
     },
 

@@ -5,7 +5,6 @@ import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue, TempusTi
 import {MarginContainer} from '../structure/containers';
 import {animated} from 'react-spring';
 import {Trail} from 'react-spring/renderprops';
-import moment from 'moment';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
 import {Chart} from 'react-google-charts';
 import Colors from '../../misc/colors';
@@ -83,21 +82,6 @@ const CLASS_STATS = [
         value: 362,
         color: Colors.standard.class.medic
     }
-];
-
-const chartData = [
-    { Time: moment('2019-01-01').format('MMM'), SoldierPoints: 1, SoldierRank: 708, DemoPoints: 11, DemoRank: 1000},
-    { Time: moment('2019-02-02').format('MMM'), SoldierPoints: 2, SoldierRank: 705, DemoPoints: 22, DemoRank: 958},
-    { Time: moment('2019-03-03').format('MMM'), SoldierPoints: 3, SoldierRank: 677, DemoPoints: 33, DemoRank: 965},
-    { Time: moment('2019-04-04').format('MMM'), SoldierPoints: 4, SoldierRank: 658, DemoPoints: 44, DemoRank: 1210},
-    { Time: moment('2019-05-05').format('MMM'), SoldierPoints: 52321, SoldierRank: 655, DemoPoints: 34543, DemoRank: 987},
-    { Time: moment('2019-06-06').format('MMM'), SoldierPoints: 6, SoldierRank: 659, DemoPoints: 66, DemoRank: 800},
-    // { Time: moment('2019-07-07').format('MMM'), SoldierRank: 650, DemoRank: 700},
-    // { Time: moment('2019-08-08').format('MMM'), SoldierRank: 432, DemoRank: 657},
-    // { Time: moment('2019-09-09').format('MMM'), SoldierRank: 470, DemoRank: 623},
-    // { Time: moment('2019-10-10').format('MMM'), SoldierRank: 553, DemoRank: 588},
-    // { Time: moment('2019-11-11').format('MMM'), SoldierRank: 500, DemoRank: 600},
-    // { Time: moment('2019-12-12').format('MMM'), SoldierRank: 432, DemoRank: 676},
 ];
 
 const SVG_ICONS = [
@@ -506,31 +490,33 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
     ); 
 };
 
-const TempusContainer = ({tempusStats}) => {
+const TempusContainer = ({tempusHistory, tempusStats}) => {
 
     const TitleColor = {
-        'Emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
-        'King' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
-        'Archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
-        'Lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
-        'Duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
-        'Prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
-        'Earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
-        'Sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
-        'Count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
-        'Baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
-        'Knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
-        'Noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
-        'Esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
-        'Jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
-        'Plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
-        'Peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
-        'Peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
+        'emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
+        'king' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
+        'archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
+        'lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
+        'duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
+        'prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
+        'earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
+        'sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
+        'count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
+        'baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
+        'knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
+        'noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
+        'esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
+        'jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
+        'plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
+        'peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
+        'peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
     }
       
     return (
         <InternalContainer>
-       
+            {console.log('testing tempus stats', tempusStats)}
+            {console.log('testing tempus history', tempusHistory)}
+
             <MarginContainer content='space-between' shrink>
                 {tempusStats.map((tempus, i) => (
 
@@ -539,8 +525,8 @@ const TempusContainer = ({tempusStats}) => {
                         <MarginContainer statTitle direction='column' content='flex-start'>
                             <ClassInstance icon imageUrl={tempus.image}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
-                            {  tempus.data.title && (
-                                <TempusTitle bracket={TitleColor[tempus.data.title][0]} color={TitleColor[tempus.data.title][1]}>{tempus.data.title}</TempusTitle> 
+                            {  tempus.title && (
+                                <TempusTitle bracket={TitleColor[tempus.title][0]} color={TitleColor[tempus.title][1]}>{tempus.title}</TempusTitle> 
                             )}   
                         </MarginContainer>
 
@@ -548,7 +534,7 @@ const TempusContainer = ({tempusStats}) => {
                             <UserContent>{tempus.shortName} rank</UserContent>
                             <MarginContainer className='statData'>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.data.rank}/></UserValue>
+                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
                     
@@ -556,7 +542,7 @@ const TempusContainer = ({tempusStats}) => {
                             <UserContent>{tempus.shortName} points</UserContent>
                             <MarginContainer className='statData'>
                                 <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <UserValue> <CountUp duration={3} end={tempus.data.points}/></UserValue>
+                                <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
 
@@ -570,7 +556,7 @@ const TempusContainer = ({tempusStats}) => {
                     </MarginContainer>
                 ))}
             </MarginContainer>
-            <Graph tempusStats={(tempusStats)}/>
+            <Graph tempusHistory={(tempusHistory)}/>
         </InternalContainer>
     );
 }
@@ -768,18 +754,18 @@ function CustomTooltip({ payload, label, active, data }) {
              <p className="intro">{getIntroOfPage(label)}</p>
 
             <span>
-                <ClassInstance icon imageUrl={soldier}/>
+                <ClassInstance icon imageUrl={demo}/>
                 <span className='miniDemoSpan'>
-                    <div>#{`${payload[1].value}`}</div>
-                    <div>{`${payload[1].payload.DemoPoints} Points`}</div>
+                    <div>#{`${payload[0].value}`}</div>
+                    <div>{`${payload[0].payload.demo_points} Points`}</div>
                 </span>
             </span>
 
             <span>
-                <ClassInstance icon imageUrl={demo}/>
+                <ClassInstance icon imageUrl={soldier}/>
                 <span className='miniSoldierSpan'>
-                    <div>#{`${payload[0].value}`}</div>
-                    <div>{`${payload[0].payload.SoldierPoints} Points`}</div>
+                    <div>#{`${payload[1].value}`}</div>
+                    <div>{`${payload[1].payload.soldier_points} Points`}</div>
                 </span>
             </span>     
 
@@ -795,20 +781,18 @@ const Graph = ({tempusHistory}) => {
     return (
     <ChartContainer graph>
         <ResponsiveContainer>
-          <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-            <XAxis dataKey='Time' tick={{ fontSize: 16 }} />
+          <AreaChart data={tempusHistory} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+            <XAxis dataKey='timestamp' tick={{ fontSize: 16 }} />
             <YAxis orientation='left' domain={[0, 'dataMax']} />
             <Tooltip  content={<CustomTooltip />}/>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Area type='monotone' dataKey='DemoRank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
-            <Area type='monotone' dataKey='SoldierRank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='demo_rank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
+            <Area type='monotone' dataKey='soldier_rank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />
           </AreaChart>
         </ResponsiveContainer>
       </ChartContainer>
     );
 };
-
-const O2 = '03448090202';
 
 const InternalContainer = styled.div`
     width: 100%;

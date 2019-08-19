@@ -8,6 +8,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mapsRouter = require('./routes/maps');
+var tempusRouter = require('./routes/tempus');
 
 var app = express();
 app.use(cors());
@@ -37,6 +38,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/maps', mapsRouter);
 app.use('/servers', mapsRouter);
+app.use('/tempus-history', tempusRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

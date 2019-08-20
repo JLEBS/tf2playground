@@ -22,8 +22,10 @@ const Colors = {
         redTeam: '#BB3C3E',
         bluTeam: '#58798A',
         contentBackground: '#E5E5E5',
+        green: '#53A72C',
+        red: '#f30404',
         status: {
-            online: '#6DCD40',
+            online: '#53A72C',
             away: '#E28D0E',
             offline: 'darkgrey'
         },
@@ -41,7 +43,7 @@ const Colors = {
         }
     },
 
-    standarddark: {
+    standarddd: {
         secondary: '#FFFFFF',
         secondaryTransparent: '#ffffffe3',
         primary: '#242424',
@@ -63,8 +65,10 @@ const Colors = {
         redTeam: '#BB3C3E',
         bluTeam: '#58798A',
         contentBackground: '#E5E5E5',
+        green: '#53A72C',
+        red: '#f30404',
         status: {
-            online: '#6DCD40',
+            online: '#53A72C',
             away: '#E28D0E',
             offline: 'darkgrey'
         },

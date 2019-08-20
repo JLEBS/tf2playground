@@ -1,13 +1,15 @@
 import CountUp from 'react-countup';
 import React, {useState, useEffect} from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle} from '../../misc/fonts';
+import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle, Fluctuation} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
-import {animated} from 'react-spring';
-import {Trail} from 'react-spring/renderprops';
+//import {animated} from 'react-spring';
+//import {Trail} from 'react-spring/renderprops';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
-import {Chart} from 'react-google-charts';
+//import {Chart} from 'react-google-charts';
 import Colors from '../../misc/colors';
+import { parse, format } from 'date-fns';
+
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
@@ -16,7 +18,7 @@ import soldier from '../../assets/imgs/icons/classes/soldier.png';
 import pocketSoldier from '../../assets/imgs/icons/classes/pocketSoldier.png';
 import demo from '../../assets/imgs/icons/classes/demo.png';
 import medic from '../../assets/imgs/icons/classes/medic.png';
-import demoAndSoldier from '../../assets/imgs/icons/classes/demoAndSoldier.png';
+//import demoAndSoldier from '../../assets/imgs/icons/classes/demoAndSoldier.png';
 
 //SVG imporst
 import Fist from '../../assets/imgs/icons/svgs/fist.svg';
@@ -25,13 +27,14 @@ import Clock from '../../assets/imgs/icons/svgs/clock.svg';
 import Medal from '../../assets/imgs/icons/svgs/medal.svg';
 import Injured from '../../assets/imgs/icons/svgs/broken_arm.svg';
 import PeopleCarry from '../../assets/imgs/icons/svgs/people_carry.svg';
+import { ReactComponent as Arrow } from '../../assets/imgs/icons/svgs/arrow.svg';
+
 
 //Profile only
 import Twitch from '../../assets/imgs/icons/svgs/twitch.svg';
 import Discord from '../../assets/imgs/icons/svgs/discord.svg';
 import Steam_Logo from '../../assets/imgs/icons/svgs/steam_logo.svg';
-import eepilyProfile from '../../assets/imgs/user/eepilyProfile.jpg';
-
+//import eepilyProfile from '../../assets/imgs/user/eepilyProfile.jpg';
 
 const CLASS_STATS = [
     {   
@@ -459,7 +462,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
 
     return (
         <>
-            <MarginContainer profile direction='row' size='100%' content='space-around'>
+            <MarginContainer profile='true' direction='row' size='100%' content='space-around'>
                 <FlexTesting>
                     <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steamCommunityId} classname='avatar'/>
                     <StatusContainer classname='userActivity'>
@@ -473,13 +476,13 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
                 </FlexTesting>
                 <MarginContainer>
                     {userIcons.map((icon, i) => ( 
-                        <a  key={i} target="_bank" href={icon.url + userData[0].steamCommunityId} >
+                        <a key={i} target="_bank" href={icon.url + userData[0].steamCommunityId} >
                             <ClassInstance svg imageUrl={icon.image}/>
                         </a>
                     ))}
                 </MarginContainer>
             </MarginContainer>
-            <MarginContainer shrink content='space-around'>
+            <MarginContainer shrink='true' content='space-around'>
                 {userLinks.map((link, i) => ( 
                     <LinkTestContainer key={i} target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
                         <UserLinks>{link.name}</UserLinks>
@@ -512,15 +515,18 @@ const TempusContainer = ({tempusHistory, tempusStats}) => {
         'peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
     }
       
+
+
+    
     return (
         <InternalContainer>
             {console.log('testing tempus stats', tempusStats)}
             {console.log('testing tempus history', tempusHistory)}
 
-            <MarginContainer content='space-between' shrink>
+            <MarginContainer content='space-between' shrink='true'>
                 {tempusStats.map((tempus, i) => (
 
-                    <MarginContainer tempus direction='column' wrap key={i}>
+                    <MarginContainer tempus direction='column' wrap='true' key={i}>
                        
                         <MarginContainer statTitle direction='column' content='flex-start'>
                             <ClassInstance icon imageUrl={tempus.image}/>
@@ -545,12 +551,15 @@ const TempusContainer = ({tempusHistory, tempusStats}) => {
                                 <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
-
                         <MarginContainer size='100%' stat column>
                             <UserContent>Fluctuation</UserContent>
                             <MarginContainer className='statData'>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <UserValue>-3</UserValue>
+                                <Fluctuation className={tempus.fluctuation >= 0 ? tempus.fluctuation === 0 ? 'neutral' : 'increase' : 'decrease'}>
+                                    <Arrow/>
+                                    <UserValue positive>
+                                        {tempus.fluctuation}
+                                    </UserValue>
+                                </Fluctuation>
                             </MarginContainer>
                         </MarginContainer>
                     </MarginContainer>
@@ -777,14 +786,16 @@ function CustomTooltip({ payload, label, active, data }) {
 }
 
 const Graph = ({tempusHistory}) => {
-    console.log('props are', tempusHistory);
+   
+    const newTempus = tempusHistory.reverse();
+    
     return (
     <ChartContainer graph>
         <ResponsiveContainer>
-          <AreaChart data={tempusHistory} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-            <XAxis dataKey='timestamp' tick={{ fontSize: 16 }} />
-            <YAxis orientation='left' domain={[0, 'dataMax']} />
-            <Tooltip  content={<CustomTooltip />}/>
+          <AreaChart data={newTempus} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+            <XAxis dataKey='formattedDate' tick={{ fontSize: 16 }} />
+            <YAxis tickCount={10} reversed orientation='left' domain={[0, 'dataMax + 1000']} />
+            <Tooltip content={<CustomTooltip />}/>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Area type='monotone' dataKey='demo_rank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
             <Area type='monotone' dataKey='soldier_rank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />

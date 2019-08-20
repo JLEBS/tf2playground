@@ -284,8 +284,7 @@ export const UserValue = styled.div`
     width:60px;
     text-align: center;
     text-transform: uppercase;
-    color: ${Colors.standard.secondary};
-
+    
     ${props => props.percentage && css`
         max-width: 40px;
         position: absolute;
@@ -320,4 +319,25 @@ export const TempusTitle = styled.span`
         color: ${props => props.bracket};
         content: ']';
     }
-`
+`;
+
+export const Fluctuation = styled.div`
+    display: flex;
+
+    &.neutral{
+        svg{
+            transform: rotate(90deg);
+        }
+    };
+
+    &.increase{
+        color: ${Colors.standard.green};
+    };
+
+    &.decrease{
+        color: ${Colors.standard.red};
+        svg{
+            transform: rotate(180deg);
+        }
+    };
+`;

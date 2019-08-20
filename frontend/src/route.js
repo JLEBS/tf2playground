@@ -83,7 +83,7 @@ const Matches = () => (
 
 //Displays a specifically chosen user or match from the database (singular)
 const Profile = props => (
-    <ProfileLayout pattern imageUrl={interlaced}>
+    <ProfileLayout pattern='true' imageUrl={interlaced}>
         <ProfilePage {...props}></ProfilePage>
     </ProfileLayout>
 );

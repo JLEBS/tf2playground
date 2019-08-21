@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, {css, keyframes} from 'styled-components';
 import Colors from '../../misc/colors';
 import {fluidRange} from 'polished';
 
@@ -171,6 +171,15 @@ const MarginContainer = styled.div`
         )}
     `}
 `;
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 //Centers content to middle of the page
 const PageCenter = styled.div`
@@ -180,6 +189,10 @@ const PageCenter = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
+
+    .tf2-logo{
+        animation:${rotate} 5s linear infinite;
+    }
 `;
 
 const TItleBanner = styled.div`

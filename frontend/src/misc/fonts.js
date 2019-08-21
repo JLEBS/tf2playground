@@ -332,6 +332,9 @@ export const Fluctuation = styled.div`
 
     &.increase{
         color: ${Colors.standard.green};
+       .tempus-change::before{
+            content: '+';
+        }
     };
 
     &.decrease{

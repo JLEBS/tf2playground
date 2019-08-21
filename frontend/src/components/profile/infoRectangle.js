@@ -10,7 +10,6 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 import Colors from '../../misc/colors';
 import { parse, format } from 'date-fns';
 
-
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';
 import pocketScout from '../../assets/imgs/icons/classes/pocketScout.png';
@@ -18,7 +17,7 @@ import soldier from '../../assets/imgs/icons/classes/soldier.png';
 import pocketSoldier from '../../assets/imgs/icons/classes/pocketSoldier.png';
 import demo from '../../assets/imgs/icons/classes/demo.png';
 import medic from '../../assets/imgs/icons/classes/medic.png';
-//import demoAndSoldier from '../../assets/imgs/icons/classes/demoAndSoldier.png';
+import demoAndSoldier from '../../assets/imgs/icons/classes/demoAndSoldier.png';
 
 //SVG imporst
 import Fist from '../../assets/imgs/icons/svgs/fist.svg';
@@ -27,14 +26,14 @@ import Clock from '../../assets/imgs/icons/svgs/clock.svg';
 import Medal from '../../assets/imgs/icons/svgs/medal.svg';
 import Injured from '../../assets/imgs/icons/svgs/broken_arm.svg';
 import PeopleCarry from '../../assets/imgs/icons/svgs/people_carry.svg';
-import { ReactComponent as Arrow } from '../../assets/imgs/icons/svgs/arrow.svg';
-
+import SwordMultiple from '../../assets/imgs/icons/svgs/sword-multiple.svg';
+import SwordSingle from '../../assets/imgs/icons/svgs/sword-single.svg';
+import Handshake from '../../assets/imgs/icons/svgs/hands-helping.svg';
 
 //Profile only
 import Twitch from '../../assets/imgs/icons/svgs/twitch.svg';
 import Discord from '../../assets/imgs/icons/svgs/discord.svg';
 import Steam_Logo from '../../assets/imgs/icons/svgs/steam_logo.svg';
-//import eepilyProfile from '../../assets/imgs/user/eepilyProfile.jpg';
 
 const CLASS_STATS = [
     {   
@@ -111,24 +110,45 @@ const SVG_ICONS = [
     },
     {
         id: 4,
-        name: 'ETF2L div',
-        description: 'medal',
-        image: Medal,
-        testData: 2
-    },
-    {
-        id: 5,
         name: 'disconnects',
         description: 'brokenarm',
         image: Injured,
         testData: 3
     },
     {
-        id: 6,
+        id: 5,
         name: 'sub count',
         description: 'carry',
         image: PeopleCarry,
         testData: 7
+    },
+    {
+        id: 6,
+        name: 'Most played',
+        description: 'medal',
+        image: medic,
+        testData: 823
+    },
+    {
+        id: 7,
+        name: 'kills',
+        description: 'sword',
+        image: SwordSingle,
+        testData: 7392
+    },
+    {
+        id: 9,
+        name: 'assists',
+        description: 'fist raised',
+        image: Handshake,
+        testData: 130353
+    },
+    {
+        id: 9,
+        name: 'top killstreak',
+        description: 'fist raised',
+        image: SwordMultiple,
+        testData: 9
     },
 ];
 
@@ -226,23 +246,6 @@ const ClassInstance = styled.div`
     `}
 `;
 
-
-const OuterDivForReal = styled.div`
-    flex-direction: row;
-    display: flex;
-    justify-content:space-between;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
-    ${props => props.maxWidth && css`
-        max-width: 240px
-
-        @media(max-width: 510px){
-            max-width: 100%;
-        }
-    `}
-`;
-
 const ChartContainer = styled.div`
     height:300px;
     padding-top:30px;
@@ -285,56 +288,6 @@ const ChartContainer = styled.div`
         font-weight: 100;
     }
 `
-const ToolTipContainer = styled.div`
-    font-style: normal;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: capitalize;
-    text-align: center;
-    color: ${Colors.standard.secondary};
-    background-color: ${Colors.standard.primaryTransparent}
-    outline:2px dotted ${Colors.standard.lightGrey};
-    padding:6px;
-    min-width:100px;
-
-    span{
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width:60px
-        padding: 3px;
-        
-    }
-    p {
-
-        padding-bottom: 10px;
-    }
-    .intro{
-        color: ${Colors.standard.secondary};
-    }
-
-    .miniSoldierSpan{
-        color:${Colors.standard.tempus.soldier}
-    }
-   
-    .miniDemoSpan {
-        color:${Colors.standard.tempus.demo};
-    }
-
-    .miniSoldierSpan, .miniDemoSpan {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        div:nth-child(2){
-            font-size: 12px;
-            font-weight: 600;
-            color: ${Colors.standard.secondary};
-            padding:6px;
-        }
-    }
-`;
 
 const StatusContainer = styled.div`
     display: flex;
@@ -390,6 +343,15 @@ const FlexTesting = styled.div`
     @media (max-width: 510px){
         width: 100%;
     }
+`;
+
+const InternalContainer = styled.div`
+    width: 100%;
+
+    ${props => props.flex && css`
+        display flex;
+        flex-direction: row;
+    `}
 `;
 
 //Steam External Links
@@ -462,21 +424,22 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
 
     return (
         <>
+        {console.log('userData', userData)}
             <MarginContainer profile='true' direction='row' size='100%' content='space-around'>
                 <FlexTesting>
-                    <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steamCommunityId} classname='avatar'/>
+                    <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steam64Id} classname='avatar'/>
                     <StatusContainer classname='userActivity'>
                         <span>
-                            {userData[0].steamName}
+                            {userData[0].realname}
                         </span>
                         <span>
-                            {status[userData[0].status]}
+                            {status[userData[0].personstate]}
                         </span>
                     </StatusContainer>
                 </FlexTesting>
                 <MarginContainer>
                     {userIcons.map((icon, i) => ( 
-                        <a key={i} target="_bank" href={icon.url + userData[0].steamCommunityId} >
+                        <a key={i} target="_bank" href={icon.url + userData[0].steam64Id} >
                             <ClassInstance svg imageUrl={icon.image}/>
                         </a>
                     ))}
@@ -484,7 +447,7 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
             </MarginContainer>
             <MarginContainer shrink='true' content='space-around'>
                 {userLinks.map((link, i) => ( 
-                    <LinkTestContainer key={i} target='_blank'  href={link.url + userData[0].steamCommunityId} key={i}>
+                    <LinkTestContainer key={i} target='_blank'  href={link.url + userData[0].steam64Id} key={i}>
                         <UserLinks>{link.name}</UserLinks>
                     </LinkTestContainer>
                 ))}
@@ -492,84 +455,6 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
         </>
     ); 
 };
-
-const TempusContainer = ({tempusHistory, tempusStats}) => {
-
-    const TitleColor = {
-        'emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
-        'king' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
-        'archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
-        'lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
-        'duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
-        'prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
-        'earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
-        'sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
-        'count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
-        'baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
-        'knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
-        'noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
-        'esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
-        'jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
-        'plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
-        'peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
-        'peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
-    }
-      
-
-
-    
-    return (
-        <InternalContainer>
-            {console.log('testing tempus stats', tempusStats)}
-            {console.log('testing tempus history', tempusHistory)}
-
-            <MarginContainer content='space-between' shrink='true'>
-                {tempusStats.map((tempus, i) => (
-
-                    <MarginContainer tempus direction='column' wrap='true' key={i}>
-                       
-                        <MarginContainer statTitle direction='column' content='flex-start'>
-                            <ClassInstance icon imageUrl={tempus.image}/>
-                            <UserSubHeading>{tempus.name}</UserSubHeading>
-                            {  tempus.title && (
-                                <TempusTitle bracket={TitleColor[tempus.title][0]} color={TitleColor[tempus.title][1]}>{tempus.title}</TempusTitle> 
-                            )}   
-                        </MarginContainer>
-
-                        <MarginContainer size='100%' stat column>
-                            <UserContent>{tempus.shortName} rank</UserContent>
-                            <MarginContainer className='statData'>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[3].image}/>
-                                <UserValue rank><CountUp useEasing={false} start={69053} duration={3} end={tempus.rank}/></UserValue>
-                            </MarginContainer>
-                        </MarginContainer>
-                    
-                        <MarginContainer size='100%' stat column>
-                            <UserContent>{tempus.shortName} points</UserContent>
-                            <MarginContainer className='statData'>
-                                <ClassInstance tinysvg imageUrl={SVG_ICONS[1].image}/>
-                                <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
-                            </MarginContainer>
-                        </MarginContainer>
-                        <MarginContainer size='100%' stat column>
-                            <UserContent>Fluctuation</UserContent>
-                            <MarginContainer className='statData'>
-                                <Fluctuation className={tempus.fluctuation >= 0 ? tempus.fluctuation === 0 ? 'neutral' : 'increase' : 'decrease'}>
-                                    <Arrow/>
-                                    <UserValue positive>
-                                        {tempus.fluctuation}
-                                    </UserValue>
-                                </Fluctuation>
-                            </MarginContainer>
-                        </MarginContainer>
-                    </MarginContainer>
-                ))}
-            </MarginContainer>
-            <Graph tempusHistory={(tempusHistory)}/>
-        </InternalContainer>
-    );
-}
-
 
 
 const LifeTimeStatContainer = ({lifetimeStats}) => {
@@ -715,107 +600,9 @@ const ClassContainer = ({classStats}) => {
     );
 }
 
-
-//Convert to switch statements
-function getIntroOfPage(label) {
-    if (label === 'Jan') {
-        return `January`;
-    } 
-    if (label === 'Feb') {
-        return `Febuary`;
-    } 
-    if (label === 'Mar') {
-        return `March`;
-    } 
-    if (label === 'Apr') {
-        return `April`;
-    } 
-    if (label === 'May') {
-        return `May`;
-    } 
-    if (label === 'Jun') {
-        return `June`;
-    }
-    if (label === 'Jul') {
-        return `July`;
-    }
-    if (label === 'Aug') {
-        return `August`;
-    }
-    if (label === 'Sep') {
-        return `September`;
-    }
-    if (label === 'Oct') {
-        return `October`;
-    }
-    if (label === 'Nov') {
-        return `November`;
-    }
-    if (label === 'Dec') {
-        return `December`;
-    }
-  }
-
-function CustomTooltip({ payload, label, active, data }) {
-    if (active) {
-      return (
-        <ToolTipContainer>
-             <p className="intro">{getIntroOfPage(label)}</p>
-
-            <span>
-                <ClassInstance icon imageUrl={demo}/>
-                <span className='miniDemoSpan'>
-                    <div>#{`${payload[0].value}`}</div>
-                    <div>{`${payload[0].payload.demo_points} Points`}</div>
-                </span>
-            </span>
-
-            <span>
-                <ClassInstance icon imageUrl={soldier}/>
-                <span className='miniSoldierSpan'>
-                    <div>#{`${payload[1].value}`}</div>
-                    <div>{`${payload[1].payload.soldier_points} Points`}</div>
-                </span>
-            </span>     
-
-     
-        </ToolTipContainer>
-      );
-    }
-    return null;
-}
-
-const Graph = ({tempusHistory}) => {
-   
-    const newTempus = tempusHistory.reverse();
-    
-    return (
-    <ChartContainer graph>
-        <ResponsiveContainer>
-          <AreaChart data={newTempus} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-            <XAxis dataKey='formattedDate' tick={{ fontSize: 16 }} />
-            <YAxis tickCount={10} reversed orientation='left' domain={[0, 'dataMax + 1000']} />
-            <Tooltip content={<CustomTooltip />}/>
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Area type='monotone' dataKey='demo_rank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
-            <Area type='monotone' dataKey='soldier_rank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    );
-};
-
-const InternalContainer = styled.div`
-    width: 100%;
-
-    ${props => props.flex && css`
-        display flex;
-        flex-direction: row;
-    `}
-`;
-
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
     <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>
+   {console.log('LOADED WE HAVE RENDERED')}
         {header && (
             <UserHeading heading>
                 {header}
@@ -827,4 +614,4 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
     </InfoRectangle>
 );
 
-export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, TempusContainer, Graph, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_SVGS}
+export { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_SVGS}

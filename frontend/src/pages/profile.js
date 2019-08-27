@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ProfileContainer, ClassContainer, LifeTimeStatContainer, RectangleContainer, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_SVGS} from './../components/profile/infoRectangle';
+import { ClassContainer, RectangleContainer, CLASS_STATS, SVG_ICONS, PROFILE_URLS, PROFILE_SVGS} from './../components/profile/infoRectangle';
 import TempusContainer from './../components/profile/data-containers/tempus-data';
+import ProfileContainer from './../components/profile/data-containers/profile-data';
+import LifeTimeStatContainer from './../components/profile/data-containers/life-time-stats';
+
 //import {Masonry} from 'react-masonry'
 import { PageCenter, MarginContainer} from './../components/structure/containers';
 import { ReactComponent as TF2Logo } from '../assets/imgs/icons/svgs/tf2-logo.svg';
@@ -43,8 +46,45 @@ const ProfilePage = (props) => {
             ? `http://localhost:3001/tempus-history/${fetchProfile.data.data[0].user_id}`
             : null
     );
+    
+    const fetchPocketScout = useFetch(
+        fetchProfile.data
+            ? `http://localhost:3001/pocket-scout/${fetchProfile.data.data[0].user_id}`
+            : null
+    );
 
-    if (!fetchProfile.data || !fetchTempus.data) {
+    // const fetchFlankScout = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/flank-scout/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
+
+    // const fetchPocketSoldier = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/pocket-soldier/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
+
+    // const fetchRoamerSoldier = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/roaming-soldier/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
+
+    // const fetchDemo = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/demo/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
+
+    // const fetchMedic = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/medic/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
+    
+
+    if (!fetchProfile.data || !fetchTempus.data || !fetchPocketScout.data) {
         return <PageCenter><MarginContainer direction='column' content='center'><TF2Logo/><div>Fetching Data...</div></MarginContainer></PageCenter>
     }
     
@@ -69,29 +109,29 @@ const ProfilePage = (props) => {
 export default ProfilePage;
 
 //Shouldn't use this anymore, this calls on the API rather than the SQL Database Will be used for registration instead
-const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
-if (data) {
+// const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
+// if (data) {
     
-    const names = {
-        3: 'data',
-        4: 'data',
-        'total': 'data'
-    }
+//     const names = {
+//         3: 'data',
+//         4: 'data',
+//         'total': 'data'
+//     }
 
-    const TEMPUS_INFO = {...data.class_rank_info};
-    TEMPUS_INFO.total = {...data.rank_info};
+//     const TEMPUS_INFO = {...data.class_rank_info};
+//     TEMPUS_INFO.total = {...data.rank_info};
 
-    TEMPUS_POINTS = Object.keys(TEMPUS_INFO).map((key) => {
-        const newKey = names[key] || key;
-        return { [newKey] : TEMPUS_INFO[key] };
-    });
+//     TEMPUS_POINTS = Object.keys(TEMPUS_INFO).map((key) => {
+//         const newKey = names[key] || key;
+//         return { [newKey] : TEMPUS_INFO[key] };
+//     });
 
-    TEMPUS_POINTS[0].name = 'soldier';
-    TEMPUS_POINTS[0].image = soldier;
-    TEMPUS_POINTS[1].name = 'demo';
-    TEMPUS_POINTS[1].image = demo;
-    TEMPUS_POINTS[2].name = 'total';
-    TEMPUS_POINTS[2].image = demoAndSoldier;
+//     TEMPUS_POINTS[0].name = 'soldier';
+//     TEMPUS_POINTS[0].image = soldier;
+//     TEMPUS_POINTS[1].name = 'demo';
+//     TEMPUS_POINTS[1].image = demo;
+//     TEMPUS_POINTS[2].name = 'total';
+//     TEMPUS_POINTS[2].image = demoAndSoldier;
 
-    console.log('testing tempus API', TEMPUS_POINTS);
-}
+//     console.log('testing tempus API', TEMPUS_POINTS);
+// }

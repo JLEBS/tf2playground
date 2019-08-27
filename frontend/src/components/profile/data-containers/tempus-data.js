@@ -223,7 +223,7 @@ const TempusContainer = ({tempusData}) => {
     ];
 
     //Get the Tempus title color code
-    const TitleColor = {
+    const TempusTitleColor = {
         'emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
         'king' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
         'archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
@@ -254,7 +254,7 @@ const TempusContainer = ({tempusData}) => {
                             <ClassInstance icon imageUrl={tempus.image}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
                             {  tempus.title && (
-                                <TempusTitle bracket={TitleColor[tempus.title][0]} color={TitleColor[tempus.title][1]}>{tempus.title}</TempusTitle> 
+                                <TempusTitle bracket={TempusTitleColor[tempus.title][0]} color={TempusTitleColor[tempus.title][1]}>{tempus.title}</TempusTitle> 
                             )}   
                         </MarginContainer>
 

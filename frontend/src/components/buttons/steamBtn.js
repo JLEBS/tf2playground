@@ -4,7 +4,7 @@ import Colors from './../../misc/colors';
 import { LobbyFont, BtnText } from './../../misc/fonts';
 import {ReactComponent as Steam} from '../../assets/imgs/icons/svgs/steam_logo.svg';
 
-const SteamBtn = styled.button`
+const SteamBtn = styled.a`
   
     color: ${Colors.standard.secondary};
     background-color: ${Colors.standard.primary};
@@ -40,7 +40,7 @@ const SteamLogo = styled(Steam)`
 const LoginBtn = ({ smallbtn, largebtn }) => {
     //console.log(largebtn)
     return (
-        <SteamBtn smallbtn={smallbtn} largebtn={largebtn}>
+        <SteamBtn href='http://localhost:3001/login/steam' smallbtn={smallbtn} largebtn={largebtn}>
             <ButtonContainer>
                 <SteamLogo/>
                 <BtnText>Sign In</BtnText>

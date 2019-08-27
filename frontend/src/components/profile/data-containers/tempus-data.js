@@ -11,12 +11,8 @@ import { parse, format } from 'date-fns';
 import soldier from '../../../assets/imgs/icons/classes/soldier.png';
 import demo from '../../../assets/imgs/icons/classes/demo.png';
 import demoAndSoldier from '../../../assets/imgs/icons/classes/demoAndSoldier.png';
-import Fist from '../../../assets/imgs/icons/svgs/fist.svg';
 import Trophy from '../../../assets/imgs/icons/svgs/trophy.svg';
-import Clock from '../../../assets/imgs/icons/svgs/clock.svg';
 import Medal from '../../../assets/imgs/icons/svgs/medal.svg';
-import Injured from '../../../assets/imgs/icons/svgs/broken_arm.svg';
-import PeopleCarry from '../../../assets/imgs/icons/svgs/people_carry.svg';
 import { ReactComponent as Arrow } from '../../../assets/imgs/icons/svgs/arrow.svg';
 
 const InternalContainer = styled.div`

@@ -69,29 +69,29 @@ const ProfilePage = (props) => {
 export default ProfilePage;
 
 //Shouldn't use this anymore, this calls on the API rather than the SQL Database Will be used for registration instead
-// const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
-// if (data) {
+const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
+if (data) {
     
-//     const names = {
-//         3: 'data',
-//         4: 'data',
-//         'total': 'data'
-//     }
+    const names = {
+        3: 'data',
+        4: 'data',
+        'total': 'data'
+    }
 
-//     const TEMPUS_INFO = {...data.class_rank_info};
-//     TEMPUS_INFO.total = {...data.rank_info};
+    const TEMPUS_INFO = {...data.class_rank_info};
+    TEMPUS_INFO.total = {...data.rank_info};
 
-//     TEMPUS_POINTS = Object.keys(TEMPUS_INFO).map((key) => {
-//         const newKey = names[key] || key;
-//         return { [newKey] : TEMPUS_INFO[key] };
-//     });
+    TEMPUS_POINTS = Object.keys(TEMPUS_INFO).map((key) => {
+        const newKey = names[key] || key;
+        return { [newKey] : TEMPUS_INFO[key] };
+    });
 
-//     TEMPUS_POINTS[0].name = 'soldier';
-//     TEMPUS_POINTS[0].image = soldier;
-//     TEMPUS_POINTS[1].name = 'demo';
-//     TEMPUS_POINTS[1].image = demo;
-//     TEMPUS_POINTS[2].name = 'total';
-//     TEMPUS_POINTS[2].image = demoAndSoldier;
+    TEMPUS_POINTS[0].name = 'soldier';
+    TEMPUS_POINTS[0].image = soldier;
+    TEMPUS_POINTS[1].name = 'demo';
+    TEMPUS_POINTS[1].image = demo;
+    TEMPUS_POINTS[2].name = 'total';
+    TEMPUS_POINTS[2].image = demoAndSoldier;
 
-//     console.log('testing tempus API', TEMPUS_POINTS);
-// }
+    console.log('testing tempus API', TEMPUS_POINTS);
+}

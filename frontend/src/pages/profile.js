@@ -47,11 +47,11 @@ const ProfilePage = (props) => {
             : null
     );
     
-    const fetchPocketScout = useFetch(
-        fetchProfile.data
-            ? `http://localhost:3001/pocket-scout/${fetchProfile.data.data[0].user_id}`
-            : null
-    );
+    // const fetchPocketScout = useFetch(
+    //     fetchProfile.data
+    //         ? `http://localhost:3001/pocket-scout/${fetchProfile.data.data[0].user_id}`
+    //         : null
+    // );
 
     // const fetchFlankScout = useFetch(
     //     fetchProfile.data
@@ -84,7 +84,7 @@ const ProfilePage = (props) => {
     // );
     
 
-    if (!fetchProfile.data || !fetchTempus.data || !fetchPocketScout.data) {
+    if (!fetchProfile.data || !fetchTempus.data) {
         return <PageCenter><MarginContainer direction='column' content='center'><TF2Logo/><div>Fetching Data...</div></MarginContainer></PageCenter>
     }
     

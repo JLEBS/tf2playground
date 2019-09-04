@@ -194,7 +194,9 @@ function CustomTooltip({ payload, label, active }) {
 }
 
 const TempusContainer = ({tempusData}) => {
-    
+
+    let multipleRecords = false; 
+
     //Get Current Tempus Rank
     const TEMPUS_CURRENT = [
         {
@@ -202,45 +204,50 @@ const TempusContainer = ({tempusData}) => {
             image: soldier,
             points: tempusData[0].soldier_points,
             title: tempusData[0].soldier_title,
-            rank: tempusData[0].soldier_rank,
-            fluctuation: tempusData[1].soldier_rank - tempusData[0].soldier_rank
+            rank: tempusData[0].soldier_rank
         },
         { 
             name: 'demo', 
             image: demo,
             points: tempusData[0].demo_points,
             title: tempusData[0].demo_title,
-            rank: tempusData[0].demo_rank,
-            fluctuation: tempusData[1].demo_rank - tempusData[0].demo_rank
+            rank: tempusData[0].demo_rank
         },
         { 
             name: 'total', 
             image: demoAndSoldier,
             points: tempusData[0].total_points, 
-            rank: tempusData[0].total_rank,
-            fluctuation: tempusData[1].total_rank - tempusData[0].total_rank
+            rank: tempusData[0].total_rank
         }
     ];
 
+    if(tempusData[1]){
+        multipleRecords = true;
+
+        TEMPUS_CURRENT[0].fluctuation = tempusData[1].soldier_rank - tempusData[0].soldier_rank;
+        TEMPUS_CURRENT[1].fluctuation = tempusData[1].demo_rank - tempusData[0].demo_rank;
+        TEMPUS_CURRENT[2].fluctuation = tempusData[1].total_rank - tempusData[0].total_rank;
+    }
+
     //Get the Tempus title color code
     const TempusTitleColor = {
-        'emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
-        'king' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
-        'archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
-        'lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
-        'duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
-        'prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
-        'earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
-        'sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
-        'count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
-        'baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
-        'knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
-        'noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
-        'esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
-        'jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
-        'plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
-        'peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
-        'peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
+        'Emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
+        'King' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
+        'Archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
+        'Lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
+        'Duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
+        'Prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
+        'Earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
+        'Sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
+        'Count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
+        'Baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
+        'Knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
+        'Noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
+        'Esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
+        'Jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
+        'Plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
+        'Peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
+        'Peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
     }
     
     return (
@@ -273,6 +280,7 @@ const TempusContainer = ({tempusData}) => {
                                 <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
+                        {multipleRecords === true && (
                         <MarginContainer size='100%' stat column>
                             <UserContent>Fluctuation</UserContent>
                             <MarginContainer className='statData'>
@@ -284,10 +292,14 @@ const TempusContainer = ({tempusData}) => {
                                 </Fluctuation>
                             </MarginContainer>
                         </MarginContainer>
+                        )}
                     </MarginContainer>
                 ))}
             </MarginContainer>
+            {multipleRecords === true && (
             <Graph tempusHistory={(tempusData)}/>
+            )}
+
         </InternalContainer>
     );
 }

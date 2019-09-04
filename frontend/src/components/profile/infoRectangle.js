@@ -1,14 +1,13 @@
 import CountUp from 'react-countup';
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import {UserHeading, UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle, Fluctuation} from '../../misc/fonts';
+import {UserHeading, UserSubHeading, UserContent, UserValue} from '../../misc/fonts';
 import {MarginContainer} from '../structure/containers';
 //import {animated} from 'react-spring';
 //import {Trail} from 'react-spring/renderprops';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Sector, Cell } from 'recharts';
+import { PieChart, Pie, Sector, Cell } from 'recharts';
 //import {Chart} from 'react-google-charts';
 import Colors from '../../misc/colors';
-import { parse, format } from 'date-fns';
 
 //Class imports
 import scout from '../../assets/imgs/icons/classes/scout.png';

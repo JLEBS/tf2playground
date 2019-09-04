@@ -45,7 +45,7 @@ const StatusContainer = styled.div`
 
          ::before{
             content: '';
-            background-color: ${Colors.standard.status.online};
+            background-color: ${props => props.color};
             height: 12px;
             width: 12px;
             border-radius: 10px;
@@ -105,25 +105,27 @@ const LinkTestContainer = styled.a`
 `;
 
 const ProfileContainer = ({userLinks, userData, userIcons}) => {
-
     const status = {
-        0: 'offline',
-        1: 'online',
-        2: 'away'
+        0: ['Offline', Colors.standard.secondary],
+        1: ['Online', 'green'],
+        2: ['Busy', 'orange'],
+        3: ['Away', 'grey'],
+        4: ['Snooze', 'grey'],
+        5: ['Online', 'green'],
+        6: ['Online', 'green']   
     }
-
     return (
         <>
         {console.log('userData', userData)}
             <MarginContainer profile='true' direction='row' size='100%' content='space-around'>
                 <FlexTesting>
-                    <Avatar img={userData[0].avatar} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steam64Id} classname='avatar'/>
-                    <StatusContainer classname='userActivity'>
+                    <Avatar img={userData[0].avatarfull} target='_blank' href={'https://steamcommunity.com/profiles/' + userData[0].steam64Id} classname='avatar'/>
+                    <StatusContainer classname='userActivity' color={status[userData[0].personstate][1]}>
                         <span>
-                            {userData[0].realname}
+                            {userData[0].personname}
                         </span>
                         <span>
-                            {status[userData[0].personstate]}
+                            {status[userData[0].personstate][0]}
                         </span>
                     </StatusContainer>
                 </FlexTesting>

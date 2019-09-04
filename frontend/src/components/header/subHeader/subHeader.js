@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import { CSSTransition } from 'react-transition-group';
 import Colors from '../../../misc/colors';
 import { LobbyFont } from '../../../misc/fonts';
-import {MarginContainer} from '../../structure/containers';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
-import posed, {PoseGroup, Transition} from 'react-pose';
 
 const ChatMod = styled(Chat)`
     height: 25px;

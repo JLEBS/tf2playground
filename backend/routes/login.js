@@ -1,5 +1,5 @@
 var app = require('../app')
-var {getUser, addUser, updateUser} = require('../lib/user');
+var {getUser, addUser, updateUser, getGameHours} = require('../lib/user');
 var express = require('express'), router = express.Router(), passport = require('passport');
 
 // GET /auth/steam
@@ -26,11 +26,11 @@ router.get('/steam/return',
   // function(req, res, next) {
 
   passport.authenticate('steam', { failureRedirect: '/steam/login' }),
-  
+
   async function(req, res) {
     try {
       const existingUser = await getUser(app.connection, req.user._json.steamid)
-      console.log('running', existingUser)
+      console.log('running', getGameHours)
 
       if (!existingUser.length) {
         await addUser(app.connection, req.user._json)

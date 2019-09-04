@@ -407,9 +407,10 @@ class TwoLevelPieChart extends React.Component{
                         innerRadius={65}
                         outerRadius={90} 
                         onMouseEnter={this.onPieEnter}
+                        dataKey="value"
                     >
                     {this.props.data.map((stat, i) => (
-                        <Cell className={'segment-' + i} fill={stat.color}/>
+                        <Cell className={'segment-' + i} fill={stat.color}  key={i}/>
                     ))}
                     </Pie>
                 </PieChart>

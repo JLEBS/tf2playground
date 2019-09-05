@@ -49,7 +49,7 @@ const Rules = () => (
 );
 
 const Stats = () => (
-    <TextLayout imageUrl={process}>
+    <TextLayout imageUrl={grannary}>
         <StatPage/>
     </TextLayout>
 );

@@ -8,7 +8,6 @@ var ensureAuthenticated = require('./middleware/authenticate-user');
 
 // //Steam requirements
 var passport = require('passport')
-var util = require('util')
 var session = require('express-session')
 var SteamStrategy = require('passport-steam').Strategy;
 
@@ -54,6 +53,8 @@ var steamLogin = require('./routes/login');
 // var medicRouter = require('./routes/medic');
 
 var app = express();
+
+var expressWs = require ('express-ws')(app);
 app.use(cors());
 
 var mysql      = require('mysql');
@@ -103,6 +104,24 @@ app.get('/account', ensureAuthenticated, function(req, res){
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+});
+
+app.use(function (req, res, next) {
+  console.log('middleware');
+  req.testing = 'testing';
+  return next();
+});
+
+app.get('/', function(req, res, next){
+  console.log('get route', req.testing);
+  res.end();
+});
+
+app.ws('/echo', function(ws, req) {
+  ws.on('message', function(msg) {
+    console.log(msg);
+  });
+  console.log('socket', req.testing);
 });
 
 

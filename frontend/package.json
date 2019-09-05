@@ -20,6 +20,7 @@
     "react-scripts": "3.0.0",
     "react-spring": "^8.0.20",
     "react-transition-group": "^4.0.1",
+    "react-use-websocket": "^0.9.4",
     "recharts": "^1.6.0",
     "styled-components": "^4.2.0",
     "typescript": "^3.5.3"

@@ -10,12 +10,12 @@ const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
 const HomePage = () => {
-const [socketUrl, setSocketUrl] = useState('ws://localhost:3001/echo'); //Public API that will echo messages sent to it back to the client
+const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
  
   const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('wss://demos.kaazing.com/echo'), []);
-  const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
+  const handleClickSendMessage = useCallback(() => sendMessage('Hello this worked'), []);
  
   useEffect(() => {
     if (lastMessage !== null) {

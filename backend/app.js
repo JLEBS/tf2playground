@@ -4,12 +4,46 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var ensureAuthenticated = require('./middleware/authenticate-user');
 
-// //Steam requirements
+//Steam requirements
+var ensureAuthenticated = require('./middleware/authenticate-user');
 var passport = require('passport')
 var session = require('express-session')
 var SteamStrategy = require('passport-steam').Strategy;
+
+//WebSocked
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 4000 });
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+ 
+  ws.send('something');
+});
+
+// const ws = new WebSocket('wss://echo.websocket.org/', {
+//   origin: 'http://localhost:3000/'
+// });
+
+// ws.on('open', function open() {
+//   console.log('connected');
+//   ws.send(Date.now());
+// });
+
+// ws.on('close', function close() {
+//   console.log('disconnected');
+// });
+
+// ws.on('message', function incoming(data) {
+//   console.log(`Roundtrip time: ${Date.now() - data} ms`);
+
+//   setTimeout(function timeout() {
+//     ws.send(Date.now());
+//   }, 500);
+// });
+
 
 passport.serializeUser(function(user, done) {
   done(null, user);

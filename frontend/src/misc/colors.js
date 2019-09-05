@@ -11,6 +11,8 @@ const Colors = {
         oddRectangle: '#1E1E1E',
         classSelection: '#141414',
         playerElipse: '#4F4F4F',
+        discord: '#7289DA',
+        twitch: '#6441A4',
         playerSubHeading: '#34302E',
         playerSocialLink: '#EBEBEB',
         ready: '#80EE4C',
@@ -87,5 +89,26 @@ const Colors = {
     }
     
 };
+
+const TempusTitleColor = {
+    'Emperor':  [ '#000000', '#525252', '#3838FF', '#87BBFF'],
+    'King' :    [ '#AD0000', '#FF3838', '#F56200', '#FFFF7A'],
+    'Archduke': [ '#0000B3', '#45AAF7', '#3C4CA5', '#FFFFFF'],
+    'Lord':     [ '#005200', '#009900', '#626262', '#FFFFFF'],
+    'Duke':     [ '#ACA287', '#645456', '#E85265', '#FFFFFF'],
+    'Prince':   [ '#2E6994', '#00FFCC', '#45AAF7', '#FFFFFF'],
+    'Earl':     [ '#292626', '#7D7777', '#E8E5E5', '#FFFFFF'],
+    'Sir':      [ '#BD5C00', '#EC3E00', '#FFFFFF', '#FFFFFF'],
+    'Count':    [ '#059605', '#54AB31', '#FFFFFF', '#FFFFFF'],
+    'Baron':    [ '#35B7EA', '#C567E0', '#FFFFFF', '#FFFFFF'],
+    'Knight':   [ '#FF8A8A', '#D91818', '#FFFFFF', '#FFFFFF'],
+    'Noble':    [ '#9EA5CB', '#9477D4', '#FFFFFF', '#FFFFFF'],
+    'Esquire':  [ '#A9B6B3', '#45AAF7', '#FFFFFF', '#FFFFFF'],
+    'Jester':   [ '#C5B1A3', '#3EBBA0', '#FFFFFF', '#FFFFFF'],
+    'Plebeian': [ '#C2C2A6', '#66924C', '#FFFFFF', '#FFFFFF'],
+    'Peasant':  [ '#B9B3B3', '#AFE06C', '#FFFFFF', '#FFFFFF'],
+    'Peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
+}
+
 
 export default Colors;

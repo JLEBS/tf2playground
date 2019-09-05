@@ -3,9 +3,7 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import {UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle, Fluctuation} from '../../../misc/fonts';
 import {MarginContainer} from '../../structure/containers';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid} from 'recharts';
-import Colors from '../../../misc/colors';
-import { parse, format } from 'date-fns';
+import Graph from './visual-data/graph';
 
 //Class imports
 import soldier from '../../../assets/imgs/icons/classes/soldier.png';
@@ -44,154 +42,6 @@ const ClassInstance = styled.div`
         width:40px;
     `}
 `;
-
-const ChartContainer = styled.div`
-    height:300px;
-    padding-top:30px;
-
-    ${props => props.graph && css`
-        margin-left:-20px;
-        cursor: pointer !important;
-    `}
-
-    ${props => props.piechart && css`
-        @media (max-width: 510px){
-            display: none;
-        }
-    `}
-
-    .recharts-wrapper{
-        width: 100% !important;
-    }
-
-    .recharts-sector{
-        cursor: pointer;
-    }
-
-    .chartInnerLabel{
-        ${props => `fill: ${props.fill}  !important;`};
-        font-size: 18px;
-        font-weight: 600;
-        text-transform: capitalize;
-    }
-
-    .chartOuterLabel{
-        ${props => `fill: ${props.fill}  !important;`};
-        font-size: 16px;
-        font-weight: 400;
-    }
-
-    .chartOuterLabelTwo{
-        fill: ${Colors.standard.darkGrey};
-        font-size: 14px;
-        font-weight: 100;
-    }
-`
-const ToolTipContainer = styled.div`
-    font-style: normal;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: capitalize;
-    text-align: center;
-    color: ${Colors.standard.secondary};
-    background-color: ${Colors.standard.primaryTransparent}
-    outline:2px dotted ${Colors.standard.lightGrey};
-    padding:6px;
-    min-width:100px;
-
-    span{
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width:60px
-        padding: 3px;
-        
-    }
-    p {
-
-        padding-bottom: 10px;
-    }
-    .intro{
-        color: ${Colors.standard.secondary};
-    }
-
-    .miniSoldierSpan{
-        color:${Colors.standard.tempus.soldier}
-    }
-   
-    .miniDemoSpan {
-        color:${Colors.standard.tempus.demo};
-    }
-
-    .miniSoldierSpan, .miniDemoSpan {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        div:nth-child(2){
-            font-size: 12px;
-            font-weight: 600;
-            color: ${Colors.standard.secondary};
-            padding:6px;
-        }
-    }
-`;
-
-
-const Graph = ({tempusHistory}) => {
-   
-    var TEMPUS_HISTORY_MODIFIED = tempusHistory.map(item => {
-        item.formattedDate = format(parse(item.timestamp), 'MMM')
-        return item
-    });
-
-    const newTempus = TEMPUS_HISTORY_MODIFIED.reverse();
-    
-    return (
-    <ChartContainer graph>
-        <ResponsiveContainer>
-          <AreaChart data={newTempus} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-            <XAxis dataKey='formattedDate' tick={{ fontSize: 16 }} />
-            <YAxis tickCount={10} reversed orientation='left' domain={[0, 'dataMax + 1000']} />
-            <Tooltip content={<CustomTooltip/>}/>
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <Area type='monotone' dataKey='demo_rank' stroke={Colors.standard.tempus.demo} fill='none' strokeWidth={3} />
-            <Area type='monotone' dataKey='soldier_rank' stroke={Colors.standard.tempus.soldier} fill='none' strokeWidth={3} />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    );
-};
-
-function CustomTooltip({ payload, label, active }) {
-    if (active) {
-      return (
-        <ToolTipContainer>
-        {console.log('hello tooltip', payload)}
-
-             <p className="intro">{format(parse(payload[0].payload.timestamp), 'MMMM')}</p>
-
-            <span>
-                <ClassInstance icon imageUrl={demo}/>
-                <span className='miniDemoSpan'>
-                    <div>#{`${payload[0].value}`}</div>
-                    <div>{`${payload[0].payload.demo_points} Points`}</div>
-                </span>
-            </span>
-
-            <span>
-                <ClassInstance icon imageUrl={soldier}/>
-                <span className='miniSoldierSpan'>
-                    <div>#{`${payload[1].value}`}</div>
-                    <div>{`${payload[1].payload.soldier_points} Points`}</div>
-                </span>
-            </span>     
-        </ToolTipContainer>
-      );
-    }
-    return null;
-}
 
 const TempusContainer = ({tempusData}) => {
 
@@ -260,7 +110,7 @@ const TempusContainer = ({tempusData}) => {
                         <MarginContainer statTitle direction='column' content='flex-start'>
                             <ClassInstance icon imageUrl={tempus.image}/>
                             <UserSubHeading>{tempus.name}</UserSubHeading>
-                            {  tempus.title && (
+                            {tempus.title && (
                                 <TempusTitle bracket={TempusTitleColor[tempus.title][0]} color={TempusTitleColor[tempus.title][1]}>{tempus.title}</TempusTitle> 
                             )}   
                         </MarginContainer>
@@ -281,25 +131,24 @@ const TempusContainer = ({tempusData}) => {
                             </MarginContainer>
                         </MarginContainer>
                         {multipleRecords === true && (
-                        <MarginContainer size='100%' stat column>
-                            <UserContent>Fluctuation</UserContent>
-                            <MarginContainer className='statData'>
-                                <Fluctuation className={tempus.fluctuation >= 0 ? tempus.fluctuation === 0 ? 'neutral' : 'increase' : 'decrease'}>
-                                    <Arrow/>
-                                    <UserValue className='tempus-change'>
-                                        {tempus.fluctuation}
-                                    </UserValue>
-                                </Fluctuation>
+                            <MarginContainer size='100%' stat column>
+                                <UserContent>Fluctuation</UserContent>
+                                <MarginContainer className='statData'>
+                                    <Fluctuation className={tempus.fluctuation >= 0 ? tempus.fluctuation === 0 ? 'neutral' : 'increase' : 'decrease'}>
+                                        <Arrow/>
+                                        <UserValue className='tempus-change'>
+                                            {tempus.fluctuation}
+                                        </UserValue>
+                                    </Fluctuation>
+                                </MarginContainer>
                             </MarginContainer>
-                        </MarginContainer>
                         )}
                     </MarginContainer>
                 ))}
             </MarginContainer>
             {multipleRecords === true && (
-            <Graph tempusHistory={(tempusData)}/>
+                <Graph tempusHistory={(tempusData)}/>
             )}
-
         </InternalContainer>
     );
 }

@@ -2,7 +2,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import { PieChart, Pie, Sector, Cell } from 'recharts';
-import Colors from '../../../misc/colors';
+import Colors from '../../../../misc/colors';
 
 const ChartContainer = styled.div`
     height:300px;

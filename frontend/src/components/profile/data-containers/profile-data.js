@@ -3,28 +3,9 @@ import styled, {css} from 'styled-components';
 import {UserLinks} from '../../../misc/fonts';
 import {MarginContainer} from '../../structure/containers';
 import Colors from '../../../misc/colors';
-
-//Icon Component for class images/svgs, should be ammended in future to allow SVG fil change
-const ClassInstance = styled.div`
-    ${props => `background-image: url(${props.imageUrl});`};
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    ${props => props.icon && css`{
-        height: 32px;
-        width: 32px;
-    `}
-
-    ${props => props.svg && css`{
-        height: 32px;
-        width:50px;
-    `}
-
-    ${props => props.tinysvg && css`{
-        height: 24px;
-        width:40px;
-    `}
-`;
+import { ReactComponent as Twitch } from '../../../assets/imgs/icons/svgs/twitch.svg';
+import { ReactComponent as Discord } from '../../../assets/imgs/icons/svgs/discord.svg';
+import { ReactComponent as SteamLogo } from '../../../assets/imgs/icons/svgs/steam-logo.svg';
 
 const StatusContainer = styled.div`
     display: flex;
@@ -104,7 +85,21 @@ const LinkTestContainer = styled.a`
     }
 `;
 
-const ProfileContainer = ({userLinks, userData, userIcons}) => {
+const UserSocial = styled.a`
+//god knows why this doesnt work
+    width:30px;
+    color:black;
+    transition: color 0.5s ease-in-out;
+    &:hover{
+        color: ${Colors.standard.discord};
+    }
+    &.discord-icon{
+        color: green;
+    }
+`;
+
+const ProfileContainer = ({userData, socialData}) => {
+
     const status = {
         0: ['Offline', Colors.standard.secondary],
         1: ['Online', 'green'],
@@ -114,6 +109,61 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
         5: ['Online', 'green'],
         6: ['Online', 'green']   
     }
+
+    const userLinks = [
+        {
+            id: 1,
+            name: 'logs.tf',
+            url: 'http://logs.tf/profile/',
+        },
+        {
+            id: 2,
+            name: 'etf2l',
+            url: 'http://etf2l.org/search/'
+        },
+        {
+            id: 3,
+            name: 'tf2center',
+            url: 'https://tf2center.com/profile/'
+        },
+        {
+            id: 4,
+            name: 'ugc',
+            url: 'https://www.ugcleague.com/players_page.cfm?player_id='
+        },
+        {
+            id: 5,
+            name: 'demos',
+            url: 'https://demos.tf/profiles/'
+        },
+        {
+            id: 6,
+            name: 'pugchamp',
+            url: 'https://eu.pug.champ.gg/player/'
+        }
+    ];
+
+    const userContact = [
+        {
+            id: 1,
+            name: 'steam',
+            image: SteamLogo,
+            url: 'https://steamcommunity.com/profiles/'
+        },
+        {
+            id: 2,
+            name: 'discord',
+            image: Discord,
+            url: 'https://discordapp.com/'
+        },
+        {
+            id: 3,
+            name: 'twitch',
+            image: Twitch,
+            url: 'https://www.twitch.tv/'
+        }
+    ];
+
     return (
         <>
         {console.log('userData', userData)}
@@ -130,10 +180,10 @@ const ProfileContainer = ({userLinks, userData, userIcons}) => {
                     </StatusContainer>
                 </FlexTesting>
                 <MarginContainer>
-                    {userIcons.map((icon, i) => ( 
-                        <a key={i} target="_bank" href={icon.url + userData[0].steam64Id} >
-                            <ClassInstance svg imageUrl={icon.image}/>
-                        </a>
+                    {userContact.map((icon, i) => ( 
+                        <UserSocial key={i}  target="_bank" href={icon.url + userData[0].steam64Id} >
+                            <icon.image/>
+                        </UserSocial>
                     ))}
                 </MarginContainer>
             </MarginContainer>

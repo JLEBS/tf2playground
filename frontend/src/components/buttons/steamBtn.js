@@ -2,7 +2,7 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import Colors from './../../misc/colors';
 import { LobbyFont, BtnText } from './../../misc/fonts';
-import {ReactComponent as Steam} from '../../assets/imgs/icons/svgs/steam_logo.svg';
+import {ReactComponent as Steam} from '../../assets/imgs/icons/svgs/steam-logo.svg';
 
 const SteamBtn = styled.a`
   

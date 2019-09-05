@@ -17,6 +17,11 @@
     "node-fetch": "^2.6.0",
     "passport": "^0.4.0",
     "passport-steam": "^1.0.11",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "ws": "^7.1.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
   }
 }

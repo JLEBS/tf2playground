@@ -45,16 +45,8 @@ var mapsRouter = require('./routes/maps');
 var tempusRouter = require('./routes/tempus');
 var steamLogin = require('./routes/login');
 
-// var pocketScoutRouter = require('./routes/pocket-scout-data');
-// var flankScoutRouter = require('./routes/flank-scout');
-// var pocketSoldierRouter = require('./routes/pocket-soldier');
-// var roamerSoldierRouter = require('./routes/roamer-soldier');
-// var demoRouter = require('./routes/demo');
-// var medicRouter = require('./routes/medic');
-
 var app = express();
 
-var expressWs = require ('express-ws')(app);
 app.use(cors());
 
 var mysql      = require('mysql');
@@ -106,33 +98,6 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.use(function (req, res, next) {
-  console.log('middleware');
-  req.testing = 'testing';
-  return next();
-});
-
-app.get('/', function(req, res, next){
-  console.log('get route', req.testing);
-  res.end();
-});
-
-app.ws('/echo', function(ws, req) {
-  ws.on('message', function(msg) {
-    console.log(msg);
-  });
-  console.log('socket', req.testing);
-});
-
-
-//Class specific
-// app.use('/pocket-scout', pocketScoutRouter);
-// app.use('/flank-scout', flankScoutRouter);
-// app.use('/pocket-soldier', pocketSoldierRouter);
-// app.use('/roaming-soldier', roamerSoldierRouter);
-// app.use('/demo', demoRouter);
-// app.use('/medic', medicRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -150,3 +115,18 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// var pocketScoutRouter = require('./routes/pocket-scout-data');
+// var flankScoutRouter = require('./routes/flank-scout');
+// var pocketSoldierRouter = require('./routes/pocket-soldier');
+// var roamerSoldierRouter = require('./routes/roamer-soldier');
+// var demoRouter = require('./routes/demo');
+// var medicRouter = require('./routes/medic');
+
+//Class specific
+// app.use('/pocket-scout', pocketScoutRouter);
+// app.use('/flank-scout', flankScoutRouter);
+// app.use('/pocket-soldier', pocketSoldierRouter);
+// app.use('/roaming-soldier', roamerSoldierRouter);
+// app.use('/demo', demoRouter);
+// app.use('/medic', medicRouter);

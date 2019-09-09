@@ -53,28 +53,30 @@ router.get('/steam/return',
 
   async function(req, res) {
     try {
-      const fetchUser = await getUser(app.connection, req.user._json.steamid)
+      const user = req.user._json;
+      
+      const fetchUser = await getUser(app.connection, user.steamid)
 
       //If first time Login/registration
       if (!fetchUser.length) {
 
         //Create User
-        await addUser(app.connection, req.user._json);
+        await addUser(app.connection, user);
 
         //Fetch Added User
-        const fetchNewUser = await getUser(app.connection, req.user._json.steamid);
+        const fetchNewUser = await getUser(app.connection, user.steamid);
 
         //Fetch ETF2L Results
-        await etf2lFunction(req.user._json.steamid, fetchNewUser[0].user_id, false);
+        await etf2lFunction(user.steamid, fetchNewUser[0].user_id, false);
 
         //Fetch Tempus Results
-        await tempusFunction(req.user._json.steamid, fetchNewUser[0].user_id );
+        await tempusFunction(user.steamid, fetchNewUser[0].user_id );
 
         //Redirect to players profile
-        return res.redirect(`http://localhost:3000/profile/${req.user._json.steamid}`)
+        return res.redirect(`http://localhost:3000/profile/${user.steamid}`)
       }
       
-      await updateUser(app.connection, fetchUser[0].user_id, req.user._json);
+      await updateUser(app.connection, fetchUser[0].user_id, user);
 
       etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
       

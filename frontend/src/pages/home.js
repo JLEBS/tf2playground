@@ -14,7 +14,7 @@ const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API 
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
  
-  const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('wss://demos.kaazing.com/echo'), []);
+  const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
   const handleClickSendMessage = useCallback(() => sendMessage('Hello this worked'), []);
  
   useEffect(() => {

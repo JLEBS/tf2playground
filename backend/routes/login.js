@@ -1,5 +1,5 @@
 var app = require('../app')
-var {getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints} = require('../lib/user');
+var {getUser, addUser, updateUser, getGameHours, getMatches, getEtf2lData, insertTempusRecord, getTempusPoints} = require('../lib/user');
 var express = require('express'), router = express.Router(), passport = require('passport');
 
 // GET /auth/steam
@@ -30,23 +30,47 @@ router.get('/steam/return',
   async function(req, res) {
     try {
       const existingUser = await getUser(app.connection, req.user._json.steamid)
-      const gameHours = await getGameHours(req.user._json.steamid);
+      //const gameHours = await getGameHours(req.user._json.steamid);
         
       //console.log(gameHours);
 
       if (!existingUser.length) {
         const result = await addUser(app.connection, req.user._json);
-        const tempusResults = await getTempusPoints(req.user._json.steamid);
 
+        //etf2l
+        const etf2lResults = await getEtf2lData(req.user._json.steamid);
+
+        if(etf2lResults){
+
+          const etf2lMatches = await getMatches(etf2lResults);
+
+          console.log('user id ', result);
+
+          console.log('etf2l in the house');
+          if(etf2lMatches){
+
+            console.log('adding to etf2l user profile');
+
+          }
+        }
+
+        //tempus
+        const tempusResults = await getTempusPoints(req.user._json.steamid);
+        
         if (tempusResults) {
           await insertTempusRecord(app.connection, tempusResults, result.insertId);
         }
-    
-        return res.redirect(`http://localhost:3000/profile/${req.user._json.steamid}`)
+
+      //  return res.redirect(`http://localhost:3000/profile/${req.user._json.steamid}`)
+
+        return res.redirect(`/`);
+
       }
       await updateUser(app.connection, req.user._json.steamid, req.user._json)
-      
-      return res.redirect(`http://localhost:3000/lobby`);
+
+      // return res.redirect(`http://localhost:3000/lobby`);
+      return res.redirect(`/`);
+
     } 
     catch (err) {
       console.error(err)

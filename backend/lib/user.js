@@ -10,9 +10,6 @@ const getUser = (connection, userID) => {
 				return reject(err)
 			}
 			
-			//getGameHours(userID).then(res => console.log(res.response.games));
-			// getTempusPoints(userID).then(res => console.log(res));
-
 			resolve(rows);
 		})
 	})
@@ -32,8 +29,6 @@ const addUser = (connection, userDetails) => {
 			if (err) {
 				return reject(err)
 			}
-
-			console.log('USER NOW', result);
 			resolve(result);
 		})
 	})
@@ -49,11 +44,12 @@ const updateUser = (connection, userID, userDetails) => {
 			realname = `'${userDetails.realname}'`;
 		}
 
-		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = ${userDetails.personastate}, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}' WHERE steam64Id = '${userID}'`, (err, rows) => {
+		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = ${userDetails.personastate}, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}' WHERE user_id = '${userID}'`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}
 
+			console.log('rows', rows);
 			resolve(rows)
 		})
 	})
@@ -63,24 +59,24 @@ const insertTempusRecord = (connection, tempusDetails, userID) => {
 	return new Promise((resolve, reject) => {
 
 		connection.query(
-				`INSERT INTO 
-				user_tempus (user_id, soldier_rank, soldier_points, soldier_title, demo_rank, demo_points, demo_title, total_rank, total_points) 
-				VALUES 
-				(
-					${userID}, 
-					${tempusDetails.soldier.rank}, 
-					${tempusDetails.soldier.points}, 
-					'${tempusDetails.soldier.title}', 
-					${tempusDetails.demo.rank}, 
-					${tempusDetails.demo.points}, 
-					'${tempusDetails.demo.title}', 
-					${tempusDetails.total.rank}, 
-					${tempusDetails.total.points}
-				)`, 
-				(err, rows) => {
+			`INSERT INTO 
+			user_tempus (user_id, soldier_rank, soldier_points, soldier_title, demo_rank, demo_points, demo_title, total_rank, total_points) 
+			VALUES 
+			(
+				${userID}, 
+				${tempusDetails.soldier.rank}, 
+				${tempusDetails.soldier.points}, 
+				'${tempusDetails.soldier.title}', 
+				${tempusDetails.demo.rank}, 
+				${tempusDetails.demo.points}, 
+				'${tempusDetails.demo.title}', 
+				${tempusDetails.total.rank}, 
+				${tempusDetails.total.points}
+			)`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}
+			console.log('successful added row!');
 			resolve(rows)
 		})
 	})
@@ -131,6 +127,8 @@ const getTempusPoints = async (userID) => {
 
 const getEtf2lData = async (userID) => {
 	try {
+
+		console.log(userID);
 		const res = await fetch(`http://api.etf2l.org/player/${userID}.json`);
 		const json = await res.json();
 
@@ -159,28 +157,64 @@ const getEtf2lData = async (userID) => {
 	}
 }
 
-const getMatches = async (userID) => {
+const getMatches = (etf2lData) => {
 
-	url = `http://etf2l.org/forum/user/${userID.playerID}/`;
-  
-	request(url, function(error, response, html){
-	  if(!error){
-		var $ = cheerio.load(html);
-		var matches;
-  
-		$('.etf2l_page .userplaceholder').filter(function(){
-			var data = $(this);
-			matches = data.nextAll().eq(4).children()[1].prev.data;
-			userID.matches = number = parseInt(matches.match(/[0-9]+/g));
-			console.log('getMatchesFunction', userID);
-			return userID;
+	url = `http://etf2l.org/forum/user/${etf2lData.playerID}/`;
+
+	return new Promise((resolve, reject) => {
+
+		request(url, function(error, response, html){``
+			if (error) {
+				return reject(error)
+			}
+
+			var $ = cheerio.load(html);
+			var matches;
+	
+			$('.etf2l_page .userplaceholder').filter(function(){
+				var data = $(this);
+				matches = data.nextAll().eq(4).children()[1].prev.data;
+				etf2lData.matches = number = parseInt(matches.match(/[0-9]+/g));
+				resolve(etf2lData);
+			})
 		})
-	  }
 	})
 }
-  
 
 
+const updateEtf2l = (connection, etf2lData, userID) => {
+	
+	return new Promise((resolve, reject) => {
+		connection.query(`UPDATE user_etf2l SET tier = '${etf2lData.div}', team = '${etf2lData.team}', matches = ${etf2lData.matches} WHERE user_id = ${userID}`, (err, rows) => {
+			if (err) {
+				return reject(err)
+			}
+			resolve(rows);
+		})
+	})
+}
+
+const insertEtf2l = (connection, etf2lData, userID) => {
+
+	return new Promise((resolve, reject) => {
+		connection.query(
+			`INSERT INTO 
+			user_etf2l (user_id, tier, team, matches) 
+			VALUES 
+			(
+				${userID}, 
+				'${etf2lData.div}', 
+				'${etf2lData.team}', 
+				${etf2lData.matches}
+			)`, 
+		(err, rows) => {
+			if (err) {
+				return reject(err)
+			}
+			resolve(rows)
+		})
+	})
+}
 
 //etf2l stuff
 		//in general these are paginated at 10 per page, this can be modified to include 100 results per page
@@ -191,66 +225,6 @@ const getMatches = async (userID) => {
 
 //Shouldn't use this anymore, this calls on the API rather than the SQL Database Will be used for registration instead
 // const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
-// if (data) {
-	
-	// {
-	// 	"player_info": {
-	// 		"steamid": "STEAM_0:0:40509687",
-	// 		"name": "BaBitY BAap BOOB",
-	// 		"country": null,
-	// 		"first_seen": 1441552428.0847,
-	// 		"id": 111037,
-	// 		"last_seen": 1566643290.06724
-	// 	},
 
-	// 	"class_rank_info": {
-	// 		"3": {
-	// 		"total_ranked": 53009,
-	// 		"points": 22870,
-	// 		"rank": 180,
-	// 		"title": "Noble"
-	// 		},
 
-	// 		"4": {
-	// 		"total_ranked": 36898,
-	// 		"points": 708,
-	// 		"rank": 1387,
-	// 		"title": "Plebeian"
-	// 		}
-
-	// 	},
-
-	// 	"rank_info": {
-	// 	"total_ranked": 70862,
-	// 	"points": 23578,
-	// 	"rank": 295
-	// 	}
-	// }
-
-    // const names = {
-    //     3: 'data',
-    //     4: 'data',
-    //     'total': 'data'
-    // }
-
-    // const TEMPUS_INFO = {...data.class_rank_info};
-    // TEMPUS_INFO.total = {...data.rank_info};
-
-    // TEMPUS_POINTS = Object.keys(TEMPUS_INFO).map((key) => {
-    //     const newKey = names[key] || key;
-    //     return { [newKey] : TEMPUS_INFO[key] };
-    // });
-
-    // TEMPUS_POINTS[0].name = 'soldier';
-    // TEMPUS_POINTS[0].image = soldier;
-    // TEMPUS_POINTS[1].name = 'demo';
-    // TEMPUS_POINTS[1].image = demo;
-    // TEMPUS_POINTS[2].name = 'total';
-    // TEMPUS_POINTS[2].image = demoAndSoldier;
-
-	// console.log('testing tempus API', TEMPUS_POINTS);
-	
-	
-// }
-
-module.exports = { getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints, getEtf2lData, getMatches };
+module.exports = { getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints, getEtf2lData, getMatches, updateEtf2l, insertEtf2l };

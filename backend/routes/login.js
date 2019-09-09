@@ -1,5 +1,5 @@
 var app = require('../app')
-var {getUser, addUser, updateUser, getGameHours, getMatches, getEtf2lData, insertTempusRecord, getTempusPoints} = require('../lib/user');
+var {getUser, addUser, updateUser, getGameHours, getMatches, getEtf2lData, updateEtf2l, insertEtf2l, insertTempusRecord, getTempusPoints} = require('../lib/user');
 var express = require('express'), router = express.Router(), passport = require('passport');
 
 // GET /auth/steam
@@ -15,6 +15,30 @@ router.get('/steam',
   }
 );
 
+//Function to retrieve etf2l data set state to true to update
+async function etf2lFunction(steamID, userID, state) {
+
+  const etf2lResults = await getEtf2lData(steamID);
+
+  if(etf2lResults){
+
+    const etf2lMatches = await getMatches(etf2lResults);
+
+    if(etf2lMatches && state === 'update'){
+      await updateEtf2l(app.connection, etf2lMatches, userID);
+    }
+    else{
+      await insertEtf2l(app.connection, etf2lMatches, userID);
+    }
+  }
+}
+
+//Function to retrieve tempus data and add a new record
+async function tempusFunction(steamID, userID){
+  const tempusResults = await getTempusPoints(steamID);
+  await insertTempusRecord(app.connection, tempusResults, userID);
+}
+
 // GET /auth/steam/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
@@ -29,48 +53,32 @@ router.get('/steam/return',
 
   async function(req, res) {
     try {
-      const existingUser = await getUser(app.connection, req.user._json.steamid)
-      //const gameHours = await getGameHours(req.user._json.steamid);
-        
-      //console.log(gameHours);
+      const fetchUser = await getUser(app.connection, req.user._json.steamid)
 
-      if (!existingUser.length) {
-        const result = await addUser(app.connection, req.user._json);
+      //If first time Login/registration
+      if (!fetchUser.length) {
 
-        //etf2l
-        const etf2lResults = await getEtf2lData(req.user._json.steamid);
+        //Create User
+        await addUser(app.connection, req.user._json);
 
-        if(etf2lResults){
+        //Fetch Added User
+        const fetchNewUser = await getUser(app.connection, req.user._json.steamid);
 
-          const etf2lMatches = await getMatches(etf2lResults);
+        //Fetch ETF2L Results
+        await etf2lFunction(req.user._json.steamid, fetchNewUser[0].user_id, false);
 
-          console.log('user id ', result);
+        //Fetch Tempus Results
+        await tempusFunction(req.user._json.steamid, fetchNewUser[0].user_id );
 
-          console.log('etf2l in the house');
-          if(etf2lMatches){
-
-            console.log('adding to etf2l user profile');
-
-          }
-        }
-
-        //tempus
-        const tempusResults = await getTempusPoints(req.user._json.steamid);
-        
-        if (tempusResults) {
-          await insertTempusRecord(app.connection, tempusResults, result.insertId);
-        }
-
-      //  return res.redirect(`http://localhost:3000/profile/${req.user._json.steamid}`)
-
-        return res.redirect(`/`);
-
+        //Redirect to players profile
+        return res.redirect(`http://localhost:3000/profile/${req.user._json.steamid}`)
       }
-      await updateUser(app.connection, req.user._json.steamid, req.user._json)
+      
+      await updateUser(app.connection, fetchUser[0].user_id, req.user._json);
 
-      // return res.redirect(`http://localhost:3000/lobby`);
-      return res.redirect(`/`);
-
+      etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
+      
+      return res.redirect(`http://localhost:3000/lobby`);
     } 
     catch (err) {
       console.error(err)

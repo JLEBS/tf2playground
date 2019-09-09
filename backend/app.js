@@ -132,32 +132,6 @@ app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
 
-
-app.get('/scrape', function(req, res){
-
-  const etf2lid = {
-    'greenrab': '61126',
-    'jlebs' : '52231'
-  }
-  url = `http://etf2l.org/forum/user/${etf2lid['greenrab']}/`;
-
-  request(url, function(error, response, html){
-    if(!error){
-      var $ = cheerio.load(html);
-      var matches;
-
-      $('.etf2l_page .userplaceholder').filter(function(){
-          var data = $(this);
-          matches = data.nextAll().eq(4).children()[1].prev.data;
-          const number = parseInt(matches.match(/[0-9]+/g));
-          console.log(number);
-      })
-    }
-  })
-})
-
-
-
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');

@@ -5,6 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+//Screen scrape
+var fs = require('fs');
+var request = require('request');
+var cheerio = require('cheerio');
+
+
 //Steam requirements
 var ensureAuthenticated = require('./middleware/authenticate-user');
 var passport = require('passport')
@@ -14,14 +20,14 @@ var SteamStrategy = require('passport-steam').Strategy;
 //WebSocked
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 4000 });
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
+// const wss = new WebSocket.Server({ port: 4000 });
+// wss.on('connection', function connection(ws) {
+//   ws.on('message', function incoming(message) {
+//     console.log('received: %s', message);
+//   });
  
-  ws.send('something');
-});
+//   ws.send('something');
+// });
 
 // const ws = new WebSocket('wss://echo.websocket.org/', {
 //   origin: 'http://localhost:3000/'
@@ -126,6 +132,46 @@ app.use('/login', steamLogin);
 app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
+
+
+app.get('/scrape', function(req, res){
+
+  //url = 'http://www.imdb.com/title/tt1229340/';
+
+  url = 'http://etf2l.org/forum/user/52231/';
+
+  request(url, function(error, response, html){
+      if(!error){
+          var $ = cheerio.load(html);
+
+          var title, release, rating;
+          var json = { title : "", release : "", rating : ""};
+
+          $('.etf2l_page').filter(function(){
+              var data = $(this);
+              title = data.children().first().text();
+
+              // We will repeat the same process as above.  This time we notice that the release is located within the last element.
+              // Writing this code will move us to the exact location of the release year.
+
+              release = data.children().last().children().text();
+
+              json.title = title;
+
+              // Once again, once we have the data extract it we'll save it to our json object
+
+              json.release = release;
+
+              console.log('data', data)
+              console.log('json', json);
+              console.log('title', title);
+
+          })
+      }
+  })
+})
+
+
 
 app.get('/logout', function(req, res){
   req.logout();

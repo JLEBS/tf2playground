@@ -5,11 +5,18 @@ var cheerio = require('cheerio');
 //Check if user exists on database
 const getUser = (connection, userID) => {
 	return new Promise((resolve, reject) => {
+		console.log('Fetching User...');
+
 		connection.query(`SELECT * FROM user WHERE steam64Id = '${userID}'`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}
-			
+			if(!rows.length){
+				console.log(`User with STEAM_ID: ${userID} doesn't exist!`);
+			}
+			else{
+				console.log('Recieved User', rows)
+			}
 			resolve(rows);
 		})
 	})
@@ -18,6 +25,8 @@ const getUser = (connection, userID) => {
 //Add user (first time registration)
 const addUser = (connection, userDetails) => {
 	return new Promise((resolve, reject) => {
+
+		console.log('Adding User...');
 
 		let realname = null;
 
@@ -29,6 +38,7 @@ const addUser = (connection, userDetails) => {
 			if (err) {
 				return reject(err)
 			}
+			console.log('User Added!')
 			resolve(result);
 		})
 	})
@@ -37,6 +47,8 @@ const addUser = (connection, userDetails) => {
 //Update users details
 const updateUser = (connection, userID, userDetails) => {
 	return new Promise((resolve, reject) => {
+
+		console.log('Updating User...');
 
 		let realname = null;
 
@@ -48,8 +60,7 @@ const updateUser = (connection, userID, userDetails) => {
 			if (err) {
 				return reject(err)
 			}
-
-			console.log('rows', rows);
+			console.log('User Updated!');
 			resolve(rows)
 		})
 	})
@@ -57,6 +68,8 @@ const updateUser = (connection, userID, userDetails) => {
 
 const insertTempusRecord = (connection, tempusDetails, userID) => {
 	return new Promise((resolve, reject) => {
+
+		console.log('Inserting Tempus Data...');
 
 		connection.query(
 			`INSERT INTO 
@@ -76,7 +89,7 @@ const insertTempusRecord = (connection, tempusDetails, userID) => {
 			if (err) {
 				return reject(err)
 			}
-			console.log('successful added row!');
+			console.log('Tempus Row Added!');
 			resolve(rows)
 		})
 	})
@@ -84,8 +97,11 @@ const insertTempusRecord = (connection, tempusDetails, userID) => {
 
 const getGameHours = async (userID) => {
 	try {
-		const res = await fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=21AF60D1CB32ED4EC4C5E753B792F209&steamid=${userID}&include_played_free_games=true`);
 		
+		console.log('Requesting Game Hours...');
+
+		const res = await fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=21AF60D1CB32ED4EC4C5E753B792F209&steamid=${userID}&include_played_free_games=true`);
+		console.log(res.json());
 		return res.json()
 	} catch (err) {
 		console.error(err)
@@ -94,11 +110,15 @@ const getGameHours = async (userID) => {
 
 const getTempusPoints = async (userID) => {
 	try {
+
+		console.log('Requesting Tempus API...');
+
 		const res = await fetch(`https://tempus.xyz/api/players/steamid/${userID}/rank`);
 		const json = await res.json()
 		
-		if ( json.error === 'SteamID not found') {
-			return;
+		if ( json.error) {
+			console.log('Player has not participated in The Tempus Network!');
+			return false;
 		}
 
 		const names = {
@@ -117,6 +137,7 @@ const getTempusPoints = async (userID) => {
 			TEMPUS_POINTS[newKey] = TEMPUS_INFO[key] ;
 		});
 
+		console.log('Tempus API Request Successful!');
 		return TEMPUS_POINTS;
 
 	} catch (err) {
@@ -128,12 +149,14 @@ const getTempusPoints = async (userID) => {
 const getEtf2lData = async (userID) => {
 	try {
 
-		console.log(userID);
+		console.log('Requesting ETF2L API...');
+
 		const res = await fetch(`http://api.etf2l.org/player/${userID}.json`);
 		const json = await res.json();
 
-		if ( json.error === 'SteamID not found') {
-			return;
+		if ( json.error === 'SteamID not found' || json.status.code === 404) {
+			console.log('Player has not participated in ETF2L!');
+			return false;
 		}
 
 		const team = json.player.teams.find(function(element){
@@ -150,6 +173,7 @@ const getEtf2lData = async (userID) => {
 			'div': div[index].division.tier
 		}
 		
+		console.log('ETF2L API Request Successful!');
 		return etf2lObject;
 
 	} catch (err) {
@@ -158,6 +182,8 @@ const getEtf2lData = async (userID) => {
 }
 
 const getMatches = (etf2lData) => {
+
+	console.log('ETF2L Screenscraping...');
 
 	url = `http://etf2l.org/forum/user/${etf2lData.playerID}/`;
 
@@ -175,6 +201,7 @@ const getMatches = (etf2lData) => {
 				var data = $(this);
 				matches = data.nextAll().eq(4).children()[1].prev.data;
 				etf2lData.matches = number = parseInt(matches.match(/[0-9]+/g));
+				console.log('ETF2L Screen Scrape Successful!');
 				resolve(etf2lData);
 			})
 		})
@@ -183,18 +210,23 @@ const getMatches = (etf2lData) => {
 
 
 const updateEtf2l = (connection, etf2lData, userID) => {
+
+	console.log('Updating ETF2L Data...');
 	
 	return new Promise((resolve, reject) => {
 		connection.query(`UPDATE user_etf2l SET tier = '${etf2lData.div}', team = '${etf2lData.team}', matches = ${etf2lData.matches} WHERE user_id = ${userID}`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}
+			console.log('ETF2L Successfully Updated!')
 			resolve(rows);
 		})
 	})
 }
 
 const insertEtf2l = (connection, etf2lData, userID) => {
+
+	console.log('Inserting ETF2L Data...');
 
 	return new Promise((resolve, reject) => {
 		connection.query(
@@ -211,20 +243,10 @@ const insertEtf2l = (connection, etf2lData, userID) => {
 			if (err) {
 				return reject(err)
 			}
+			console.log('Added ETF2L Data!')
 			resolve(rows)
 		})
 	})
 }
-
-//etf2l stuff
-		//in general these are paginated at 10 per page, this can be modified to include 100 results per page
-		//however this significantly slow down the speed of the API,
-		//Potentially multiple API requests will have to be made to get all the result data.
-		//The number of officials played will be equal to the number of results across all pages
-		//const officialCount = `http://api.etf2l.org/player/${userID}/results/0?since=0&per_page=100`;
-
-//Shouldn't use this anymore, this calls on the API rather than the SQL Database Will be used for registration instead
-// const {data, loading, error} = useFetch(`https://tempus.xyz/api/players/steamid/${props.match.params.steamID}/rank`);
-
 
 module.exports = { getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints, getEtf2lData, getMatches, updateEtf2l, insertEtf2l };

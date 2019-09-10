@@ -20,22 +20,28 @@ async function etf2lFunction(steamID, userID, state) {
 
   const etf2lResults = await getEtf2lData(steamID);
 
-  if(etf2lResults){
+  if (!etf2lResults) {
+    return;
+  }
+  
+  const etf2lMatches = await getMatches(etf2lResults);
 
-    const etf2lMatches = await getMatches(etf2lResults);
-
-    if(etf2lMatches && state === 'update'){
-      await updateEtf2l(app.connection, etf2lMatches, userID);
-    }
-    else{
-      await insertEtf2l(app.connection, etf2lMatches, userID);
-    }
+  if(etf2lMatches && state === 'update'){
+    await updateEtf2l(app.connection, etf2lMatches, userID);
+  }
+  else{
+    await insertEtf2l(app.connection, etf2lMatches, userID);
   }
 }
 
 //Function to retrieve tempus data and add a new record
 async function tempusFunction(steamID, userID){
   const tempusResults = await getTempusPoints(steamID);
+
+  if (!tempusResults) {
+    return;
+  }
+
   await insertTempusRecord(app.connection, tempusResults, userID);
 }
 
@@ -66,6 +72,12 @@ router.get('/steam/return',
         //Fetch Added User
         const fetchNewUser = await getUser(app.connection, user.steamid);
 
+        if (!fetchNewUser) {
+          throw new Error('No player')
+        }
+        //Fetch Game Hours
+        await getGameHours(user.steamid);
+
         //Fetch ETF2L Results
         await etf2lFunction(user.steamid, fetchNewUser[0].user_id, false);
 
@@ -77,6 +89,9 @@ router.get('/steam/return',
       }
       
       await updateUser(app.connection, fetchUser[0].user_id, user);
+
+      await getGameHours(user.steamid);
+
 
       etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
       

@@ -57,14 +57,14 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
+let profile;
 
 passport.use(new SteamStrategy({
   returnURL: 'http://localhost:3001/login/steam/return',
   realm: 'http://localhost:3001/',
   apiKey: '21AF60D1CB32ED4EC4C5E753B792F209'
 },
-
-function(identifier, profile, done) {
+  function(identifier, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
 
@@ -73,10 +73,12 @@ function(identifier, profile, done) {
       // to associate the Steam account with a user record in your database,
       // and return that user instead.
       profile.identifier = identifier;
+      console.log('PROFILE HERE!!!!!!!!!!', profile);
       return done(null, profile);
     });
   }
 ));
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -114,10 +116,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'your secret',
-  name: 'name of session id',
+  secret: 'Steam name',
+  name: 'Steam session',
   resave: true,
-  saveUninitialized: true}));
+  saveUninitialized: true,
+  cookie: { secure: true }}));
+  
 app.use(passport.initialize());
 app.use(passport.session());
 

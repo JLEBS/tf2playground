@@ -46,7 +46,11 @@ const ClassInstance = styled.div`
 const TempusContainer = ({tempusData}) => {
 
     let multipleRecords = false; 
+    {console.log('tempus is empty', tempusData)}
 
+    if(!tempusData.length){
+        return <div>No data</div>
+    }
     //Get Current Tempus Rank
     const TEMPUS_CURRENT = [
         {

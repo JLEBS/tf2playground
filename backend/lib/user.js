@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fetch = require('node-fetch');
 var request = require('request');
 var cheerio = require('cheerio');
@@ -100,7 +101,7 @@ const getGameHours = async (userID) => {
 		
 		console.log('Requesting Steam Game Hours API...');
 
-		const res = await fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=21AF60D1CB32ED4EC4C5E753B792F209&steamid=${userID}&include_played_free_games=true`);
+		const res = await fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${userID}&include_played_free_games=true`);
 		const json = await res.json();
 
 		const tf2 = json.response.games.find(function(element){

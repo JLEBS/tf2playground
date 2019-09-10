@@ -1,15 +1,10 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-
-//Screen scrape
-var fs = require('fs');
-var request = require('request');
-var cheerio = require('cheerio');
-
 
 //Steam requirements
 var ensureAuthenticated = require('./middleware/authenticate-user');
@@ -49,7 +44,6 @@ ws.on('message', function incoming(data) {
   }, 500);
 });
 
-
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -57,13 +51,13 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-let profile;
 
 passport.use(new SteamStrategy({
   returnURL: 'http://localhost:3001/login/steam/return',
   realm: 'http://localhost:3001/',
-  apiKey: '21AF60D1CB32ED4EC4C5E753B792F209'
+  apiKey: process.env.STEAM_API_KEY
 },
+
   function(identifier, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
@@ -73,12 +67,10 @@ passport.use(new SteamStrategy({
       // to associate the Steam account with a user record in your database,
       // and return that user instead.
       profile.identifier = identifier;
-      console.log('PROFILE HERE!!!!!!!!!!', profile);
       return done(null, profile);
     });
   }
 ));
-
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -96,11 +88,11 @@ var connection = mysql.createConnection({
   connectTimeout  : 60 * 60 * 1000,
   acquireTimeout  : 60 * 60 * 1000,
   timeout         : 60 * 60 * 1000,
-  host     : 'localhost',
-  port     : '8889',
-  user     : 'root',
-  password : 'root',
-  database : 'tf2playground'
+  host     : process.env.DB_HOST,
+  port     : process.env.DB_PORT,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  database : process.env.DB_DATABASE
 });
 
 exports.connection = connection
@@ -116,12 +108,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'Steam name',
-  name: 'Steam session',
+  secret: 'your secret',
+  name: 'name of session id',
   resave: true,
-  saveUninitialized: true,
-  cookie: { secure: true }}));
-  
+  saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 

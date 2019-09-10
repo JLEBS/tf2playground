@@ -34,7 +34,7 @@ const addUser = (connection, userDetails) => {
 			realname = `'${userDetails.realname}'`;
 		}
 
-		connection.query(`INSERT INTO user (steam64Id, realname, personname, personstate, avatar, avatarfull, loccountrycode) VALUES (${userDetails.steamid}, ${realname}, '${userDetails.personaname}', ${userDetails.personastate}, '${userDetails.avatar}', '${userDetails.avatarfull}', '${userDetails.loccountrycode}')`, (err, result) => {
+		connection.query(`INSERT INTO user (steam64Id, realname, personname, personstate, avatar, avatarfull, loccountrycode, playtime) VALUES (${userDetails.steamid}, ${realname}, '${userDetails.personaname}', ${userDetails.personastate}, '${userDetails.avatar}', '${userDetails.avatarfull}', '${userDetails.loccountrycode}', ${userDetails.playtime})`, (err, result) => {
 			if (err) {
 				return reject(err)
 			}
@@ -56,7 +56,7 @@ const updateUser = (connection, userID, userDetails) => {
 			realname = `'${userDetails.realname}'`;
 		}
 
-		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = ${userDetails.personastate}, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}' WHERE user_id = '${userID}'`, (err, rows) => {
+		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = ${userDetails.personastate}, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}', playtime = ${userDetails.playtime} WHERE user_id = '${userID}'`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}
@@ -98,11 +98,23 @@ const insertTempusRecord = (connection, tempusDetails, userID) => {
 const getGameHours = async (userID) => {
 	try {
 		
-		console.log('Requesting Game Hours...');
+		console.log('Requesting Steam Game Hours API...');
 
 		const res = await fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=21AF60D1CB32ED4EC4C5E753B792F209&steamid=${userID}&include_played_free_games=true`);
-		console.log(res.json());
-		return res.json()
+		const json = await res.json();
+
+		const tf2 = json.response.games.find(function(element){
+			return element.appid === 440;
+		});
+
+		if(tf2 === undefined){
+			console.log('Profile is Private or the player has not played TF2!')
+			return null;
+		}
+
+		console.log('Steam API Game Hours Request Successful');
+		return tf2.playtime_forever;
+
 	} catch (err) {
 		console.error(err)
 	}

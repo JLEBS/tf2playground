@@ -59,9 +59,15 @@ router.get('/steam/return',
 
   async function(req, res) {
     try {
+
+      //Assign user details to variable from Steam
       const user = req.user._json;
       
+      //Fetch User from SQL Database
       const fetchUser = await getUser(app.connection, user.steamid)
+
+      //Fetch User playtime
+      user.playtime = await getGameHours(user.steamid);
 
       //If first time Login/registration
       if (!fetchUser.length) {
@@ -75,8 +81,6 @@ router.get('/steam/return',
         if (!fetchNewUser) {
           throw new Error('No player')
         }
-        //Fetch Game Hours
-        await getGameHours(user.steamid);
 
         //Fetch ETF2L Results
         await etf2lFunction(user.steamid, fetchNewUser[0].user_id, false);
@@ -84,17 +88,17 @@ router.get('/steam/return',
         //Fetch Tempus Results
         await tempusFunction(user.steamid, fetchNewUser[0].user_id );
 
-        //Redirect to players profile
+        //Redirect to Players Profile
         return res.redirect(`http://localhost:3000/profile/${user.steamid}`)
       }
-      
+
+      //Update Users Details
       await updateUser(app.connection, fetchUser[0].user_id, user);
 
-      await getGameHours(user.steamid);
-
-
-      etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
+      //Update Users Etf2l Details
+      await etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
       
+      //Redirect to Lobby
       return res.redirect(`http://localhost:3000/lobby`);
     } 
     catch (err) {

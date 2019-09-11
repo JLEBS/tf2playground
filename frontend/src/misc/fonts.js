@@ -166,7 +166,8 @@ export const MinorFont = styled.p`
 `;
 
 export const BtnText = styled.p`
-    font-size: 24px;
+    font-size: 14px;
+    font-weight: 600;
     font-style: normal;
     text-transform: uppercase;
     transition: background 1s ease;

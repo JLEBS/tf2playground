@@ -68,8 +68,8 @@ const LogoutBtn = ({ userData }) => {
 
             <ButtonContainer>
                 <Avatar img={userData.avatar} href={`http://localhost:3000/profile/${userData.steam64Id}`}/>
-                <div>{userData.personname}</div>
-                <a href='http://localhost:3001/logout'>v</a>
+                <BtnText>{userData.personname}</BtnText>
+                <a href='http://localhost:3001/logout'>Logout</a>
             </ButtonContainer>
         </SteamBtn>
     )

@@ -7,12 +7,6 @@ import {LoginBtn, LogoutBtn} from '../../../components/buttons/steamBtn';
 import {ReactComponent as Megaphone} from '../../../assets/imgs/icons/svgs/volume_mute_solid.svg'
 import Cookies from 'js-cookie';
 
-// var cookies = Cookies.withConverter(function (value, name) {
-//   if ( name === 'escaped' ) {
-//       return unescape(value);
-//   }
-// });
-
 const useFetch = (url, token) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -64,12 +58,11 @@ const SpeakerMod = styled(Megaphone)`
     margin-right:24px;
 `;
 
-
 const HeaderContainer = () => {
-    const savedToken = Cookies.get("steamIdAuth")
+    const steamAuthToken = Cookies.get("steamIdAuth")
     const steamUserId = Cookies.get("steamUserID")
 
-    const fetchUser = useFetch(`http://localhost:3001/profile/${steamUserId}`, savedToken);
+    const fetchUser = useFetch(`http://localhost:3001/profile/${steamUserId}`, steamAuthToken);
 
     return (
         <MainHeader>

@@ -1,12 +1,11 @@
+require('dotenv').config();
 var jwt = require('jsonwebtoken');
 
 const tokenCheck = async (req, res, next) => {
     try {
-        const userDetails = await jwt.verify(req.headers.authorization, 'thisisnotthesecretiactuallyuse')
-        
-        console.log(userDetails);
+        const userDetails = await jwt.verify(req.headers.authorization, process.env.SESSION_SECRET)
 
-        console.log(userDetails.user.id, req.params.steamid)
+        console.log('Token', userDetails.user.id, '~ ID', req.params.steamid)
         
         if (userDetails && (userDetails.user.id === req.params.steamid)) {
             return next()

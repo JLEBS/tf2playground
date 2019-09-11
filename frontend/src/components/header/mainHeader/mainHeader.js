@@ -5,26 +5,21 @@ import { Link, TitleLogo, Title } from '../../../misc/fonts';
 import {MarginContainer} from '../../structure/containers';
 import {LoginBtn, LogoutBtn} from '../../../components/buttons/steamBtn';
 import {ReactComponent as Megaphone} from '../../../assets/imgs/icons/svgs/volume_mute_solid.svg'
-import Cookies from 'js-cookie';
 
-const useFetch = (url, token) => {
+const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [pending, setPending] = useState(false);
 
     async function fetchData() {
-        if (!url || !token) {
+        if (!url) {
             setPending(true);
             return false;
         }
 
         setPending(false);
        
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `${token}`
-            }
-        });
+        const response = await fetch(url);
 
         const json = await response.json();
         setData(json);
@@ -59,10 +54,7 @@ const SpeakerMod = styled(Megaphone)`
 `;
 
 const HeaderContainer = () => {
-    const steamAuthToken = Cookies.get("steamIdAuth")
-    const steamUserId = Cookies.get("steamUserID")
-
-    const fetchUser = useFetch(`http://localhost:3001/profile/${steamUserId}`, steamAuthToken);
+    const fetchUser = useFetch(`http://localhost:3001/profile/`);
 
     return (
         <MainHeader>

@@ -114,6 +114,7 @@ const AppRouter = () => {
                 <Route path="/conduct" component={Conduct} />
                 <Route path="/donate" component={Donate} />
                 <Route path="/users" component={Users} />
+                {/* logout */}
                 <Route path="/matches" component={Matches} />
                 <Route path="/profile/:steamID" component={Profile} />
                 <Route path="/settings" component={Settings} />

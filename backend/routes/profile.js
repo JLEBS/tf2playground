@@ -3,11 +3,10 @@ var router = express.Router();
 var app = require('../app')
 var tokenCheck = require('../middleware/token-check');
 
-router.get('/:steamid', tokenCheck, (req, res) => {
+router.get('/', tokenCheck, (req, res) => {
+  console.log(req.user)
 
-  const steamId = req.params.steamid
-
-  app.connection.query(`SELECT * FROM user WHERE steam64id = ${steamId}`, (error, result, fields) => {
+  app.connection.query(`SELECT * FROM user WHERE steam64id = ${req.user.id}`, (error, result, fields) => {
     if (error) {
       res.status(500).json({
         ok: false,

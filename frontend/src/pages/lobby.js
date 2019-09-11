@@ -7,7 +7,10 @@ const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
+//const maintoken = Cookies.get("steamIdAuth"); 
+// const steamtoken = Cookies.get('steamUserID');
 const LobbyPage = () => {
+
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
@@ -29,6 +32,9 @@ const LobbyPage = () => {
  
   return (
     <div>
+      {/* {steamtoken && (
+        <div>hello this worked</div>
+      )} */}
       <LobbyContainer>
       <button onClick={handleClickChangeSocketUrl}>Click Me to change Socket Url</button>
       <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>

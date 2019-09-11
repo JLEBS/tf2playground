@@ -35,7 +35,7 @@ const addUser = (connection, userDetails) => {
 			realname = `'${userDetails.realname}'`;
 		}
 
-		connection.query(`INSERT INTO user (steam64Id, realname, personname, personstate, avatar, avatarfull, loccountrycode, playtime) VALUES (${userDetails.steamid}, ${realname}, '${userDetails.personaname}', ${userDetails.personastate}, '${userDetails.avatar}', '${userDetails.avatarfull}', '${userDetails.loccountrycode}', ${userDetails.playtime})`, (err, result) => {
+		connection.query(`INSERT INTO user (steam64Id, realname, personname, personstate, avatar, avatarfull, loccountrycode, playtime) VALUES (${userDetails.steamid}, ${realname}, '${userDetails.personaname}', 1, '${userDetails.avatar}', '${userDetails.avatarfull}', '${userDetails.loccountrycode}', ${userDetails.playtime})`, (err, result) => {
 			if (err) {
 				return reject(err)
 			}
@@ -57,7 +57,7 @@ const updateUser = (connection, userID, userDetails) => {
 			realname = `'${userDetails.realname}'`;
 		}
 
-		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = ${userDetails.personastate}, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}', playtime = ${userDetails.playtime} WHERE user_id = '${userID}'`, (err, rows) => {
+		connection.query(`UPDATE user SET realname = ${realname}, personname = '${userDetails.personaname}', personstate = 1, avatar = '${userDetails.avatar}', avatarfull = '${userDetails.avatarfull}', playtime = ${userDetails.playtime} WHERE user_id = '${userID}'`, (err, rows) => {
 			if (err) {
 				return reject(err)
 			}

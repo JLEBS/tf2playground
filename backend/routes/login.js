@@ -1,6 +1,7 @@
 var app = require('../app')
 var {getUser, addUser, updateUser, getGameHours, getMatches, getEtf2lData, updateEtf2l, insertEtf2l, insertTempusRecord, getTempusPoints} = require('../lib/user');
 var express = require('express'), router = express.Router(), passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -60,6 +61,14 @@ router.get('/steam/return',
   async function(req, res) {
     try {
 
+      //Session Token
+      // const token = jwt.sign({ user: req.user }, 'secret', { expiresIn: '2h' });
+
+      var payload = {
+        user: req.user
+      };
+
+
       //Assign user details to variable from Steam
       const user = req.user._json;
       
@@ -88,7 +97,17 @@ router.get('/steam/return',
         //Fetch Tempus Results
         await tempusFunction(user.steamid, fetchNewUser[0].user_id );
 
+        // return res.json({ 
+        //   firstLogin: true,
+        //   success: true,
+        //   message: 'Auth successful',
+        //   token: token
+        // })
+
         //Redirect to Players Profile
+        var token = jwt.sign(payload, "thisisnotthesecretiactuallyuse", {expiresIn : 60*60*24});
+        res.cookie('steamIdAuth', token, { httpOnly: true, /* TODO: Set secure: true */ }); 
+
         return res.redirect(`http://localhost:3000/profile/${user.steamid}`)
       }
 
@@ -98,9 +117,23 @@ router.get('/steam/return',
       //Update Users Etf2l Details
       await etf2lFunction(fetchUser[0].steam64Id, fetchUser[0].user_id, 'update');
       
+      // return res.json({ 
+      //   firstLogin: false,
+      //   success: true,
+      //   message: 'Auth successful',
+      //   token: token
+      // })
+      
       //Redirect to Lobby
+  
+      var token = jwt.sign(payload, "thisisnotthesecretiactuallyuse", {expiresIn : 60*60*24});
+      res.cookie('steamIdAuth', token, { httpOnly: false /* TODO: Set secure: true */ }); 
+      res.cookie('steamUserID', user.steamid, { httpOnly: false, /* TODO: Set secure: true */ }); 
+
+
       return res.redirect(`http://localhost:3000/lobby`);
     } 
+    
     catch (err) {
       console.error(err)
       return res.status(400)

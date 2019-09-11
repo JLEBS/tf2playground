@@ -74,6 +74,7 @@ passport.use(new SteamStrategy({
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var profileRouter = require('./routes/profile');
 var mapsRouter = require('./routes/maps');
 var tempusRouter = require('./routes/tempus');
 var steamLogin = require('./routes/login');
@@ -109,9 +110,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: 'your secret',
-  name: 'name of session id',
+  name: 'steamLogin',
   resave: true,
-  saveUninitialized: true}));
+  saveUninitialized: true,
+  httpOnly: false}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -120,6 +123,8 @@ app.use('/users', usersRouter);
 app.use('/maps', mapsRouter);
 app.use('/servers', mapsRouter);
 app.use('/tempus-history', tempusRouter);
+app.use('/profile', profileRouter);
+
 app.use('/login', steamLogin);
 
 app.get('/account', ensureAuthenticated, function(req, res){
@@ -129,6 +134,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+  console.log('Logged out');
 });
 
 // catch 404 and forward to error handler

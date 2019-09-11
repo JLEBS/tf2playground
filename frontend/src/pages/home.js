@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import { PageCenter, MarginContainer} from './../components/structure/containers';
 import { Link, TitleLogo, Title } from '../misc/fonts';
-import LoginBtn from '../components/buttons/steamBtn';
+import {LoginBtn} from '../components/buttons/steamBtn';
 import useWebSocket from 'react-use-websocket';
 
 const CONNECTION_STATUS_CONNECTING = 0;

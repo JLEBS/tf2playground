@@ -40,7 +40,6 @@ router.get('/:user', (req, res) => {
   })
 })
 
-
 // router.get('/:user/data', (req, res) => {
 
 //   const userId = req.params.user

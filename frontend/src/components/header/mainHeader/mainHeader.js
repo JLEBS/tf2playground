@@ -115,7 +115,7 @@ const HeaderContainer = () => {
                     )}
                     {fetchUser.data && (
                         <div>{console.log('hello react')}
-                        <LogoutBtn userData={fetchUser.data.data}/>
+                        <LogoutBtn smallbtn='true' userData={fetchUser.data.data}/>
                         </div>
                     )}
                 </MarginContainer>

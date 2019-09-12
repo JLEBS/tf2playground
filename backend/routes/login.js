@@ -101,7 +101,6 @@ router.get('/steam/return',
         var token = jwt.sign(payload, process.env.SESSION_SECRET, {expiresIn : 60*60*24});
         //json webtoken refresh
         res.cookie('steamIdAuth', token, { httpOnly: true, /* TODO: Set secure: true */ }); 
-        res.cookie('steamUserID', user.steamid, { httpOnly: true, /* TODO: Set secure: true */ }); 
 
         return res.redirect(`http://localhost:3000/profile/${user.steamid}`)
       }
@@ -114,8 +113,7 @@ router.get('/steam/return',
       
       //Redirect to Lobby
       var token = jwt.sign(payload, process.env.SESSION_SECRET, {expiresIn : 60*60*24});
-      res.cookie('steamIdAuth', token, { httpOnly: false /* TODO: Set secure: false */ }); 
-      res.cookie('steamUserID', user.steamid, { httpOnly: false, /* TODO: Set secure: false */ }); 
+      res.cookie('steamIdAuth', token, { httpOnly: true /* TODO: Set secure: true */ }); 
 
       return res.redirect(`http://localhost:3000/lobby`);
     } 

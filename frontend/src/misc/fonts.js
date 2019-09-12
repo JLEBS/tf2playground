@@ -170,7 +170,6 @@ export const MinorFont = styled.p`
 `;
 
 export const BtnText = styled.p`
-  font-family: 'tf2-build';
   font-weight: 600;
   font-style: normal;
   text-transform: uppercase;

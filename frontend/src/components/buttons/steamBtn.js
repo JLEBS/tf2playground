@@ -5,6 +5,7 @@ import { BtnText } from './../../misc/fonts';
 import {ReactComponent as Steam} from '../../assets/imgs/icons/svgs/steam-logo.svg';
 
 const SteamBtn = styled.a`
+  display: block;
   color: ${Colors.standard.secondary};
   background-color: ${Colors.standard.primary};
   border-radius: 40px;

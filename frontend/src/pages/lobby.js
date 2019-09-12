@@ -8,7 +8,7 @@ const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
 //const maintoken = Cookies.get("steamIdAuth"); 
-// const steamtoken = Cookies.get('steamUserID');
+//const steamtoken = Cookies.get('steamUserID');
 const LobbyPage = () => {
 
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
@@ -20,6 +20,8 @@ const LobbyPage = () => {
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory(prev => prev.concat(lastMessage));
+
+      console.log(lastMessage);
     }
   }, [lastMessage]);
  

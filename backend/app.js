@@ -4,10 +4,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
+// var cors = require('cors');
 
 //Steam requirements
 var ensureAuthenticated = require('./middleware/authenticate-user');
+var cors = require('./middleware/cors')
 var passport = require('passport')
 var session = require('express-session')
 var SteamStrategy = require('passport-steam').Strategy;
@@ -19,7 +20,7 @@ const wss = new WebSocket.Server({ port: 4000 });
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
-    ws.send(message);
+    wss.clients.forEach( (ws) =>  {ws.send(message) })
   });
 });
 
@@ -81,7 +82,7 @@ var steamLogin = require('./routes/login');
 
 var app = express();
 
-app.use(cors());
+app.use(cors);
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({

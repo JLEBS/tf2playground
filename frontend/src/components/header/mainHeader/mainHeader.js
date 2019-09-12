@@ -6,12 +6,44 @@ import {MarginContainer} from '../../structure/containers';
 import {LoginBtn, LogoutBtn} from '../../../components/buttons/steamBtn';
 import {ReactComponent as Megaphone} from '../../../assets/imgs/icons/svgs/volume_mute_solid.svg'
 
+// const useFetch = url => {
+//     const [data, setData] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const [pending, setPending] = useState(false);
+
+//     async function fetchData() {
+//         if (!url) {
+//             setPending(true);
+//             return;
+//         }
+
+//         setPending(false);
+//         const response = await fetch(url);
+//         const json = await response.json();
+
+//         setData(json);
+//         setLoading(false)
+//     }
+
+//     useEffect(() => {
+//         fetchData()
+//     }, [ url ]);
+
+//     return {
+//         pending,
+//         loading,
+//         data
+//     };
+// };
+
+
 const useFetch = (url) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [pending, setPending] = useState(false);
 
-    async function fetchData() {
+    console.log('hello', url);
+    function fetchData() {
         if (!url) {
             setPending(true);
             return false;
@@ -19,11 +51,18 @@ const useFetch = (url) => {
 
         setPending(false);
        
-        const response = await fetch(url);
-
-        const json = await response.json();
-        setData(json);
-        setLoading(false)
+        fetch(url, {
+            credentials: 'include',
+            'mode': 'cors'
+        })
+        .then(res => res.json())
+        .then(res => {
+            setData(res)
+            setLoading(false)
+        }).catch(err => {
+            setData(false)
+            setLoading(false)
+        });
     }
 
     useEffect(() => {
@@ -54,8 +93,7 @@ const SpeakerMod = styled(Megaphone)`
 `;
 
 const HeaderContainer = () => {
-    const fetchUser = useFetch(`http://localhost:3001/profile/`);
-
+    const fetchUser = useFetch(`http://localhost:3001/profile`);
     return (
         <MainHeader>
             <MarginContainer sidepadding content='space-between'>
@@ -76,7 +114,9 @@ const HeaderContainer = () => {
                         <LoginBtn smallbtn='true'/>
                     )}
                     {fetchUser.data && (
-                        <LogoutBtn userData={fetchUser.data.data[0]}/>
+                        <div>{console.log('hello react')}
+                        <LogoutBtn userData={fetchUser.data.data}/>
+                        </div>
                     )}
                 </MarginContainer>
             </MarginContainer>

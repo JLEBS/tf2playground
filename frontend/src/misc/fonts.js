@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, {css, createGlobalStyle} from 'styled-components';
 import {fluidRange} from 'polished';
 import Colors from './colors';
 import {Link as ReactRouterLink} from 'react-router-dom';
@@ -7,10 +7,14 @@ import tf2logo from './../assets/imgs/themes/tf2logo.png';
 const colorPrimary = Colors.standard.primary;
 const colorSecondary = Colors.standard.secondary;
 
-// const TypeFace = {
-//     TF2Main: 'TF2 Main',
-//     TF2Secondary: 'TF2 Secondary'
-// };
+const TF2Font = createGlobalStyle`
+  body {
+    @import url('../fonts/tf2-build.ttf');
+    font-family: 'tf2-build';
+  }
+`
+// TF2Main: 'TF2 Main',
+//TF2Secondary: 'TF2 Secondary'
 
 export const TitleLogo = styled.div`
   background-image: url(${tf2logo});
@@ -165,7 +169,8 @@ export const MinorFont = styled.p`
   `}
 `;
 
-export const BtnText = styled.p` 
+export const BtnText = styled.p`
+  font-family: 'tf2-build';
   font-weight: 600;
   font-style: normal;
   text-transform: uppercase;

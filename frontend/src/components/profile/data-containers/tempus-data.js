@@ -46,12 +46,11 @@ const ClassInstance = styled.div`
 const TempusContainer = ({tempusData}) => {
 
     let multipleRecords = false; 
-    {console.log('tempus is empty', tempusData)}
 
     if(!tempusData.length){
         return <div>No data</div>
     }
-    //Get Current Tempus Rank
+
     const TEMPUS_CURRENT = [
         {
             name: 'soldier', 
@@ -104,8 +103,11 @@ const TempusContainer = ({tempusData}) => {
         'Peon':     [ '#A6A6A6', '#EFDA3F', '#FFFFFF', '#FFFFFF']
     }
     
+    let animationEnded = true;
+
     return (
         <InternalContainer>
+            {console.log('Displaying Tempus data...')}
             <MarginContainer content='space-between' shrink='true'>
                 {TEMPUS_CURRENT.map((tempus, i) => (
 
@@ -131,7 +133,7 @@ const TempusContainer = ({tempusData}) => {
                             <UserContent>{tempus.shortName} points</UserContent>
                             <MarginContainer className='statData'>
                                 <ClassInstance tinysvg imageUrl={Trophy}/>
-                                <UserValue> <CountUp duration={3} end={tempus.points}/></UserValue>
+                                <UserValue> <CountUp duration={3} end={tempus.points} onEnd={() => console.log('completed animation')}/></UserValue>
                             </MarginContainer>
                         </MarginContainer>
                         {multipleRecords === true && (
@@ -150,7 +152,7 @@ const TempusContainer = ({tempusData}) => {
                     </MarginContainer>
                 ))}
             </MarginContainer>
-            {multipleRecords === true && (
+            {multipleRecords === true && animationEnded === true && (
                 <Graph tempusHistory={(tempusData)}/>
             )}
         </InternalContainer>

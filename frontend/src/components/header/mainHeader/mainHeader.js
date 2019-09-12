@@ -73,7 +73,7 @@ const HeaderContainer = () => {
                 <MarginContainer direction='row' sidePadding='unset' topPadding='unset' content='space-between' align='center'>
                     <SpeakerMod/>
                     {!fetchUser.data && (
-                        <LoginBtn/>
+                        <LoginBtn smallbtn='true'/>
                     )}
                     {fetchUser.data && (
                         <LogoutBtn userData={fetchUser.data.data[0]}/>

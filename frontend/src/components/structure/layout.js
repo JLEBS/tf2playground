@@ -39,7 +39,7 @@ export const TextLayout = ({children, imageUrl, title, content}) => (
 
 //Profile Layout
 export const ProfileLayout = ({children, imageUrl}) => (
-    <WebStructure pattern imageUrl={imageUrl}>
+    <WebStructure pattern={'true'} imageUrl={imageUrl}>
         {console.log('RENDERING THE PROFILE LAYOUT')}
         <MarginContainer shrink>
             {children}

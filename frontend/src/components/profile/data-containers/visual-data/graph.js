@@ -152,7 +152,7 @@ function CustomTooltip({ payload, label, active }) {
     if (active) {
       return (
         <ToolTipContainer>
-        {console.log('hello tooltip', payload)}
+        {console.log('hello tooltip', payload, label, active)}
 
              <p className="intro">{format(parse(payload[0].payload.timestamp), 'MMMM')}</p>
 

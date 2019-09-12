@@ -23,7 +23,6 @@ const InfoRectangle = styled.div`
 
 const RectangleContainer = ({header, children, maxWidth, minWidth, direction, content}) => (
     <InfoRectangle maxWidth={maxWidth} minWidth={minWidth}>
-        {console.log('LOADED WE HAVE RENDERED')}
         {header && (
             <UserHeading heading>
                 {header}

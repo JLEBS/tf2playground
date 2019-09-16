@@ -134,7 +134,12 @@ app.get('/account', ensureAuthenticated, function(req, res){
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/');
+  req.session.destroy(function (err) {
+    if(err){
+      console.log(err,'THIS IS AN ERROR')
+    }
+    res.redirect('http://localhost:3000/'); //Inside a callback… bulletproof!
+  });
   console.log('Logged out');
 });
 

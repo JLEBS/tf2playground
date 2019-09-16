@@ -128,9 +128,9 @@ const SubHeaderContainer = () => {
     const [activePanel, setActivePanel] = useState(CHAT_PANEL);
     const [ panelOpen, setPanelOpen ] = useState(false);
 
-    // const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
+    // // const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
 
-    // const fadeIn = panelOpen ? FADEIN : FADEOUT;
+    // // const fadeIn = panelOpen ? FADEIN : FADEOUT;
 
     const panelContents = {
         [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
@@ -138,7 +138,7 @@ const SubHeaderContainer = () => {
         [STREAM_PANEL] : () => <p>This is a Stream Panel</p>
     };
 
-    const CurrentPanel = panelContents[activePanel];
+    // const CurrentPanel = panelContents[activePanel];
 
     const openPanel = panel => {
         setPanelOpen(true)

@@ -1,21 +1,26 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import Colors from './../../misc/colors';
-import { BtnText } from './../../misc/fonts';
+import { BtnText, ImageUrl} from './../../misc/fonts';
+import {Link} from 'react-router-dom';
 import {ReactComponent as Steam} from '../../assets/imgs/icons/svgs/steam-logo.svg';
+import {ReactComponent as Exit} from '../../assets/imgs/icons/svgs/sign-out.svg';
+import {ReactComponent as Enter} from '../../assets/imgs/icons/svgs/sign-in.svg';
 
-const SteamBtn = styled.a`
+
+const SteamBtn = styled.div`
   display: block;
   color: ${Colors.standard.secondary};
   background-color: ${Colors.standard.primary};
   border-radius: 40px;
-  padding: 10px 8px 10px 8px;
   transition: all 0.5s ease-in-out;
 
-  :hover{
-    color: ${Colors.standard.primary};
-    background-color: ${Colors.standard.secondary};
-  }
+  ${props => props.login && css`
+    :hover{
+      color: ${Colors.standard.primary};
+      background-color: ${Colors.standard.secondary};
+    }
+  `}
 
   ${props => props.largebtn && css`
     padding:1rem;
@@ -31,8 +36,9 @@ const ButtonContainer = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  min-width: 170px;
+  justify-content: space-between;
+  min-width: 160px;
+  padding: 10px 16px 10px 16px;
 `;
 
 const SteamLogo = styled(Steam)`
@@ -45,7 +51,22 @@ const SteamLogo = styled(Steam)`
   `}
 `;
 
-const Avatar = styled.a`
+const ExitBtn = styled(Exit)`
+  height:15px;
+`;
+
+const EnterBtn = styled(Enter)`
+  height:15px;
+`;
+
+const Grey = styled.div`
+  height:30px;
+  width:30px;
+  background-color:lightgrey;
+  border-radius: 20px;
+`;
+
+const Avatar = styled.div`
   background-image: url(${props => props.img});
   background-position: center;
   background-repeat: no-repeat;
@@ -57,28 +78,48 @@ const Avatar = styled.a`
   border-radius: 50%;
 `;
 
+const Anchor = styled.a`
+  display: block;
+  color: inherit;
+  ${props => props.hover && css`
+    transition: all 0.3s ease-in-out;
+    &:hover{
+      color: green;
+    }
+  `}
+`;
+
+const EmptyBtn = () => {
+  return(
+    <ButtonContainer>
+      <Grey></Grey>
+    </ButtonContainer>
+  )
+}
 const LoginBtn = ({ smallbtn, largebtn }) => {
   return (
-    <SteamBtn href='http://localhost:3001/login/steam' smallbtn={smallbtn} largebtn={largebtn}>
+    <Anchor href='http://localhost:3001/login/steam'>
       <ButtonContainer>
         <SteamLogo smallbtn={smallbtn} largebtn={largebtn}/>
         <BtnText smallbtn={smallbtn} largebtn={largebtn}>Sign In</BtnText>
+        <EnterBtn/>
       </ButtonContainer>
-    </SteamBtn>
+    </Anchor>
   )
 }
 
 const LogoutBtn = ({ userData }) => {
   return (
-    <SteamBtn >
-      {console.log('data', userData)}
-      <ButtonContainer>
-        <Avatar img={userData.avatar} href={`http://localhost:3000/profile/${userData.steam64Id}`}/>
-        <BtnText>{userData.personname}</BtnText>
-        <a href='http://localhost:3001/logout'>Logout</a>
-      </ButtonContainer>
-    </SteamBtn>
+    <ButtonContainer>
+      <ImageUrl margin to={`/profile/${userData.steam64Id}`}>
+        <Avatar img={userData.avatar}/>
+        <BtnText smallbtn={true}>{userData.personname}</BtnText>
+      </ImageUrl>
+      <Anchor hover href='http://localhost:3001/logout'>
+        <ExitBtn/>
+      </Anchor>
+    </ButtonContainer>
   )
 }
 
-export {LoginBtn , LogoutBtn};
+export {LoginBtn, LogoutBtn, SteamBtn, EmptyBtn};

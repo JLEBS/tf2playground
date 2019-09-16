@@ -1,5 +1,5 @@
-import React from 'react';
-import { LobbyLayout, LandingLayout, TextLayout, ProfileLayout }from './components/structure/layout';
+import React, {useEffect, useState }  from 'react';
+import { LobbyLayout, LandingLayout, TextLayout, ProfileLayout, NotificationContainer }from './components/structure/layout';
 import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import HomePage from './pages/home';
 import LobbyPage from './pages/lobby';
@@ -17,6 +17,8 @@ import gullywash from './assets/imgs/maps/gullywash.jpg';
 import grannary from './assets/imgs/maps/grannary.jpg';
 import ravine from './assets/imgs/themes/ravine.png';
 import interlaced from './assets/imgs/background/interlaced.png';
+import HeaderContainer from './components/header/mainHeader/mainHeader';
+import SubHeaderContainer from './components/header/subHeader/subHeader';
 
 
 //Home
@@ -102,9 +104,75 @@ const Settings = () => (
     </LobbyLayout>
 );
 
+
+const useFetch = (url) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [pending, setPending] = useState(false);
+  
+    function fetchData() {
+      if (!url) {
+        setPending(true);
+        return false;
+      }
+  
+      setPending(false);
+  
+      fetch(url, {
+        credentials: 'include',
+        'mode': 'cors'
+      })
+      .then(res => res.json())
+      .then(res => {
+        setData(res)
+        setLoading(false)
+      })
+      .catch(err => {
+        setData(false)
+        setLoading(false)
+      });
+    }
+  
+    useEffect(() => {
+      fetchData()
+    }, [ url ]);
+  
+    return {
+      pending,
+      loading,
+      data
+    };
+};
+
+  
 const AppRouter = () => {
+
+    const fetchUser = useFetch(`http://localhost:3001/profile`);
+
+    const notificationClient = () => {
+        
+        return(
+           <div>
+            <NotificationContainer>Has logged in</NotificationContainer>
+            {console.log('notification')}
+          </div>
+        )
+    }
+    
     return (
         <Router>
+            <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
+                {console.log(fetchUser.data,'goodbye')}
+            <SubHeaderContainer className='subHeader'/>
+            
+            <div>
+                {( fetchUser.data &&
+                    <div>
+                        {notificationClient()}
+                    </div>
+                )}
+            </div>
+
             <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/lobby" component={Lobby} />
@@ -114,7 +182,6 @@ const AppRouter = () => {
                 <Route path="/conduct" component={Conduct} />
                 <Route path="/donate" component={Donate} />
                 <Route path="/users" component={Users} />
-                {/* logout */}
                 <Route path="/matches" component={Matches} />
                 <Route path="/profile/:steamID" component={Profile} />
                 <Route path="/settings" component={Settings} />

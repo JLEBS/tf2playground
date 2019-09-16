@@ -1,4 +1,4 @@
-import styled, {css, createGlobalStyle} from 'styled-components';
+import styled, {css} from 'styled-components';
 import {fluidRange} from 'polished';
 import Colors from './colors';
 import {Link as ReactRouterLink} from 'react-router-dom';
@@ -6,15 +6,6 @@ import tf2logo from './../assets/imgs/themes/tf2logo.png';
 
 const colorPrimary = Colors.standard.primary;
 const colorSecondary = Colors.standard.secondary;
-
-const TF2Font = createGlobalStyle`
-  body {
-    @import url('../fonts/tf2-build.ttf');
-    font-family: 'tf2-build';
-  }
-`
-// TF2Main: 'TF2 Main',
-//TF2Secondary: 'TF2 Secondary'
 
 export const TitleLogo = styled.div`
   background-image: url(${tf2logo});
@@ -123,6 +114,19 @@ export const LobbyFont = styled.p`
   `}
 `;
 
+export const ImageUrl = styled(ReactRouterLink)`
+  display: flex;
+  min-width: 100px;
+  align-items: center;
+  justify-content: space-between;
+  color: inherit;
+  transition: 0.3s all ease-in-out;
+
+  &:hover{
+    opacity: 0.7
+  }
+`;
+
 export const Link = styled(ReactRouterLink)`
   font-style: normal;
   font-size: 16px;
@@ -179,7 +183,12 @@ export const BtnText = styled.p`
   `}
 
   ${props => props.smallbtn && css`
-    font-size: 14px;
+    font-size: 12px;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 110px;
+    margin-left: 8px;
   `}
 `;
 
@@ -343,4 +352,13 @@ export const Fluctuation = styled.div`
       transform: rotate(180deg);
     }
   };
+`;
+
+export const Notification = styled.div`
+  font-family: tf2-secondary;
+  font-weight: bold;
+  color: #5C7A8B;
+  background-color: #F1E9CC;
+  padding:1em;
+  border-radius: 20px;
 `;

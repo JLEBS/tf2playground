@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import AppRouter from './route';
-import GlobalStyle from './theme/globalStyle';
+import {GlobalStyle, TF2FontFaces} from './theme/globalStyle';
 
 class App extends Component {
   render() {
     return (
-    <>
-      <GlobalStyle/>
-      <AppRouter/>
+      <>
+        <TF2FontFaces/>
+        <GlobalStyle/>
+        <AppRouter/>
       </>
     );
   }

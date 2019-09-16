@@ -12,7 +12,6 @@ const Wrapper = styled.div`
     height: 100vh;
     width: 100vw;
     z-index: -3;
-    font-family: 'Open Sans', sans-serif;
     background-color: #EEEEEE;
     display:flex;
     overflow-y: scroll;

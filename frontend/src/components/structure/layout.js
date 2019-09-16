@@ -2,7 +2,7 @@ import React from 'react';
 import HeaderContainer from '../header/mainHeader/mainHeader';
 import SubHeaderContainer from '../header/subHeader/subHeader';
 import {Wrapper, Content, MarginContainer, Overlay} from './containers';
-import {Title} from '../../misc/fonts';
+import {Title, Notification} from '../../misc/fonts';
 
 //For landing/login page
 export const LandingLayout = ({children, imageUrl}) => (
@@ -14,9 +14,7 @@ export const LandingLayout = ({children, imageUrl}) => (
 //Structure of entire website (except login page!) This should never ever refresh/change, only the children should change between pages
 const WebStructure = ({children, imageUrl, pattern}) => (
     <Wrapper pattern={pattern} imageUrl={imageUrl}>
-        <HeaderContainer className='mainHeader'/>
-        <SubHeaderContainer className='subHeader'/>
-       
+   
         <Content className='content'>
             {children}
         </Content>
@@ -59,4 +57,8 @@ export const LobbyLayout = ({children, imageUrl}) => (
     <WebStructure imageUrl={imageUrl}>
         {children}
     </WebStructure>
+);
+
+export const NotificationContainer = (notification) => (
+    <Notification></Notification>
 );

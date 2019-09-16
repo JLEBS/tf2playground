@@ -1,7 +1,7 @@
 import CountUp from 'react-countup';
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {UserSubHeading, UserContent, UserLinks, UserValue, TempusTitle, Fluctuation} from '../../../misc/fonts';
+import {UserSubHeading, UserContent, UserValue, TempusTitle, Fluctuation} from '../../../misc/fonts';
 import {MarginContainer} from '../../structure/containers';
 import Graph from './visual-data/graph';
 

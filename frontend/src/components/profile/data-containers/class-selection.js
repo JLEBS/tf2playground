@@ -1,24 +1,13 @@
-import React , {useState, useCallback, useEffect}  from 'react';
+import React, {useState, useCallback, useEffect}  from 'react';
 import styled from 'styled-components';
-import Colors from '../../../misc/colors';
 import useWebSocket from 'react-use-websocket';
-
-
+import ClassSelection from '../../matchmaking/lobby';
+import {LobbyFont} from '../../../misc/fonts';
 
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
-
-
-
-// const LobbyContainer = styled.div`
-//     max-width: 30
-// `;
-
-const ClassSelection = styled.div`
-
-`;
 
 const LobbyPanel = styled.div`
     background-color: black;
@@ -27,22 +16,38 @@ const LobbyPanel = styled.div`
     float: right;
 `;
 
-const PlayerSlot = styled.button`
-
+const ClassContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const LobbyRectangle = styled.div`
     padding: 16px 32px 16px 32px;
 `;
 
+const PlayerSlot = styled.button`
+    width: 100%;
+    height: 56px;
+    background-color: #1E1E1E;
+    outline: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+`;
+
+const Grey = styled.button`
+    height: 32px;
+    width: 32px;
+    background-color: #4F4F4F;
+    border-radius:20px;
+`;
 
 const LobbyContainer = () => {
     const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
     const [messageHistory, setMessageHistory] = useState([]);
     const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
-    const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
-    const handleClickSendMessage = useCallback(() => sendMessage('Class clicked'), []);
-   
+
     useEffect(() => {
       if (lastMessage !== null) {
         setMessageHistory(prev => prev.concat(lastMessage));
@@ -56,32 +61,44 @@ const LobbyContainer = () => {
       [CONNECTION_STATUS_CLOSED]: 'Closed',
     }[readyState];
 
+    const arrayCreate = () => {
+        const object = [0,1,2,3,4,5,6,7,8,9,10,11,12];
+        return object;
+    }
     return (
         <LobbyPanel>
             <LobbyRectangle>
-                <h1>Choose Class</h1>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Scout</button>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Scout</button>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Soldier</button>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Soldier</button>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Demo</button>
-                <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Medic</button>
+                <ClassContainer>
+                    <LobbyFont>Choose Class</LobbyFont>
+                   <ClassSelection />
+                </ClassContainer>           
             </LobbyRectangle>
             <LobbyRectangle>
-                <h1>Waiting for players to join lobby...</h1>
-                <div>0/12</div>
+                <ClassContainer>
+                <LobbyFont>Waiting for players to join lobby...</LobbyFont>
+                <LobbyFont>0/12</LobbyFont>
+                </ClassContainer>           
             </LobbyRectangle>
-            <ClassSelection>
-                <PlayerSlot></PlayerSlot>
-               
-                <span>The WebSocket is currently {connectionStatus}</span>
-                {lastMessage && (
-                    <span>Last message:{lastMessage.data}</span>
+                
+                {arrayCreate().map((object, i) => 
+                    <PlayerSlot obj={object} key={i} >
+                        <Grey/>
+                        <LobbyFont>Greenrab</LobbyFont>
+                        <div>
+                            <div>18</div>
+                            <div>3829hr</div>
+                        </div>
+                    </PlayerSlot>
                 )}
-                <ul>
-                    {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
-                </ul>
-            </ClassSelection>
+
+            <span>The WebSocket is currently {connectionStatus}</span>
+            {lastMessage && (
+                <span>Last message:{lastMessage.data}</span>
+            )}
+            <ul>
+                {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
+            </ul>
+
         </LobbyPanel>
     )
 }

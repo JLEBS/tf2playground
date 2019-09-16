@@ -2,6 +2,7 @@ import React, {useState, useCallback, useEffect}  from 'react';
 import LobbyContainer from './../components/profile/data-containers/class-selection';
 import useWebSocket from 'react-use-websocket';
 
+
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;
@@ -38,7 +39,7 @@ const LobbyPage = () => {
         <div>hello this worked</div>
       )} */}
       <LobbyContainer>
-      <button onClick={handleClickChangeSocketUrl}>Click Me to change Socket Url</button>
+      <button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
       <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
       <span>The WebSocket is currently {connectionStatus}</span>
       {lastMessage && (

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import useWebSocket from 'react-use-websocket';
 import ClassSelection from '../../matchmaking/lobby';
 import {LobbyFont} from '../../../misc/fonts';
+//import { ReactComponent as TF2Logo } from '../assets/imgs/icons/svgs/tf2-logo.svg';
+
 
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
@@ -28,11 +30,12 @@ const LobbyRectangle = styled.div`
 
 const PlayerSlot = styled.button`
     width: 100%;
-    height: 56px;
+    padding: 12px 32px 12px 32px;
     background-color: #1E1E1E;
     outline: 1px solid white;
     display: flex;
     justify-content: space-between;
+    align-items:center;
     color: white;
 `;
 
@@ -83,7 +86,7 @@ const LobbyContainer = () => {
                 {arrayCreate().map((object, i) => 
                     <PlayerSlot obj={object} key={i} >
                         <Grey/>
-                        <LobbyFont>Greenrab</LobbyFont>
+                        <LobbyFont>Waiting...</LobbyFont>
                         <div>
                             <div>18</div>
                             <div>3829hr</div>

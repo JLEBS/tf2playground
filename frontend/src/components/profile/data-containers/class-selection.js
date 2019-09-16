@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import useWebSocket from 'react-use-websocket';
 import ClassSelection from '../../matchmaking/lobby';
 import {LobbyFont} from '../../../misc/fonts';
-//import { ReactComponent as TF2Logo } from '../assets/imgs/icons/svgs/tf2-logo.svg';
-
+import { ReactComponent as Clock } from '../../../assets/imgs/icons/svgs/clock.svg';
+import { ReactComponent as Fist } from '../../../assets/imgs/icons/svgs/fist.svg';
 
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
@@ -46,6 +46,22 @@ const Grey = styled.button`
     border-radius:20px;
 `;
 
+const NumGames = styled(Fist)`
+    width: 16px;
+    margin-right: 6px;
+    margin-left: 6px;
+`;
+
+const TotalHours = styled(Clock)`
+    width: 16px;
+    margin-right: 6px;
+    margin-left: 6px;
+`;
+
+const LobbyData = styled.div`
+    font-size: 14px;
+`;
+
 const LobbyContainer = () => {
     const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
     const [messageHistory, setMessageHistory] = useState([]);
@@ -73,7 +89,7 @@ const LobbyContainer = () => {
             <LobbyRectangle>
                 <ClassContainer>
                     <LobbyFont>Choose Class</LobbyFont>
-                   <ClassSelection />
+                    <ClassSelection />
                 </ClassContainer>           
             </LobbyRectangle>
             <LobbyRectangle>
@@ -87,10 +103,12 @@ const LobbyContainer = () => {
                     <PlayerSlot obj={object} key={i} >
                         <Grey/>
                         <LobbyFont>Waiting...</LobbyFont>
-                        <div>
-                            <div>18</div>
-                            <div>3829hr</div>
-                        </div>
+                        <ClassContainer>
+                            <NumGames/>
+                            <LobbyData>18</LobbyData>
+                            <TotalHours/>
+                            <LobbyData>3829</LobbyData>
+                        </ClassContainer>
                     </PlayerSlot>
                 )}
 

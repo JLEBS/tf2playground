@@ -164,14 +164,7 @@ const AppRouter = () => {
             <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
                 {console.log(fetchUser.data,'goodbye')}
             <SubHeaderContainer className='subHeader'/>
-            
-            <div>
-                {( fetchUser.data &&
-                    <div>
-                        {notificationClient()}
-                    </div>
-                )}
-            </div>
+          
 
             <Switch>
                 <Route path="/" exact component={Home} />

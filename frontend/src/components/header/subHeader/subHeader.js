@@ -5,6 +5,7 @@ import { LobbyFont } from '../../../misc/fonts';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
+import ClassSelection from '../../matchmaking/lobby'
 
 const ChatMod = styled(Chat)`
     height: 25px;
@@ -176,7 +177,7 @@ const SubHeaderContainer = () => {
                         </Box>
                     )}
                 </PoseGroup> */}
-             
+             <ClassSelection/>
             </SubHeader>
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>

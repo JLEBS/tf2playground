@@ -114,16 +114,17 @@ export const LobbyFont = styled.p`
   `}
 `;
 
-export const ImageUrl = styled(ReactRouterLink)`
+export const ProfileDropdown = styled(ReactRouterLink)`
+  padding: 8px 0px 8px 0px;
   display: flex;
-  min-width: 100px;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   color: inherit;
-  transition: 0.3s all ease-in-out;
-
+  opacity: 0.6;
+  transition: all 0.3s ease-in-out;
   &:hover{
-    opacity: 0.7
+    opacity: 1;
   }
 `;
 

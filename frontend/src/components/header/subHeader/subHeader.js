@@ -36,7 +36,7 @@ const SubHeader = styled.div`
 `;
 
 const SocialGroup = styled.button`
-height:100%;
+  height:100%;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -97,14 +97,14 @@ const BackgroundOverlay = styled.div`
 `;
 
 const ClassContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 400px;
-    width: 100%;
-    background-color: black;
-    color: white;
-    padding: 14px 32px 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 14px 32px 14px 32px;
 `;
 
 const ChatContainer = styled.div`

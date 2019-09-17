@@ -20,7 +20,6 @@ import interlaced from './assets/imgs/background/interlaced.png';
 import HeaderContainer from './components/header/mainHeader/mainHeader';
 import SubHeaderContainer from './components/header/subHeader/subHeader';
 
-
 //Home
 const Home = () => (
     <LandingLayout imageUrl={sunshine}> 
@@ -143,7 +142,6 @@ const useFetch = (url) => {
       data
     };
 };
-
   
 const AppRouter = () => {
 
@@ -165,7 +163,6 @@ const AppRouter = () => {
                 {console.log(fetchUser.data,'goodbye')}
             <SubHeaderContainer className='subHeader'/>
           
-
             <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/lobby" component={Lobby} />

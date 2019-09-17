@@ -14,7 +14,7 @@ const SteamBtn = styled.div`
   color: ${Colors.standard.secondary};
   background-color: ${Colors.standard.primary};
   border-radius: 40px;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   ${props => props.login && css`
     :hover{
@@ -65,7 +65,7 @@ const ButtonContainer = styled.span`
     text-transform: uppercase;
     background-color: ${Colors.standard.primary};
     box-shadow: 0px 4px 4px 2px #00000040;
-    transition: 0.3s all ease-in-out;
+    transition: 0.2s all ease-in;
   }
 `;
 
@@ -131,6 +131,7 @@ const EmptyBtn = () => {
     </ButtonContainer>
   )
 }
+
 const LoginBtn = ({ smallbtn, largebtn }) => {
   return (
     <Anchor href='http://localhost:3001/login/steam'>

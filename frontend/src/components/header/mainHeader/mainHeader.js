@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Colors from '../../../misc/colors';
 import { Link, TitleLogo, Title } from '../../../misc/fonts';
 import {MarginContainer} from '../../structure/containers';

@@ -38,23 +38,24 @@ const ClassInstance = styled.span`
         height: 24px;
         width: 24px;
     `}
-`;
 
-const ClassQuantity = styled.span`
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 12px;
-  border: 1px solid #FF5722;
-  border-radius: 10px;
-  height: 13px;
-  width: 13px;
-  position: absolute;
-  display: block;
-  text-align: center;
-  top: -4px;
-  right: -7px;
-  background-color: white;
+    &:after{
+      content: '2';
+      color: black;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 12px;
+      border: 1px solid #FF5722;
+      border-radius: 10px;
+      height: 13px;
+      width: 13px;
+      position: absolute;
+      display: block;
+      text-align: center;
+      top: -4px;
+      right: -7px;
+      background-color: white;
+    }
 `;
 
 const ClassSelection = () => {
@@ -62,38 +63,32 @@ const ClassSelection = () => {
   const CLASSES = [
     {   
       id: 1,
-      name: 'pocket scout',
-      shortname: 'pocket scout',
+      name: 'pocket-scout-btn-select',
       image: pocketScout,
     },
     {
       id: 2,
-      name: 'flank scout',
-      shortname: 'flank scout',
+      name: 'flank-scout-btn-select',
       image: scout,
     },
     {
       id: 3,
-      name: 'pocket soldier',
-      shortname: 'pocket',
+      name: 'pocket-soldier-btn-select',
       image: pocketSoldier
     },
     {
       id: 4,
-      name: 'roaming soldier',
-      shortname: 'roamer',
+      name: 'roaming-soldier-btn-select',
       image: soldier
     },
     {
       id: 5,
-      name: 'demoman',
-      shortname: 'demo',
+      name: 'demoman-btn-select',
       image: demo
     },
     {
       id: 6,
-      name: 'medic',
-      shortname: 'medic',
+      name: 'medic-btn-select',
       image: medic
     }
   ];
@@ -102,8 +97,12 @@ const ClassSelection = () => {
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
   const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
-  const handleClickSendMessage = useCallback(() => sendMessage('Class clicked'), []);
- 
+  const handleClickSendMessage = useCallback(() => sendMessage('hoverd successfully'), []);
+
+  // const handleHover = (this) =>  {
+  //   console.log('hovered!', this);
+  // }
+
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory(prev => prev.concat(lastMessage));
@@ -116,13 +115,22 @@ const ClassSelection = () => {
     [CONNECTION_STATUS_CLOSING]: 'Closing',
     [CONNECTION_STATUS_CLOSED]: 'Closed',
   }[readyState];
-  
+
+  const [character, currentCharacter] = useState('scout');
+
+  const handleHover = (e) => {
+    console.log(e);
+  }
+  useEffect(() => {
+    // Update the document title using the browser API
+    document.title = `Yo ${character} times`;
+  });
+
   return (
     <>
       {CLASSES.map((character, i) => (
-        <ClassContainer onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN} key={i}>
+        <ClassContainer id={character.name} onMouseEnter={() => handleHover(character.id)} onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN} key={i}>
           <ClassInstance icon imageUrl={character.image}/>
-          <ClassQuantity>2</ClassQuantity>
         </ClassContainer>
       ))}
     </>

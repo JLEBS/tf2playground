@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect}  from 'react';
 import LobbyContainer from './../components/profile/data-containers/class-selection';
+import CharacerPopup from './../components/matchmaking/character-slide';
 import useWebSocket from 'react-use-websocket';
-
 
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
@@ -16,7 +16,7 @@ const LobbyPage = () => {
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
   const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
-  const handleClickSendMessage = useCallback(() => sendMessage('Hello this worked'), []);
+  const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
  
   useEffect(() => {
     if (lastMessage !== null) {
@@ -35,21 +35,21 @@ const LobbyPage = () => {
  
   return (
     <div>
-      {/* {steamtoken && (
-        <div>hello this worked</div>
-      )} */}
       <LobbyContainer>
-      <button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
-      <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
-      <span>The WebSocket is currently {connectionStatus}</span>
-      {lastMessage && (
-          <span>Last message:{lastMessage.data}</span>
-      )}
-      <ul>
-          {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
-      </ul>
+        <button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
+        <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
+        <span>The WebSocket is currently {connectionStatus}</span>
+        {lastMessage && (
+            <span>Last message:{lastMessage.data}</span>
+        )}
+        <ul>
+            {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
+        </ul>
       </LobbyContainer>
+      <CharacerPopup/>
+
     </div>
+    
   )
 };
 

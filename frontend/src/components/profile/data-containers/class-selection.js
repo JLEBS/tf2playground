@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect}  from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import useWebSocket from 'react-use-websocket';
 import ClassSelection from '../../matchmaking/lobby';
 import {LobbyFont} from '../../../misc/fonts';
@@ -14,7 +14,8 @@ const CONNECTION_STATUS_CLOSED = 3;
 const LobbyPanel = styled.div`
     background-color: black;
     color: white;
-    width: 35%;
+    width: 100%;
+    max-width: 464px;
     float: right;
 `;
 
@@ -25,18 +26,17 @@ const ClassContainer = styled.div`
 `;
 
 const LobbyRectangle = styled.div`
-    padding: 16px 32px 16px 32px;
-`;
-
-const PlayerSlot = styled.button`
-    width: 100%;
-    padding: 12px 32px 12px 32px;
-    background-color: #1E1E1E;
-    outline: 1px solid white;
     display: flex;
     justify-content: space-between;
-    align-items:center;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    background-color: black;
     color: white;
+    padding: 14px 32px 14px 32px;
+    ${props => props.fixed && css`
+        position: fixed;
+    `}
 `;
 
 const Grey = styled.button`
@@ -60,6 +60,15 @@ const TotalHours = styled(Clock)`
 
 const LobbyData = styled.div`
     font-size: 14px;
+`;
+
+const IncrimentCounter = styled.div`
+    background-color: white
+    color: black;
+    padding: 4px 13px 4px 13px;
+    border-radius: 16px;
+    min-width: 42px;
+    text-align:center;
 `;
 
 const LobbyContainer = () => {
@@ -86,33 +95,37 @@ const LobbyContainer = () => {
     }
     return (
         <LobbyPanel>
-            <LobbyRectangle>
-                <ClassContainer>
-                    <LobbyFont>Choose Class</LobbyFont>
-                    <ClassSelection />
-                </ClassContainer>           
-            </LobbyRectangle>
-            <LobbyRectangle>
-                <ClassContainer>
+          
+            <LobbyRectangle fixed>
                 <LobbyFont>Waiting for players to join lobby...</LobbyFont>
-                <LobbyFont>0/12</LobbyFont>
-                </ClassContainer>           
+                <IncrimentCounter>
+                    <LobbyFont>0/12</LobbyFont>
+                </IncrimentCounter>
             </LobbyRectangle>
-                
+            
+            <div>
                 {arrayCreate().map((object, i) => 
-                    <PlayerSlot obj={object} key={i} >
+                    <LobbyRectangle obj={object} key={i} >
+                        
                         <Grey/>
                         <LobbyFont>Waiting...</LobbyFont>
                         <ClassContainer>
-                            <NumGames/>
-                            <LobbyData>18</LobbyData>
-                            <TotalHours/>
-                            <LobbyData>3829</LobbyData>
+                            <span>
+                                <NumGames/>
+                                <LobbyData>18</LobbyData>
+                            </span>
+                            <span>
+                                <TotalHours/>
+                                <LobbyData>3829</LobbyData>
+                            </span>
                         </ClassContainer>
-                    </PlayerSlot>
+                    </LobbyRectangle>
                 )}
+            </div>
+            <LobbyRectangle>
+                <LobbyFont>View Spectators</LobbyFont>
+            </LobbyRectangle>
 
-            <span>The WebSocket is currently {connectionStatus}</span>
             {lastMessage && (
                 <span>Last message:{lastMessage.data}</span>
             )}

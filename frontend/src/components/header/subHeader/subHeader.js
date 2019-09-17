@@ -32,9 +32,11 @@ const SubHeader = styled.div`
     z-index: 3;
     display:flex;
     flex-direction:row;
+    justify-content: space-between;
 `;
 
 const SocialGroup = styled.button`
+height:100%;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -92,6 +94,23 @@ const BackgroundOverlay = styled.div`
     z-index: 2;
     cursor: w-resize;
     display: none;
+`;
+
+const ClassContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 14px 32px 14px 32px;
+`;
+
+const ChatContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 // const Box = posed.div({
@@ -154,18 +173,21 @@ const SubHeaderContainer = () => {
         <>
             <SubHeader>
               
-                <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
-                    <LobbyFont>Chat</LobbyFont>
-                    <ChatMod/>
-                </SocialGroup>
-                <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
-                    <LobbyFont>Online</LobbyFont>
-                    <UsersMod/>
-                </SocialGroup>
-                <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
-                    <LobbyFont>Streams</LobbyFont>
-                    <VideoMod/>
-                </SocialGroup>
+                <ChatContainer>
+                    <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
+                        <LobbyFont>Chat</LobbyFont>
+                        <ChatMod/>
+                    </SocialGroup>
+                    <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
+                        <LobbyFont>Online</LobbyFont>
+                        <UsersMod/>
+                    </SocialGroup>
+                    <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
+                        <LobbyFont>Streams</LobbyFont>
+                        <VideoMod/>
+                    </SocialGroup>
+                </ChatContainer>
+
                 {/* <PoseGroup>
                     { panelOpen && (
                         <Box key='model'>
@@ -177,8 +199,17 @@ const SubHeaderContainer = () => {
                         </Box>
                     )}
                 </PoseGroup> */}
-             <ClassSelection/>
+             
+            
+              <ClassContainer>
+                <LobbyFont>Choose Class</LobbyFont>
+                
+                  <ClassSelection/>
+              
+              </ClassContainer>
             </SubHeader>
+
+
             {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
             )} */}

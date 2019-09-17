@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 
 //Wraps the entire content of the page excluding the navigation bar
 const Content = styled.div`
-    padding-top: 156px;
+    padding-top: 164px;
     width:100vw;
     display: flex;
     flex-direction: column;

@@ -14,7 +14,6 @@ const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
-
 const ClassContainer = styled.button`
   background-color: white;
   padding: 4px;
@@ -41,7 +40,7 @@ const ClassInstance = styled.span`
     `}
 `;
 
-const ClassQuantity = styled.div`
+const ClassQuantity = styled.span`
   color: black;
   font-size: 14px;
   font-weight: bold;

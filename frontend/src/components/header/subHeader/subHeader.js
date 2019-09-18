@@ -5,7 +5,7 @@ import { LobbyFont } from '../../../misc/fonts';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
-import ClassSelection from '../../matchmaking/lobby'
+import ClassSelection from '../../matchmaking/choose-class'
 
 const ChatMod = styled(Chat)`
     height: 25px;
@@ -124,7 +124,7 @@ const ChatContainer = styled.div`
 //     }
 //   });
 
-const SubHeaderContainer = () => {
+const SubHeaderContainer = ({myFunction}) => {
 
     const CHAT_PANEL = 'CHAT_PANEL';
     const ONLINE_PANEL = 'ONLINE_PANEL';
@@ -202,10 +202,8 @@ const SubHeaderContainer = () => {
              
             
               <ClassContainer>
-                <LobbyFont>Choose Class</LobbyFont>
-                
-                  <ClassSelection/>
-              
+                    <LobbyFont>Choose Class</LobbyFont>
+                    <ClassSelection myFunction={myFunction} />
               </ClassContainer>
             </SubHeader>
 

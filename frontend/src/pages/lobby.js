@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useEffect}  from 'react';
-import LobbyContainer from './../components/profile/data-containers/class-selection';
-import CharacerPopup from './../components/matchmaking/character-slide';
+import LobbyContainer from '../components/matchmaking/lobby-panel';
+import {LobbyHeading, LobbySpectators} from '../components/matchmaking/lobby-elements';
+
 import useWebSocket from 'react-use-websocket';
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -10,7 +11,7 @@ const CONNECTION_STATUS_CLOSED = 3;
 
 //const maintoken = Cookies.get("steamIdAuth"); 
 //const steamtoken = Cookies.get('steamUserID');
-const LobbyPage = () => {
+const LobbyPage = ({selectedClass, playerData}) => {
 
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
   const [messageHistory, setMessageHistory] = useState([]);
@@ -34,23 +35,23 @@ const LobbyPage = () => {
   }[readyState];
  
   return (
-    <div>
-      <LobbyContainer>
-        <button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
-        <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
-        <span>The WebSocket is currently {connectionStatus}</span>
-        {lastMessage && (
-            <span>Last message:{lastMessage.data}</span>
-        )}
-        <ul>
-            {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
-        </ul>
-      </LobbyContainer>
-      <CharacerPopup/>
-
-    </div>
-    
+    <>
+      <LobbyHeading/>
+        <LobbyContainer selectedClass={selectedClass} playerData={playerData}/>
+      <LobbySpectators/>
+    </>
   )
 };
 
-export default LobbyPage;
+export default LobbyPage;       
+
+/* {console.log(playerData, 'is it loading')}
+<button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
+<button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
+<span>The WebSocket is currently {connectionStatus}</span>
+{lastMessage && (
+    <span>Last message:{lastMessage.data}</span>
+)}
+<ul>
+    {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
+</ul> */

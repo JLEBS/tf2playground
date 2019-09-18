@@ -20,164 +20,157 @@ import interlaced from './assets/imgs/background/interlaced.png';
 import HeaderContainer from './components/header/mainHeader/mainHeader';
 import SubHeaderContainer from './components/header/subHeader/subHeader';
 
-//Home
 const Home = () => (
-    <LandingLayout imageUrl={sunshine}> 
-        <HomePage/>
-    </LandingLayout>
+  <LandingLayout imageUrl={sunshine}> 
+    <HomePage/>
+  </LandingLayout>
 );
-//END HOME
 
-//Main Lobby Area
-const Lobby = () => (
-    <LobbyLayout imageUrl={prolands}>
-        <LobbyPage/>
-    </LobbyLayout>
+const Lobby = ({selectedClass, playerData}) => (
+  <LobbyLayout imageUrl={prolands}>
+    <LobbyPage selectedClass={selectedClass} playerData={playerData}/>
+  </LobbyLayout>
 );
-//END LOBBY
 
-//Website information, rules, terms etc Using TextLayout
 const About = () => (
-    <TextLayout imageUrl={ravine}>
-        <AboutPage/>
-    </TextLayout>
+  <TextLayout imageUrl={ravine}>
+    <AboutPage/>
+  </TextLayout>
 );
 
 const Rules = () => (
-    <TextLayout imageUrl={snakewater}>
-        <RulesPage/>
-    </TextLayout>
+  <TextLayout imageUrl={snakewater}>
+    <RulesPage/>
+  </TextLayout>
 );
 
 const Stats = () => (
-    <TextLayout imageUrl={process}>
-        <StatPage/>
-    </TextLayout>
+  <TextLayout imageUrl={process}>
+    <StatPage/>
+  </TextLayout>
 );
 
 const Conduct = () => (
-    <TextLayout imageUrl={grannary}>
-        <ConductPage/>
-    </TextLayout>
+  <TextLayout imageUrl={grannary}>
+    <ConductPage/>
+  </TextLayout>
 );
 
 const Donate = () => (
-    <TextLayout>
-        <DonatePage/>
-    </TextLayout>
+  <TextLayout>
+    <DonatePage/>
+  </TextLayout>
 );
-//END
 
-//Displays an array of all data from the database (all users on the site, or all matches played)
 const Users = () => (
-    <LobbyLayout>
-        <h2>Users</h2>;
-    </LobbyLayout>
+  <LobbyLayout>
+    <h2>Users</h2>;
+  </LobbyLayout>
 );
 
 const Matches = () => (
-    <LobbyLayout>
-        <h2>Matches</h2>;
-    </LobbyLayout>
+  <LobbyLayout>
+    <h2>Matches</h2>;
+  </LobbyLayout>
 );
-//END
 
-//Displays a specifically chosen user or match from the database (singular)
 const Profile = props => (
-    <ProfileLayout imageUrl={interlaced}>
-        <ProfilePage {...props}></ProfilePage>
-    </ProfileLayout>
+  <ProfileLayout imageUrl={interlaced}>
+      <ProfilePage {...props}></ProfilePage>
+  </ProfileLayout>
 );
 
 const MatchSingle = () => (
-    <LobbyLayout>
-        <h2>This Match Specifically</h2>;
-    </LobbyLayout>
+  <LobbyLayout>
+      <h2>This Match Specifically</h2>;
+  </LobbyLayout>
 );
-//END
 
-//User Specific Only change options and settings
 const Settings = () => (
-    <LobbyLayout>
-        <h2>Settings</h2>;
-    </LobbyLayout>
+  <LobbyLayout>
+      <h2>Settings</h2>;
+  </LobbyLayout>
 );
-
 
 const useFetch = (url) => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [pending, setPending] = useState(false);
-  
-    function fetchData() {
-      if (!url) {
-        setPending(true);
-        return false;
-      }
-  
-      setPending(false);
-  
-      fetch(url, {
-        credentials: 'include',
-        'mode': 'cors'
-      })
-      .then(res => res.json())
-      .then(res => {
-        setData(res)
-        setLoading(false)
-      })
-      .catch(err => {
-        setData(false)
-        setLoading(false)
-      });
-    }
-  
-    useEffect(() => {
-      fetchData()
-    }, [ url ]);
-  
-    return {
-      pending,
-      loading,
-      data
-    };
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState(false);
+
+  function fetchData() {
+    if (!url) {
+    setPending(true);
+    return false;
+  }
+
+  setPending(false);
+
+  fetch(url, {
+    credentials: 'include',
+    'mode': 'cors'
+  })
+  .then(res => res.json())
+  .then(res => {
+    setData(res)
+    setLoading(false)
+  })
+  .catch(err => {
+    setData(false)
+    setLoading(false)
+  });
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [ url ]);
+
+  return {
+    pending,
+    loading,
+    data
+  };
 };
   
 const AppRouter = () => {
 
-    const fetchUser = useFetch(`http://localhost:3001/profile`);
+  const fetchUser = useFetch(`http://localhost:3001/profile`);
 
-    const notificationClient = () => {
-        
-        return(
-           <div>
-            <NotificationContainer>Has logged in</NotificationContainer>
-            {console.log('notification')}
-          </div>
-        )
-    }
-    
-    return (
-        <Router>
-            <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
-                {console.log(fetchUser.data,'goodbye')}
-            <SubHeaderContainer className='subHeader'/>
-          
-            <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/lobby" component={Lobby} />
-                <Route path="/about" component={About} />
-                <Route path="/rules" component={Rules} />
-                <Route path="/stats" component={Stats} />
-                <Route path="/conduct" component={Conduct} />
-                <Route path="/donate" component={Donate} />
-                <Route path="/users" component={Users} />
-                <Route path="/matches" component={Matches} />
-                <Route path="/profile/:steamID" component={Profile} />
-                <Route path="/settings" component={Settings} />
-            </Switch>
-        </Router>
-    );
+  const notificationClient = () => {
+
+    return(
+      <div>
+        <NotificationContainer>Has logged in</NotificationContainer>
+        {console.log('notification')}
+      </div>
+    )
+  }
+
+  const chooseClassFunc = (e) => {
+    console.log(e);
+    setCurrentClass(e);
+  }
+
+  const [currentClass, setCurrentClass] = useState(null);
+
+  return (
+    <Router>
+      <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
+      <SubHeaderContainer myFunction={chooseClassFunc} className='subHeader'/>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/lobby" render={() => <Lobby selectedClass={currentClass} playerData={fetchUser}/>}/>
+        <Route path="/about" component={About} />
+        <Route path="/rules" component={Rules} />
+        <Route path="/stats" component={Stats} />
+        <Route path="/conduct" component={Conduct} />
+        <Route path="/donate" component={Donate} />
+        <Route path="/users" component={Users} />
+        <Route path="/matches" component={Matches} />
+        <Route path="/profile/:steamID" component={Profile} />
+        <Route path="/settings" component={Settings} />
+      </Switch>
+    </Router>
+  );
 }
   
 export default AppRouter;

@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 150%;
   }
 `
 export {GlobalStyle, TF2FontFaces};

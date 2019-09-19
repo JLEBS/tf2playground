@@ -1,18 +1,22 @@
 import React from 'react';
-import {LobbyFont} from '../../misc/fonts';
-import {LobbyRectangle, IconWrapper, IconImage} from './lobby-elements';
+import {Link} from '../../misc/fonts';
+import {LobbyRectangle, IconWrapper, IconImage, LobbyStats} from './lobby-elements';
 import classSelectionArray from './class-array';
-import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
-import { ReactComponent as Fist } from '../../assets/imgs/icons/svgs/fist.svg';
 
 const LobbySlot = ({playerData, selectedClass}) => {
   return(
-    <LobbyRectangle >
-      <IconWrapper>
-          <IconImage imageUrl={classSelectionArray[selectedClass].icon}/>
+    <LobbyRectangle>
+      <IconWrapper background={selectedClass ? 'white' : 'grey'}>
+        <IconImage imageUrl={selectedClass ? classSelectionArray[selectedClass].icon : ''}/>
       </IconWrapper>
-      <LobbyFont>{playerData.data.data.personname}</LobbyFont>
-    </LobbyRectangle>
+   
+      {playerData && ( 
+        <>
+          <Link to={`/profile/${playerData.data.data.steam64Id}`}>{playerData.data.data.personname}</Link>  
+          <LobbyStats/>
+        </>
+      )}
+  </LobbyRectangle>
   )
 }
 

@@ -74,44 +74,6 @@ export const LobbyFont = styled.p`
   font-weight: 600;
   text-transform: uppercase;
   line-height: 150%;
-
-  ${props => props.primary && css`
-    font-size: 16px;
-    color: ${colorPrimary};
-  `}
-
-  ${props => props.secondary && css`
-    font-size: 16px;
-    color: ${colorSecondary};
-  `}
-
-  ${props => props.paragraph && css`
-    color: ${colorPrimary};
-    text-transform: inherit; 
-    margin: 0 auto;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-
-    ${fluidRange(
-    {
-      prop: 'font-size',
-      fromSize: '16px',
-      toSize: '24px',
-    },
-    '400px',
-    '2000px',
-    )}
-
-    ${fluidRange(
-    {
-      prop: 'max-width',
-      fromSize: '750px',
-      toSize: '1440px',
-    },
-    '400px',
-    '2000px',
-    )}
-  `}
 `;
 
 export const ProfileDropdown = styled(ReactRouterLink)`
@@ -129,35 +91,8 @@ export const ProfileDropdown = styled(ReactRouterLink)`
 `;
 
 export const Link = styled(ReactRouterLink)`
-  font-style: normal;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  text-transform: uppercase;
-  color: ${Colors.standard.navHover};
-  transition: color 1s ease-out;
-
-  ${props => props.margin && css`
-
-    ${fluidRange(
-      {
-          prop: 'margin',
-          fromSize: '6px',
-          toSize: '32px',
-      },
-      '1200px',
-      '2000px',
-    )}
-
-    @media (max-width: 1200px){
-      display: none;
-    }
-  `}
-
-  :hover {
-    color: ${colorPrimary};
-    size: 120%;
-  }
+  color: inherit;
+  display: block;
 `;
 
 export const MinorFont = styled.p`

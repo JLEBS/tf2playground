@@ -1,20 +1,49 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {LobbyFont} from '../../misc/fonts';
+import {p} from '../../misc/fonts';
+import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
+import { ReactComponent as Fist } from '../../assets/imgs/icons/svgs/fist.svg';
+
+const NumOfHours = styled(Clock)`
+  height: 16px;
+  margin-right:8px;
+`;
+
+const NumOfGames = styled(Fist)`
+  height: 16px;
+  margin-right:8px;
+`;
+
+const LobbyParent = styled.div`
+  max-width: 460px;
+  width:100%;
+  background-color:#141414;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 150%;
+  position:absolute;
+  right: 0;
+
+  & .lobby-slot-parent div:nth-child(even){
+    background-color: #1E1E1E;
+  } 
+  & .lobby-slot-parent div:nth-child(odd){
+    background-color: #242424;
+  } 
+`;
 
 //Rectangle that contains data
 const LobbyRectangle = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 400px;
-    width: 100%;
-    background-color: black;
-    color: white;
-    padding: 14px 32px 14px 32px;
-    ${props => props.fixed && css`
-        position: fixed;
-    `}
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 14px 32px 14px 32px;
+
+  ${props => props.fixed && css`
+      position: fixed;
+  `}
 `;
 
 //Button element containing class icon
@@ -23,8 +52,12 @@ const IconWrapper = styled.button`
   border: 2px solid grey;
   border-radius: 20px;
   position: relative;
+  cursor: auto;
   
+  ${props => `background-color: ${props.background};`};
+
   ${props => props.addSelect && css`{
+    cursor: crosshair;
     transition: all 0.3s ease-in-out;
 
     &:hover{
@@ -34,6 +67,11 @@ const IconWrapper = styled.button`
     &:hover > img{
       bottom: 0px;
       opacity: 1;
+    }
+
+    &:hover > span{
+      visibility: visible;
+      opacity: 0.9;
     }
   `}
 
@@ -98,12 +136,54 @@ const PlayerCounter = styled.div`
   text-align:center;
 `;
 
+const LobbyInfo = styled.span`
+  display: flex;
+  &:after{
+    ${props => `content: '${props.data}';`};
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+  }
+`;
+
+const LobbyTooltip = styled.span`
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  background-color: white;
+  color: black;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 10px;
+  width: 66px;
+  position: absolute;
+  bottom: -28px;
+  left: -20px;
+
+  &:before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 5px solid white;
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: -4px;
+    left: 35%;
+
+`;
+
+
 const LobbyHeading = ({selectedClass}) => {
   return(
     <LobbyRectangle>
-      <LobbyFont>Waiting for players to join lobby...</LobbyFont>
+      <p>Waiting for players to join lobby...</p>
       <PlayerCounter>
-          <LobbyFont>{selectedClass}/12</LobbyFont>
+          <p>{selectedClass}/12</p>
       </PlayerCounter>
     </LobbyRectangle>
   )
@@ -112,8 +192,22 @@ const LobbyHeading = ({selectedClass}) => {
 const LobbySpectators = ({arrayOfPlayers}) => {
   return(
     <LobbyRectangle>
-      <LobbyFont>View Spectators</LobbyFont>
+      <p>View Spectators</p>
     </LobbyRectangle>
   )
 }
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators}
+
+const LobbyStats = ({playerInfo}) => {
+  return(
+    <div>
+      <LobbyInfo data={'24'}>
+        <NumOfGames/>
+      </LobbyInfo>
+      <LobbyInfo data={'6.8Y'}> 
+        <NumOfHours/>
+      </LobbyInfo>
+    </div>
+  )
+}
+
+export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip}

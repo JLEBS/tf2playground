@@ -18,10 +18,16 @@ const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 4000 });
 
+const addUserToLobby = (message) => {
+  console.log(message);
+  return '';
+}
+
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
-    wss.clients.forEach( (ws) =>  {ws.send(message) })
+    const lobbyDetails = addUserToLobby(message)
+    wss.clients.forEach( (ws) =>  {ws.send(lobbyDetails) })
   });
 });
 

@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect}  from 'react';
 import LobbyContainer from '../components/matchmaking/lobby-panel';
-import {LobbyHeading, LobbySpectators} from '../components/matchmaking/lobby-elements';
+import {LobbyHeading, LobbySpectators, LobbyParent} from '../components/matchmaking/lobby-elements';
 
 import useWebSocket from 'react-use-websocket';
 
@@ -35,11 +35,11 @@ const LobbyPage = ({selectedClass, playerData}) => {
   }[readyState];
  
   return (
-    <>
+    <LobbyParent>
       <LobbyHeading/>
         <LobbyContainer selectedClass={selectedClass} playerData={playerData}/>
       <LobbySpectators/>
-    </>
+    </LobbyParent>
   )
 };
 

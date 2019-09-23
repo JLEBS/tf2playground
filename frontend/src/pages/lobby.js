@@ -11,34 +11,38 @@ const CONNECTION_STATUS_CLOSED = 3;
 
 //const maintoken = Cookies.get("steamIdAuth"); 
 //const steamtoken = Cookies.get('steamUserID');
-const LobbyPage = ({selectedClass, playerData}) => {
+const LobbyPage = () => {
+
+  const LOBBY_TEST = {
+    lobbyId: 11,
+    players: [
+      { details: { steamId: '76561198018959029', name: 'JLEBS', numGames: 23, playtime: 2828 }, classId: 2 },
+      { details: { steamId: '76561198028929109', name: 'master splinter', numGames: 241, playtime: 9373 }, classId: 3 },
+      { details: { steamId: '76561198193511414', name: 'andy mandy', numGames: null, playtime: 63431 }, classId: 4 },
+    ]
+  }
 
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
   const [messageHistory, setMessageHistory] = useState([]);
   const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
   const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
   const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
- 
+  const [lobbyData, setLobbyData] = useState(LOBBY_TEST);
+
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory(prev => prev.concat(lastMessage));
-
-      console.log(lastMessage);
+      setLobbyData(lastMessage);
+      //fetch here
+    console.log('Original Data :)', lobbyData);
     }
   }, [lastMessage]);
  
-  const connectionStatus = {
-    [CONNECTION_STATUS_CONNECTING]: 'Connecting',
-    [CONNECTION_STATUS_OPEN]: 'Open',
-    [CONNECTION_STATUS_CLOSING]: 'Closing',
-    [CONNECTION_STATUS_CLOSED]: 'Closed',
-  }[readyState];
- 
   return (
     <LobbyParent>
-      <LobbyHeading/>
-        <LobbyContainer selectedClass={selectedClass} playerData={playerData}/>
-      <LobbySpectators/>
+      <LobbyHeading className='lobby-play-count'/>
+        <LobbyContainer className='lobby-slot-parent' lobbyData={lobbyData}/>
+      <LobbySpectators className='lobby-spectators'/>
     </LobbyParent>
   )
 };

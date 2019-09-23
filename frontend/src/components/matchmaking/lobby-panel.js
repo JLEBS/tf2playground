@@ -4,43 +4,34 @@ import useWebSocket from 'react-use-websocket';
 import LobbySlot from './lobby-slot';
 import {LobbyRectangle, IconWrapper, IconImage, LobbyHeading} from './lobby-elements';
 
-const LobbyContainer = ({selectedClass, playerData}) => {
+const LobbyContainer = (lobbyData) => {
 
-    const CONNECTION_STATUS_CONNECTING = 0;
-    const CONNECTION_STATUS_OPEN = 1;
-    const CONNECTION_STATUS_CLOSING = 2;
-    const CONNECTION_STATUS_CLOSED = 3;
+    //Websocket only
+    if(lobbyData.lobbyData.data){
 
-    const arrayCreate = () => {
-        const object = [0,1,2,3,4,5,5,5,5,5,5];
-        return object;
-    }
-
-    if(selectedClass){
-        return(
-            <div className='lobby-slot-parent'>
-                <LobbySlot playerData={playerData} selectedClass={selectedClass}/>
-            </div>
+        console.log('testing length', lobbyData.lobbyData.data);
+        
+        return (
+            JSON.parse(lobbyData.lobbyData.data).players.map((player, i) => 
+                <>
+            
+                    <LobbySlot key={i} playerData={player}/>
+                    {console.log('length', player.length)}
+                </>
+            )
         )
     }
-    else{
+
+    //Onload
+    else {
         return (
-            <div className='lobby-slot-parent'>
-                {arrayCreate().map((object, i) => 
-                    <LobbySlot obj={object} key={i}/>
-                )}
-            </div>
+            lobbyData.lobbyData.players.map((player, i) => 
+                <>
+                    <LobbySlot key={i} playerData={player}/>
+                </>
             )
-        }
+        )
+    }
 }
 
 export default LobbyContainer
-
-
-
-          /*{ {lastMessage && (
-                <span>Last message:{lastMessage.data}</span>
-            )}
-            <ul>
-                {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
-            </ul> }*/

@@ -25,10 +25,10 @@ const LobbyParent = styled.div`
   position:absolute;
   right: 0;
 
-  & .lobby-slot-parent div:nth-child(even){
+  & .lobby-slot:nth-child(even){
     background-color: #1E1E1E;
   } 
-  & .lobby-slot-parent div:nth-child(odd){
+  & .lobby-slot:nth-child(odd){
     background-color: #242424;
   } 
 `;

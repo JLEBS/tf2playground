@@ -26,9 +26,9 @@ const Home = () => (
   </LandingLayout>
 );
 
-const Lobby = ({selectedClass, playerData}) => (
+const Lobby = () => (
   <LobbyLayout imageUrl={prolands}>
-    <LobbyPage selectedClass={selectedClass} playerData={playerData}/>
+    <LobbyPage />
   </LobbyLayout>
 );
 
@@ -145,20 +145,13 @@ const AppRouter = () => {
     )
   }
 
-  const chooseClassFunc = (e) => {
-    console.log(e);
-    setCurrentClass(e);
-  }
-
-  const [currentClass, setCurrentClass] = useState(null);
-
   return (
     <Router>
       <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
-      <SubHeaderContainer myFunction={chooseClassFunc} className='subHeader'/>
+      <SubHeaderContainer playerData={fetchUser} className='subHeader'/>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/lobby" render={() => <Lobby selectedClass={currentClass} playerData={fetchUser}/>}/>
+        <Route path="/lobby" render={() => <Lobby />}/>
         <Route path="/about" component={About} />
         <Route path="/rules" component={Rules} />
         <Route path="/stats" component={Stats} />

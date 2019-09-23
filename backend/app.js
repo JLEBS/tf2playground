@@ -19,8 +19,22 @@ const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 4000 });
 
 const addUserToLobby = (message) => {
-  console.log(message);
-  return '';
+  console.log('Websocket activated!', message);
+
+  let something = {
+    lobbyId: 11,
+    players: [
+      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+      { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+     
+    ]
+  };
+  return JSON.stringify(something) 
 }
 
 wss.on('connection', function connection(ws) {

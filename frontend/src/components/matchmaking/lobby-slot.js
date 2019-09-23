@@ -3,20 +3,22 @@ import {Link} from '../../misc/fonts';
 import {LobbyRectangle, IconWrapper, IconImage, LobbyStats} from './lobby-elements';
 import classSelectionArray from './class-array';
 
-const LobbySlot = ({playerData, selectedClass}) => {
+const LobbySlot = (playerData) => {
+  
   return(
-    <LobbyRectangle>
-      <IconWrapper background={selectedClass ? 'white' : 'grey'}>
-        <IconImage imageUrl={selectedClass ? classSelectionArray[selectedClass].icon : ''}/>
+    <LobbyRectangle className={playerData ? 'lobby-slot' : ''}>
+      <IconWrapper background={playerData ? 'white' : 'grey'}>
+        <IconImage imageUrl={playerData ? classSelectionArray[playerData.playerData.classId].icon : ''}/>
       </IconWrapper>
    
       {playerData && ( 
         <>
-          <Link to={`/profile/${playerData.data.data.steam64Id}`}>{playerData.data.data.personname}</Link>  
+        {console.log(playerData.playerData.details.steamId)}
+          <Link to={`/profile/${playerData.playerData.details.steamId}`}>{playerData.playerData.details.name}</Link>  
           <LobbyStats/>
         </>
       )}
-  </LobbyRectangle>
+    </LobbyRectangle>
   )
 }
 

@@ -16,37 +16,37 @@ import medicTorso from './../../assets/imgs/characters/medic-torso.png';
 
 const classSelectionArray = [
   {   
-    id: 0,
+    id: 'pocket-scout',
     name: 'pocket scout',
     icon: pocketScoutIcon,
     torso: pocketScoutTorso
   },
   {
-    id: 1,
+    id: 'flank-scout',
     name: 'flank scout',
     icon: flankScoutIcon,
     torso: flankScoutTorso
   },
   {
-    id: 2,
+    id: 'pocket-soldier',
     name: 'pocket',
     icon: pocketSoldierIcon,
     torso: pocketSoldierTorso
   },
   {
-    id: 3,
+    id: 'roamer-soldier',
     name: 'roamer',
     icon: roamerSoldierIcon,
     torso: roamerSoldierTorso
   },
   {
-    id: 4,
+    id: 'demoman',
     name: 'demoman',
     icon: demoIcon,
     torso: demoTorso
   },
   {
-    id: 5,
+    id: 'medic',
     name: 'medic',
     icon: medicIcon,
     torso: medicTorso

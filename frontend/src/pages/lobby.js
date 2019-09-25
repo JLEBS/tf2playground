@@ -10,7 +10,7 @@ const CONNECTION_STATUS_CLOSED = 3;
 
 //const maintoken = Cookies.get("steamIdAuth"); 
 //const steamtoken = Cookies.get('steamUserID');
-const LobbyPage = ({playerData, loading}) => {
+const LobbyPage = () => {
 
   const LOBBY_TEST = {
     lobbyId: 11,
@@ -48,7 +48,6 @@ const LobbyPage = ({playerData, loading}) => {
 
   //Use multiple useeffect https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
   useEffect(() => {
-    console.log(playerDetails, 'user in lobby');
 
     if(connectionStatus === 'Open'){
       setMessageHistory(prev => prev.concat(currentLobby));
@@ -62,16 +61,16 @@ const LobbyPage = ({playerData, loading}) => {
     // }
   
     //Get user details ready to add to lobby
-    if(!loading && playerData){
-      const player = playerData.data;
-      const playerDetailsObj = { details: { steamId: player.steam64Id, name: player.personname, numGames: 24, playtime: player.playtime }, classId: null };
-      setPlayerDetails(playerDetailsObj);
-    }
+    // if(!loading && playerData){
+    //   const player = playerData.data;
+    //   const playerDetailsObj = { details: { steamId: player.steam64Id, name: player.personname, numGames: 24, playtime: player.playtime }, classId: null };
+    //   setPlayerDetails(playerDetailsObj);
+    // }
 
     // if (currentLobby !== null && playerDetails) {
     //   setLobbyData(LOBBY_TEST);
     // }
-  }, [connectionStatus, currentLobby, loading, playerData]);
+  }, [connectionStatus, currentLobby]);
 
   if (!currentLobby) return null
   

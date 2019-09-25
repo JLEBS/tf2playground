@@ -22,31 +22,16 @@ const ws = new WebSocket('wss://echo.websocket.org/', {
 
 const wss = new WebSocket.Server({ port: 4000 });
 
-let something = {
-  lobbyId: 11,
-  players: [
-    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
-    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
-    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
-    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
-    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
-    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
-    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-    { details: null, classId: null},
-    { details: null, classId: null},
-    { details: null, classId: null}
-  ]
-};
 
-const updateLobby = () => {
-  return {
+const updateLobby = (data) => {
+
+  let defaultLobby = {
     lobbyId: 11,
     players: [
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
+
+        { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+        { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
+        { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
       { details: null, classId: null},
       { details: null, classId: null},
       { details: null, classId: null},
@@ -58,6 +43,15 @@ const updateLobby = () => {
       { details: null, classId: null}
     ]
   };
+
+  if(data){
+    defaultLobby.players[0] = data;
+    return defaultLobby;
+  }
+  else{
+    return defaultLobby;
+  }
+
 }
 
 const getCurrentLobby = () => {

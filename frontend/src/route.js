@@ -26,9 +26,9 @@ const Home = () => (
   </LandingLayout>
 );
 
-const Lobby = () => (
+const Lobby = ({loading, playerData}) => (
   <LobbyLayout imageUrl={prolands}>
-    <LobbyPage />
+    <LobbyPage loading={loading} playerData={playerData}  />
   </LobbyLayout>
 );
 
@@ -151,7 +151,7 @@ const AppRouter = () => {
       <SubHeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='subHeader'/>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/lobby" render={() => <Lobby />}/>
+        <Route path="/lobby" render={() => <Lobby loading={fetchUser.loading} playerData={fetchUser.data} /> } />
         <Route path="/about" component={About} />
         <Route path="/rules" component={Rules} />
         <Route path="/stats" component={Stats} />

@@ -10,7 +10,7 @@ const CONNECTION_STATUS_CLOSED = 3;
 
 //const maintoken = Cookies.get("steamIdAuth"); 
 //const steamtoken = Cookies.get('steamUserID');
-const LobbyPage = () => {
+const LobbyPage = ({playerData, loading}) => {
 
   const LOBBY_TEST = {
     lobbyId: 11,
@@ -30,18 +30,9 @@ const LobbyPage = () => {
     ]
   }
 
-  // const options = useMemo(() => ({
-  //   share: true,
-  //   onMessage: message => console.log(`onMessage with access to `, message),
-  //   onClose: event => console.log('onClose', event),
-  //   onError: error => console.log('onError', error),
-  //   onOpen: event => console.log('onOpen', event),
-  //   fromSocketIO: true,
-  //   queryParams: { 'user_id': 1 },
-  // }),[]);
-
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Set Websocket URL
   const [messageHistory, setMessageHistory] = useState([]);
+  const [playerDetails, setPlayerDetails] = useState(null);
   const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
   
   // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
@@ -54,29 +45,40 @@ const LobbyPage = () => {
     [CONNECTION_STATUS_CLOSING]: 'Closing',
     [CONNECTION_STATUS_CLOSED]: 'Closed',
   }[readyState];
- 
 
+  //Use multiple useeffect https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
   useEffect(() => {
+    console.log(playerDetails, 'user in lobby');
+
     if(connectionStatus === 'Open'){
       setMessageHistory(prev => prev.concat(currentLobby));
-      console.log('message', currentLobby)
-    }
-    if (currentLobby !== null) {
-      setLobbyData(currentLobby);
-      //fetch here
-    console.log('Original Data :)', lobbyData);
-    }
-    else {
-      console.log('nothing to see here')
-    }
-  }, [connectionStatus, currentLobby]);
+            // setLobbyData(currentLobby);
 
+      // console.log(currentLobby);
+    }
 
+      // if (currentLobby !== null) {
+      // setLobbyData(currentLobby);
+    // }
+  
+    //Get user details ready to add to lobby
+    if(!loading && playerData){
+      const player = playerData.data;
+      const playerDetailsObj = { details: { steamId: player.steam64Id, name: player.personname, numGames: 24, playtime: player.playtime }, classId: null };
+      setPlayerDetails(playerDetailsObj);
+    }
+
+    // if (currentLobby !== null && playerDetails) {
+    //   setLobbyData(LOBBY_TEST);
+    // }
+  }, [connectionStatus, currentLobby, loading, playerData]);
+
+  if (!currentLobby) return null
+  
   return (
     <LobbyParent>
-       {console.log(`The WebSocket is currently ${connectionStatus}`)}
       <LobbyHeading className='lobby-play-count'/>
-        <LobbyContainer className='lobby-slot-parent' lobbyData={lobbyData}/>
+        <LobbyContainer className='lobby-slot-parent' lobbyData={currentLobby}/>
       <LobbySpectators className='lobby-spectators'/>
     </LobbyParent>
   )

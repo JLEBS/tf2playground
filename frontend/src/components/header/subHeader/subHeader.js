@@ -5,7 +5,12 @@ import { LobbyFont } from '../../../misc/fonts';
 import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
 import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
 import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
-import ClassSelection from '../../matchmaking/choose-class'
+import ClassSelection from '../../matchmaking/choose-class';
+import {LobbyRectangle, LobbyParent} from '../../matchmaking/lobby-elements';
+
+
+
+import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 const ChatMod = styled(Chat)`
     height: 25px;
@@ -40,7 +45,7 @@ const SocialGroup = styled.button`
     display: flex;
     flex-direction: row;
     cursor: pointer;
-    padding: 1rem 2rem 1rem 2rem;
+    padding: 20px 2rem 20px 2rem
     align-items: center;
     opacity: 0.8;
     transition: background-color 0.4s ease;
@@ -124,7 +129,20 @@ const ChatContainer = styled.div`
 //     }
 //   });
 
-const SubHeaderContainer = ({myFunction}) => {
+
+const ClassDiv = () => {
+    return (
+        <LobbyParent unset>
+            <LobbyRectangle>
+                <LobbyFont>Choose Class</LobbyFont>
+                <ClassSelection/>
+            </LobbyRectangle>
+        </LobbyParent>
+    );
+}
+
+
+const SubHeaderContainer = ({loading, playerData}) => {
 
     const CHAT_PANEL = 'CHAT_PANEL';
     const ONLINE_PANEL = 'ONLINE_PANEL';
@@ -199,12 +217,11 @@ const SubHeaderContainer = ({myFunction}) => {
                         </Box>
                     )}
                 </PoseGroup> */}
+
+               {!loading && playerData && (
+                    <Route strict path="/lobby" component={ClassDiv} />
+               )}
              
-            
-              <ClassContainer>
-                    <LobbyFont>Choose Class</LobbyFont>
-                    <ClassSelection myFunction={myFunction} />
-              </ClassContainer>
             </SubHeader>
 
 

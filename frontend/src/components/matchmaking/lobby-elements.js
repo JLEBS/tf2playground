@@ -22,8 +22,12 @@ const LobbyParent = styled.div`
   font-weight: 600;
   text-transform: uppercase;
   line-height: 150%;
-  position:absolute;
-  right: 0;
+  // position:fixed;
+  // right: 0;
+
+  ${props => props.unset && css`
+    position: unset;
+  `}
 
   & .lobby-slot:nth-child(even){
     background-color: #1E1E1E;
@@ -42,7 +46,7 @@ const LobbyRectangle = styled.div`
   padding: 14px 32px 14px 32px;
 
   ${props => props.fixed && css`
-      position: fixed;
+    position: fixed;
   `}
 `;
 

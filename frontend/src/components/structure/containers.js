@@ -90,7 +90,7 @@ const MarginContainer = styled.div`
 
     ${props => props.statTitle && css`
         padding:20px;
-        min-height: 90px;
+        min-height: 100px;
 
         @media (max-width: 510px){
             width: 100%;

@@ -1,7 +1,6 @@
-import React, {useState, useCallback, useEffect}  from 'react';
+import React, {useState, useCallback, useEffect, useMemo}  from 'react';
 import LobbyContainer from '../components/matchmaking/lobby-panel';
 import {LobbyHeading, LobbySpectators, LobbyParent} from '../components/matchmaking/lobby-elements';
-
 import useWebSocket from 'react-use-websocket';
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -16,30 +15,66 @@ const LobbyPage = () => {
   const LOBBY_TEST = {
     lobbyId: 11,
     players: [
-      { details: { steamId: '76561198018959029', name: 'JLEBS', numGames: 23, playtime: 2828 }, classId: 2 },
-      { details: { steamId: '76561198028929109', name: 'master splinter', numGames: 241, playtime: 9373 }, classId: 3 },
-      { details: { steamId: '76561198193511414', name: 'andy mandy', numGames: null, playtime: 63431 }, classId: 4 },
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null}
     ]
   }
 
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Public API that will echo messages sent to it back to the client
+  // const options = useMemo(() => ({
+  //   share: true,
+  //   onMessage: message => console.log(`onMessage with access to `, message),
+  //   onClose: event => console.log('onClose', event),
+  //   onError: error => console.log('onError', error),
+  //   onOpen: event => console.log('onOpen', event),
+  //   fromSocketIO: true,
+  //   queryParams: { 'user_id': 1 },
+  // }),[]);
+
+  const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Set Websocket URL
   const [messageHistory, setMessageHistory] = useState([]);
-  const [sendMessage, lastMessage, readyState] = useWebSocket(socketUrl);
-  const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
-  const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
+  const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
+  
+  // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
+  // const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
   const [lobbyData, setLobbyData] = useState(LOBBY_TEST);
 
+  const connectionStatus = {
+    [CONNECTION_STATUS_CONNECTING]: 'Connecting',
+    [CONNECTION_STATUS_OPEN]: 'Open',
+    [CONNECTION_STATUS_CLOSING]: 'Closing',
+    [CONNECTION_STATUS_CLOSED]: 'Closed',
+  }[readyState];
+ 
+
   useEffect(() => {
-    if (lastMessage !== null) {
-      setMessageHistory(prev => prev.concat(lastMessage));
-      setLobbyData(lastMessage);
+    if(connectionStatus === 'Open'){
+      setMessageHistory(prev => prev.concat(currentLobby));
+      console.log('message', currentLobby)
+    }
+    if (currentLobby !== null) {
+      setLobbyData(currentLobby);
       //fetch here
     console.log('Original Data :)', lobbyData);
     }
-  }, [lastMessage]);
- 
+    else {
+      console.log('nothing to see here')
+    }
+  }, [connectionStatus, currentLobby]);
+
+
   return (
     <LobbyParent>
+       {console.log(`The WebSocket is currently ${connectionStatus}`)}
       <LobbyHeading className='lobby-play-count'/>
         <LobbyContainer className='lobby-slot-parent' lobbyData={lobbyData}/>
       <LobbySpectators className='lobby-spectators'/>
@@ -53,8 +88,8 @@ export default LobbyPage;
 <button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
 <button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
 <span>The WebSocket is currently {connectionStatus}</span>
-{lastMessage && (
-    <span>Last message:{lastMessage.data}</span>
+{currentLobby && (
+    <span>Last message:{currentLobby.data}</span>
 )}
 <ul>
     {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}

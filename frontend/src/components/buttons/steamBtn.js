@@ -55,7 +55,7 @@ const ButtonContainer = styled.span`
     position: absolute;
     left:0
     right:0;
-    bottom: -134px;
+    bottom: -154px;
     padding: 16px 26px 16px 26px;
     border-radius: 10px;
     flex-direction: column;

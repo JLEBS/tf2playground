@@ -14,9 +14,8 @@ const LobbyContainer = (lobbyData) => {
         return (
             JSON.parse(lobbyData.lobbyData.data).players.map((player, i) => 
                 <>
-            
                     <LobbySlot key={i} playerData={player}/>
-                    {console.log('length', player.length)}
+                    {console.log('length', player)}
                 </>
             )
         )

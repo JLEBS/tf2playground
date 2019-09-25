@@ -16,55 +16,88 @@ var SteamStrategy = require('passport-steam').Strategy;
 //WebSocked
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 4000 });
-
-const addUserToLobby = (message) => {
-  console.log('Websocket activated!', message);
-
-  let something = {
-    lobbyId: 11,
-    players: [
-      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
-      { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-     
-    ]
-  };
-  return JSON.stringify(something) 
-}
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-    const lobbyDetails = addUserToLobby(message)
-    wss.clients.forEach( (ws) =>  {ws.send(lobbyDetails) })
-  });
-});
-
 const ws = new WebSocket('wss://echo.websocket.org/', {
   origin: 'http://localhost:3000/'
 });
 
+const wss = new WebSocket.Server({ port: 4000 });
+
+let something = {
+  lobbyId: 11,
+  players: [
+    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
+    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
+    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+    { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+    { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
+    { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
+    { details: null, classId: null},
+    { details: null, classId: null},
+    { details: null, classId: null}
+  ]
+};
+
+const updateLobby = () => {
+  return {
+    lobbyId: 11,
+    players: [
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null},
+      { details: null, classId: null}
+    ]
+  };
+}
+
+const getCurrentLobby = () => {
+  console.log('Retrieving current lobby...');
+  return JSON.stringify(updateLobby()) 
+}
+
 ws.on('open', function open() {
-  console.log('connected');
-  ws.send(Date.now());
+  console.log('Connected Websocket!');
+});
+
+wss.on('connection', function connection(ws) {
+  console.log('client connected');
+  
+  const lobbyDetails = getCurrentLobby()
+  ws.send(lobbyDetails);
+
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+    const lobbyDetails = getCurrentLobby(message)
+    wss.clients.forEach( (ws) =>  {ws.send(lobbyDetails) })
+  });
+
 });
 
 ws.on('close', function close() {
-  console.log('disconnected');
+  console.log('Disconnected Websocket!');
 });
 
-ws.on('message', function incoming(data) {
- // console.log(`Roundtrip time: ${Date.now() - data} ms`);
 
-  setTimeout(function timeout() {
-    ws.send(Date.now());
-  }, 500);
-});
+
+
+// wss.on('message', function incoming(data) {
+//  console.log(`Ping: ${Date.now() - data} ms`);
+//  console.log(something);
+
+//   setTimeout(function timeout() {
+//     ws.send(Date.now());
+//   }, 500);
+// });
 
 passport.serializeUser(function(user, done) {
   done(null, user);

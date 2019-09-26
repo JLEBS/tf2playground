@@ -221,6 +221,7 @@ export const UserLinks = styled.h3`
 
 //Numerical calculator, 
 export const UserValue = styled.div`
+  color: black;
   font-style: normal;
   font-size: 16px;
   font-weight: 600;
@@ -236,7 +237,7 @@ export const UserValue = styled.div`
     max-width: 40px;
     font-size: 12px;
     font-weight: 600;
-    padding-top:5px;
+    padding-top:0px;
 
     :after{
       content:'%';

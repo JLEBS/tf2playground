@@ -33,12 +33,12 @@ const HeaderContainer = ({loading, playerData}) => {
           <Title header>Playground</Title>
         </MarginContainer>
         <MarginContainer content='space-between' maxwidth='700px' float='right'>
-          <Link margin to="/about">about</Link>
-          <Link margin to="/rules">rules</Link>
-          <Link margin to="/stats">stats</Link>
-          <Link margin to="/conduct">conduct</Link>
-          <Link margin to="/donate">donate</Link>
-          <Link margin to="/lobby">lobby</Link>
+          <Link margin='true' to="/about">about</Link>
+          <Link margin='true' to="/rules">rules</Link>
+          <Link margin='true' to="/stats">stats</Link>
+          <Link margin='true' to="/conduct">conduct</Link>
+          <Link margin='true' to="/donate">donate</Link>
+          <Link margin='true' to="/lobby">lobby</Link>
         </MarginContainer>
 
         <MarginContainer direction='row' sidePadding='unset' topPadding='unset' content='space-between' align='center'>

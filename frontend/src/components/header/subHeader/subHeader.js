@@ -130,17 +130,33 @@ const ChatContainer = styled.div`
 //   });
 
 
-const ClassDiv = () => {
+const ClassSelectionContainer = styled.div`
+    height: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const ClassDiv = (props) => {
     return (
-        <LobbyParent unset>
-            <LobbyRectangle>
-                <LobbyFont>Choose Class</LobbyFont>
-                <ClassSelection/>
-            </LobbyRectangle>
+        <LobbyParent unset>    
+            <ClassSelectionContainer>  
+                {!props.loading && !props.playerData && (
+                    <>
+                        <ClassSelection loggedIn={false} playerData={props.playerData}/> 
+                    </>
+                )}
+                {props.loading===false && props.playerData && (
+                    <>   
+                        <ClassSelection loggedIn={true} playerData={props.playerData}/> 
+                    </>
+                )}
+            </ClassSelectionContainer>
         </LobbyParent>
     );
 }
-
 
 const SubHeaderContainer = ({loading, playerData}) => {
 
@@ -190,7 +206,6 @@ const SubHeaderContainer = ({loading, playerData}) => {
     return (
         <>
             <SubHeader>
-              
                 <ChatContainer>
                     <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
                         <LobbyFont>Chat</LobbyFont>
@@ -218,10 +233,10 @@ const SubHeaderContainer = ({loading, playerData}) => {
                     )}
                 </PoseGroup> */}
 
-               {!loading && playerData && (
-                    <Route strict path="/lobby" component={ClassDiv} />
-               )}
-             
+        
+               
+                <Route strict path="/lobby" component={() => <ClassDiv loading={loading} playerData={playerData}/>} />
+              
             </SubHeader>
 
 

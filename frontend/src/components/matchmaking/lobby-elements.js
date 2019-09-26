@@ -24,23 +24,6 @@ const LobbyParent = styled.div`
   max-width: 460px;
   width:100%;
   background-color:#141414;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  line-height: 150%;
-  // position:fixed;
-  // right: 0;
-
-  ${props => props.unset && css`
-    position: unset;
-  `}
-
-  // & .lobby-slot:nth-child(even){
-  //   background-color: #1E1E1E;
-  // } 
-  // & .lobby-slot:nth-child(odd){
-  //   background-color: #242424;
-  // } 
 `;
 
 //Rectangle that contains data
@@ -56,6 +39,13 @@ const LobbyRectangle = styled.div`
   `}
 `;
 
+const IconContainer = styled.div`
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  justify-content: space-between;
+`;
+
 //Button element containing class icon
 const IconWrapper = styled.button`
   padding: 4px;
@@ -65,7 +55,7 @@ const IconWrapper = styled.button`
   
   ${props => `background-color: ${props.background};`};
 
-  ${props => props.addSelect && css`{
+  ${props => props.addSelect === true && css `
     cursor: crosshair;
     border: 2px solid grey;
     transition: all 0.3s ease-in-out;
@@ -81,18 +71,21 @@ const IconWrapper = styled.button`
 
     &:hover > span{
       visibility: visible;
-      opacity: 0.9;
+      opacity: 1;
+    }
+ `}
+
+  ${props => props.addSelect === false && css`{
+    opacity: 0.7;
+    cursor: not-allowed;
+    border: 2px solid red;
+
+    &:hover > span{
+      visibility: visible;
+      opacity: 1;
     }
   `}
-
-  ${props => props.removeSelect && css`{
-    transition: all 0.3s ease-in-out;
-
-    &:hover{
-      background-color: red;
-      border: 2px solid black;
-    }
-  `}
+  
 `;
 
 //Button child containing the class image (After soley for numbering)
@@ -144,6 +137,9 @@ const PlayerCounter = styled.div`
   border-radius: 16px;
   min-width: 42px;
   text-align:center;
+  &:after{
+    content:'/12';
+  }
 `;
 
 const LobbyInfo = styled.span`
@@ -194,11 +190,12 @@ const LobbyHeading = ({playersJoined}) => {
   const [lobbyMessage, setMessage] = useState('Setting up lobby');
 
   const lobbyState = [
-    'Waiting for players to join lobby',
-    'Waiting for players to ready',
-    'Map vote commencing',
-    'Randomizing the teams',
-    'Retrieving server details'
+    <>Waiting for players to join lobby&hellip;</>,
+    <>Waiting for players to ready&hellip;</>,
+    <>Map vote commencing&hellip;</>,
+    <>Randomizing the teams&hellip;</>,
+    <>Retrieving server details&hellip;</>,
+    <>Lobby Started!</>
   ];
 
   useEffect(()=> {
@@ -210,9 +207,9 @@ const LobbyHeading = ({playersJoined}) => {
 
   return(
     <LobbyRectangle>
-      <p>{lobbyMessage}</p>
+      {lobbyMessage}
       <PlayerCounter>
-          <p>{count}/12</p>
+        {count}
       </PlayerCounter>
     </LobbyRectangle>
   )
@@ -239,4 +236,4 @@ const LobbyStats = ({playerInfo}) => {
   )
 }
 
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer}
+export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer}

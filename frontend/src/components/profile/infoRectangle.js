@@ -28,7 +28,7 @@ const RectangleContainer = ({header, children, maxWidth, minWidth, direction, co
                 {header}
             </UserHeading>
         )}
-        <MarginContainer content={'space-between'} sidepadding verticalpadding shrink direction={direction}  >
+        <MarginContainer classname='sdsf' content={'space-between'} sidepadding verticalpadding shrink direction={direction}  >
             {children}
         </MarginContainer>
     </InfoRectangle>

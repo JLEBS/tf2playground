@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect, useMemo}  from 'react';
 import LobbyContainer from '../components/matchmaking/lobby-panel';
-import {LobbyHeading, LobbySpectators, LobbyParent} from '../components/matchmaking/lobby-elements';
+import {LobbySpectators, LobbyParent} from '../components/matchmaking/lobby-elements';
 import useWebSocket from 'react-use-websocket';
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -12,24 +12,6 @@ const CONNECTION_STATUS_CLOSED = 3;
 //const steamtoken = Cookies.get('steamUserID');
 const LobbyPage = () => {
 
-  const LOBBY_TEST = {
-    lobbyId: 11,
-    players: [
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null},
-      { details: null, classId: null}
-    ]
-  }
-
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Set Websocket URL
   const [messageHistory, setMessageHistory] = useState([]);
   const [playerDetails, setPlayerDetails] = useState(null);
@@ -37,7 +19,7 @@ const LobbyPage = () => {
   
   // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
   // const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
-  const [lobbyData, setLobbyData] = useState(LOBBY_TEST);
+  const [lobbyData, setLobbyData] = useState(null);
 
   const connectionStatus = {
     [CONNECTION_STATUS_CONNECTING]: 'Connecting',
@@ -51,33 +33,25 @@ const LobbyPage = () => {
 
     if(connectionStatus === 'Open'){
       setMessageHistory(prev => prev.concat(currentLobby));
-            // setLobbyData(currentLobby);
-
-      // console.log(currentLobby);
     }
 
       // if (currentLobby !== null) {
       // setLobbyData(currentLobby);
     // }
-  
     //Get user details ready to add to lobby
     // if(!loading && playerData){
     //   const player = playerData.data;
     //   const playerDetailsObj = { details: { steamId: player.steam64Id, name: player.personname, numGames: 24, playtime: player.playtime }, classId: null };
     //   setPlayerDetails(playerDetailsObj);
     // }
-
     // if (currentLobby !== null && playerDetails) {
     //   setLobbyData(LOBBY_TEST);
     // }
   }, [connectionStatus, currentLobby]);
-
-  if (!currentLobby) return null
   
   return (
     <LobbyParent>
-      <LobbyHeading className='lobby-play-count'/>
-        <LobbyContainer className='lobby-slot-parent' lobbyData={currentLobby}/>
+      <LobbyContainer lobbyData={currentLobby}/>
       <LobbySpectators className='lobby-spectators'/>
     </LobbyParent>
   )

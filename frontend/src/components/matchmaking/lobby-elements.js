@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled, {css} from 'styled-components';
 import {p} from '../../misc/fonts';
 import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
@@ -12,6 +12,12 @@ const NumOfHours = styled(Clock)`
 const NumOfGames = styled(Fist)`
   height: 16px;
   margin-right:8px;
+`;
+
+const LobbyPlayerContainer = styled.div`
+  background: linear-gradient( to bottom, #242424, #242424 50%, #1E1E1E 50%, #1E1E1E );
+  background-size: 100% 108px;
+  min-height: 648px;
 `;
 
 const LobbyParent = styled.div`
@@ -29,12 +35,12 @@ const LobbyParent = styled.div`
     position: unset;
   `}
 
-  & .lobby-slot:nth-child(even){
-    background-color: #1E1E1E;
-  } 
-  & .lobby-slot:nth-child(odd){
-    background-color: #242424;
-  } 
+  // & .lobby-slot:nth-child(even){
+  //   background-color: #1E1E1E;
+  // } 
+  // & .lobby-slot:nth-child(odd){
+  //   background-color: #242424;
+  // } 
 `;
 
 //Rectangle that contains data
@@ -43,7 +49,7 @@ const LobbyRectangle = styled.div`
   justify-content: space-between;
   align-items: center;
   color: white;
-  padding: 14px 32px 14px 32px;
+  padding: 11px 32px 11px 32px;
 
   ${props => props.fixed && css`
     position: fixed;
@@ -53,7 +59,6 @@ const LobbyRectangle = styled.div`
 //Button element containing class icon
 const IconWrapper = styled.button`
   padding: 4px;
-  border: 2px solid grey;
   border-radius: 20px;
   position: relative;
   cursor: auto;
@@ -62,6 +67,7 @@ const IconWrapper = styled.button`
 
   ${props => props.addSelect && css`{
     cursor: crosshair;
+    border: 2px solid grey;
     transition: all 0.3s ease-in-out;
 
     &:hover{
@@ -182,12 +188,31 @@ const LobbyTooltip = styled.span`
 `;
 
 
-const LobbyHeading = ({selectedClass}) => {
+const LobbyHeading = ({playersJoined}) => {
+
+  const [count, setCount] = useState(0);
+  const [lobbyMessage, setMessage] = useState('Setting up lobby');
+
+  const lobbyState = [
+    'Waiting for players to join lobby',
+    'Waiting for players to ready',
+    'Map vote commencing',
+    'Randomizing the teams',
+    'Retrieving server details'
+  ];
+
+  useEffect(()=> {
+    if(playersJoined){
+      setCount(JSON.parse(playersJoined.data).players.length)
+      setMessage(lobbyState[JSON.parse(playersJoined.data).lobbyState]);
+    }
+  }, [playersJoined, setCount], [playersJoined, setMessage]);
+
   return(
     <LobbyRectangle>
-      <p>Waiting for players to join lobby...</p>
+      <p>{lobbyMessage}</p>
       <PlayerCounter>
-          <p>{selectedClass}/12</p>
+          <p>{count}/12</p>
       </PlayerCounter>
     </LobbyRectangle>
   )
@@ -214,4 +239,4 @@ const LobbyStats = ({playerInfo}) => {
   )
 }
 
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip}
+export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer}

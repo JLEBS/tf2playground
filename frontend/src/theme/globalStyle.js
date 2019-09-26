@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
+    color: white;
     font-weight: 600;
     text-transform: uppercase;
     line-height: 150%;

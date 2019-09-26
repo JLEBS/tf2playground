@@ -1,36 +1,34 @@
 import React, {useState, useCallback, useEffect}  from 'react';
-import styled, {css} from 'styled-components';
-import useWebSocket from 'react-use-websocket';
 import LobbySlot from './lobby-slot';
-import {LobbyRectangle, IconWrapper, IconImage, LobbyHeading} from './lobby-elements';
+import {LobbyPlayerContainer, LobbyHeading} from './lobby-elements';
 
-const LobbyContainer = (lobbyData) => {
+const Players = ({lobbyData}) => {
 
-    //Websocket only
-    if(lobbyData.lobbyData.data){
+    if(!lobbyData) return null
 
-        console.log('testing length', lobbyData.lobbyData.data);
-        
+    if(lobbyData){
         return (
-            JSON.parse(lobbyData.lobbyData.data).players.map((player, i) => 
-                <>
-                    <LobbySlot key={i} playerData={player}/>
-                    {console.log('length', player)}
-                </>
-            )
+            <>
+                {JSON.parse(lobbyData.data).players.map((player, i) => 
+                    <>
+                        <LobbySlot key={i} playerData={player}/>
+                    </>
+                )}
+            </>
         )
     }
+}
 
-    //Onload
-    else {
-        return (
-            lobbyData.lobbyData.players.map((player, i) => 
-                <>
-                    <LobbySlot key={i} playerData={player}/>
-                </>
-            )
-        )
-    }
+const LobbyContainer = ({lobbyData}) => {
+
+    return(
+        <>
+            <LobbyHeading className='lobby-play-count' playersJoined={lobbyData}/>
+            <LobbyPlayerContainer>
+                <Players lobbyData={lobbyData}/>
+            </LobbyPlayerContainer>
+        </>
+    )
 }
 
 export default LobbyContainer

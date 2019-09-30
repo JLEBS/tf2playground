@@ -28,11 +28,38 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
+    maxPlayer: 12,
+    classes: {
+      pocketScout: {
+        unassigned: 0,
+        assigned: 2
+      },
+      flankScout: {
+        unassigned: 2,
+        assigned: 0
+      },
+      pocketSoldier: {
+        unassigned: 1,
+        assigned: 1
+      },
+      roamerSoldier: {
+        unassigned: 2,
+        assigned: 0
+      },
+      demo: {
+        unassigned: 2,
+        assigned: 0
+      },
+      medic: {
+        unassigned: 1,
+        assigned: 1
+      },
+    },
     players: [
-      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
-      { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 2 },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 5 },
-      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 0 },
+      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 'pocketScout' },
+      { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 'pocketSoldier' },
+      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
+      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 'medic' },
     ]
   };
 

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled, {css} from 'styled-components';
-import {p} from '../../misc/fonts';
+import ClassSelection from './choose-class';
+import classSelectionArray from './class-array';
 import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
 import { ReactComponent as Fist } from '../../assets/imgs/icons/svgs/fist.svg';
 
@@ -17,7 +18,11 @@ const NumOfGames = styled(Fist)`
 const LobbyPlayerContainer = styled.div`
   background: linear-gradient( to bottom, #242424, #242424 50%, #1E1E1E 50%, #1E1E1E );
   background-size: 100% 108px;
-  min-height: 648px;
+
+  ${props => props.playerCount && css`
+    min-height: ${ props.playerCount * 54}px;
+  `}
+
 `;
 
 const LobbyParent = styled.div`
@@ -99,7 +104,7 @@ const IconImage = styled.span`
 
   ${props => props.classQuantity && css`{
     &:after{
-      content: '2';
+      content: '${props => props.classQuantity}';
       color: black;
       font-size: 14px;
       font-weight: bold;
@@ -137,9 +142,15 @@ const PlayerCounter = styled.div`
   border-radius: 16px;
   min-width: 42px;
   text-align:center;
-  &:after{
-    content:'/12';
-  }
+
+  ${props => `
+    &:before{
+      content: '${props.currentPlayer}'; 
+    }  
+    &:after{
+      content: '/${props.maxPlayer}'; 
+    }  
+  `}
 `;
 
 const LobbyInfo = styled.span`
@@ -183,11 +194,53 @@ const LobbyTooltip = styled.span`
 
 `;
 
+const ClassSelectionContainer = styled.div`
+  height: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ClassTest = ({loading, playerData, lobbyData}) => {
+
+  const [message, setMessage] = useState('Loading data');
+
+  const chooseState = [
+    'Please login',
+    'Choose class',
+    'Game full'
+  ];
+
+  useEffect(()=> {
+    if(!loading && !playerData){
+      setMessage(chooseState[0])
+    }
+    if(!loading && playerData){
+      setMessage(chooseState[1]);
+    }
+  }, [loading, playerData, setMessage]);
+
+  return (
+    <LobbyParent unset>    
+      <ClassSelectionContainer>  
+        <p>{message}</p>
+        {!loading && lobbyData && (
+          <>
+            <ClassSelection loggedIn={playerData ? true : false} playerData={playerData} lobbyData={lobbyData} classArray={classSelectionArray}/> 
+          </>
+        )}
+      </ClassSelectionContainer>
+    </LobbyParent>
+  );
+}
+
 
 const LobbyHeading = ({playersJoined}) => {
 
-  const [count, setCount] = useState(0);
-  const [lobbyMessage, setMessage] = useState('Setting up lobby');
+  const [count, setCount] = useState(['?', '?']);
+  const [lobbyMessage, setMessage] = useState(<>Setting up lobby&hellip;</>);
 
   const lobbyState = [
     <>Waiting for players to join lobby&hellip;</>,
@@ -200,20 +253,20 @@ const LobbyHeading = ({playersJoined}) => {
 
   useEffect(()=> {
     if(playersJoined){
-      setCount(JSON.parse(playersJoined.data).players.length)
-      setMessage(lobbyState[JSON.parse(playersJoined.data).lobbyState]);
+      setCount([playersJoined.players.length, playersJoined.maxPlayer])
+      setMessage(lobbyState[playersJoined.lobbyState]);
     }
   }, [playersJoined, setCount], [playersJoined, setMessage]);
 
   return(
     <LobbyRectangle>
-      {lobbyMessage}
-      <PlayerCounter>
-        {count}
+      <p>{lobbyMessage}</p>
+      <PlayerCounter currentPlayer={count[0]} maxPlayer={count[1]}>
       </PlayerCounter>
     </LobbyRectangle>
   )
 }
+
 
 const LobbySpectators = ({arrayOfPlayers}) => {
   return(
@@ -236,4 +289,4 @@ const LobbyStats = ({playerInfo}) => {
   )
 }
 
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer}
+export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer, ClassTest}

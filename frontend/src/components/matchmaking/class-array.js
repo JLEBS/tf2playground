@@ -14,43 +14,31 @@ import roamerSoldierTorso from './../../assets/imgs/characters/soldier-roamer-to
 import demoTorso from './../../assets/imgs/characters/demo-torso.png';
 import medicTorso from './../../assets/imgs/characters/medic-torso.png';
 
-const classSelectionArray = [
-  {   
-    id: 'pocket-scout',
-    name: 'pocket scout',
+const classSelectionArray = {
+  pocketScout: {   
     icon: pocketScoutIcon,
     torso: pocketScoutTorso
   },
-  {
-    id: 'flank-scout',
-    name: 'flank scout',
+  flankScount: {
     icon: flankScoutIcon,
     torso: flankScoutTorso
   },
-  {
-    id: 'pocket-soldier',
-    name: 'pocket',
+  pocketSoldier: {
     icon: pocketSoldierIcon,
     torso: pocketSoldierTorso
   },
-  {
-    id: 'roamer-soldier',
-    name: 'roamer',
+  roamerSoldier: {
     icon: roamerSoldierIcon,
     torso: roamerSoldierTorso
   },
-  {
-    id: 'demoman',
-    name: 'demoman',
+  demoman: {
     icon: demoIcon,
     torso: demoTorso
   },
-  {
-    id: 'medic',
-    name: 'medic',
+  medic: {
     icon: medicIcon,
     torso: medicTorso
   }
-];
+};
 
 export default classSelectionArray;

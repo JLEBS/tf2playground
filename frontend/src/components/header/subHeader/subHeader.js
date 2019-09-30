@@ -101,16 +101,6 @@ const BackgroundOverlay = styled.div`
     display: none;
 `;
 
-const ClassContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 400px;
-  width: 100%;
-  background-color: black;
-  color: white;
-  padding: 14px 32px 14px 32px;
-`;
 
 const ChatContainer = styled.div`
     display: flex;
@@ -130,33 +120,6 @@ const ChatContainer = styled.div`
 //   });
 
 
-const ClassSelectionContainer = styled.div`
-    height: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const ClassDiv = (props) => {
-    return (
-        <LobbyParent unset>    
-            <ClassSelectionContainer>  
-                {!props.loading && !props.playerData && (
-                    <>
-                        <ClassSelection loggedIn={false} playerData={props.playerData}/> 
-                    </>
-                )}
-                {props.loading===false && props.playerData && (
-                    <>   
-                        <ClassSelection loggedIn={true} playerData={props.playerData}/> 
-                    </>
-                )}
-            </ClassSelectionContainer>
-        </LobbyParent>
-    );
-}
 
 const SubHeaderContainer = ({loading, playerData}) => {
 
@@ -234,8 +197,7 @@ const SubHeaderContainer = ({loading, playerData}) => {
                 </PoseGroup> */}
 
         
-               
-                <Route strict path="/lobby" component={() => <ClassDiv loading={loading} playerData={playerData}/>} />
+            
               
             </SubHeader>
 

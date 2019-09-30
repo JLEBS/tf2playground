@@ -1,6 +1,8 @@
 import React, {useState, useCallback, useEffect, useMemo}  from 'react';
+import styled from 'styled-components';
 import LobbyContainer from '../components/matchmaking/lobby-panel';
 import {LobbySpectators, LobbyParent} from '../components/matchmaking/lobby-elements';
+import ClassSelection from '../components/matchmaking/choose-class';
 import useWebSocket from 'react-use-websocket';
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -8,18 +10,43 @@ const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
-//const maintoken = Cookies.get("steamIdAuth"); 
-//const steamtoken = Cookies.get('steamUserID');
-const LobbyPage = () => {
+const ClassSelectionContainer = styled.div`
+  height: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ClassDiv = ({loading, playerData}) => {
+  return (
+    <LobbyParent unset>    
+      <ClassSelectionContainer>  
+        {console.log('kjbdkjsbfd', playerData)}
+        {!loading && !playerData && (
+          <>
+            <ClassSelection loggedIn={false} playerData={playerData}/> 
+          </>
+        )}
+        {loading === false && playerData && (
+          <>   
+            <ClassSelection loggedIn={true} playerData={playerData}/> 
+          </>
+        )}
+      </ClassSelectionContainer>
+    </LobbyParent>
+  );
+}
+
+const LobbyPage = ({loading, playerData}) => {
 
   const [socketUrl, setSocketUrl] = useState('ws://localhost:4000'); //Set Websocket URL
   const [messageHistory, setMessageHistory] = useState([]);
   const [playerDetails, setPlayerDetails] = useState(null);
   const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
-  
-  // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
-  // const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
   const [lobbyData, setLobbyData] = useState(null);
+  
 
   const connectionStatus = {
     [CONNECTION_STATUS_CONNECTING]: 'Connecting',
@@ -35,6 +62,25 @@ const LobbyPage = () => {
       setMessageHistory(prev => prev.concat(currentLobby));
     }
 
+  }, [connectionStatus, currentLobby]);
+  
+  return (
+    <LobbyParent>
+      {console.log('loading', loading, 'playerdata', playerData)}
+      <ClassDiv loading={loading} playerData={playerData}/>
+      <LobbyContainer lobbyData={currentLobby}/>
+      <LobbySpectators className='lobby-spectators'/>
+    </LobbyParent>
+  )
+};
+
+export default LobbyPage;       
+
+  // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
+  // const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);
+  
+
+
       // if (currentLobby !== null) {
       // setLobbyData(currentLobby);
     // }
@@ -47,25 +93,3 @@ const LobbyPage = () => {
     // if (currentLobby !== null && playerDetails) {
     //   setLobbyData(LOBBY_TEST);
     // }
-  }, [connectionStatus, currentLobby]);
-  
-  return (
-    <LobbyParent>
-      <LobbyContainer lobbyData={currentLobby}/>
-      <LobbySpectators className='lobby-spectators'/>
-    </LobbyParent>
-  )
-};
-
-export default LobbyPage;       
-
-/* {console.log(playerData, 'is it loading')}
-<button onClick={handleClickChangeSocketUrl}>Click Me to sdadad Socket Url</button>
-<button onClick={handleClickSendMessage} disabled={readyState !== CONNECTION_STATUS_OPEN}>Click Me to send 'Hello'</button>
-<span>The WebSocket is currently {connectionStatus}</span>
-{currentLobby && (
-    <span>Last message:{currentLobby.data}</span>
-)}
-<ul>
-    {messageHistory.map((message, idx) => <span key={idx}>{message.data}</span>)}
-</ul> */

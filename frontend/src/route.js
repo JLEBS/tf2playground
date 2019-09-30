@@ -148,10 +148,10 @@ const AppRouter = () => {
   return (
     <Router>
       <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
-      <SubHeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='subHeader'/>
+      <SubHeaderContainer className='subHeader'/>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/lobby" render={() => <Lobby/> } />
+        <Route path="/lobby" render={() => <Lobby loading={fetchUser.loading} playerData={fetchUser.data}/> } />
         <Route path="/about" component={About} />
         <Route path="/rules" component={Rules} />
         <Route path="/stats" component={Stats} />

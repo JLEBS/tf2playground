@@ -28,6 +28,7 @@ const Home = () => (
 
 const Lobby = ({loading, playerData}) => (
   <LobbyLayout imageUrl={prolands}>
+    {console.log("BIG RENDERING")}
     <LobbyPage loading={loading} playerData={playerData}  />
   </LobbyLayout>
 );
@@ -134,16 +135,6 @@ const useFetch = (url) => {
 const AppRouter = () => {
 
   const fetchUser = useFetch(`http://localhost:3001/profile`);
-
-  const notificationClient = () => {
-
-    return(
-      <div>
-        <NotificationContainer>Has logged in</NotificationContainer>
-        {console.log('notification')}
-      </div>
-    )
-  }
 
   return (
     <Router>

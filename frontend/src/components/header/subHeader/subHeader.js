@@ -1,43 +1,37 @@
-import React, {useState} from 'react';
-import styled, {css, keyframes} from 'styled-components';
-import Colors from '../../../misc/colors';
-import { LobbyFont } from '../../../misc/fonts';
-import { ReactComponent as Users } from './../../../assets/imgs/icons/svgs/users_solid.svg';
-import { ReactComponent as Video } from './../../../assets/imgs/icons/svgs/video_solid.svg';
-import { ReactComponent as Chat } from './../../../assets/imgs/icons/svgs/comments_solid.svg';
-import ClassSelection from '../../matchmaking/choose-class';
-import {LobbyRectangle, LobbyParent} from '../../matchmaking/lobby-elements';
-
-
-
-import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import React, { useState } from "react";
+import styled, { css, keyframes } from "styled-components";
+import Colors from "../../../misc/colors";
+import { LobbyFont } from "../../../misc/fonts";
+import { ReactComponent as Users } from "./../../../assets/imgs/icons/svgs/users_solid.svg";
+import { ReactComponent as Video } from "./../../../assets/imgs/icons/svgs/video_solid.svg";
+import { ReactComponent as Chat } from "./../../../assets/imgs/icons/svgs/comments_solid.svg";
 
 const ChatMod = styled(Chat)`
-    height: 25px;
-    margin-left: 10px;
+  height: 25px;
+  margin-left: 10px;
 `;
 
 const VideoMod = styled(Video)`
-    height: 25px;
-    margin-left: 10px;
+  height: 25px;
+  margin-left: 10px;
 `;
 
 const UsersMod = styled(Users)`
-    height: 25px;
-    margin-left: 10px;
+  height: 25px;
+  margin-left: 10px;
 `;
 
 const SubHeader = styled.div`
-    background-color: ${Colors.standard.primary};
-    width: 100%;
-    position: fixed;
-    top: 100px;
-    right: 0;
-    left: 0;
-    z-index: 3;
-    display:flex;
-    flex-direction:row;
-    justify-content: space-between;
+  background-color: ${Colors.standard.primary};
+  width: 100%;
+  position: fixed;
+  top: 100px;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const SocialGroup = styled.button`
@@ -54,58 +48,61 @@ const SocialGroup = styled.button`
         opacity: 1;
     }
 
-    ${props => props.active && css`
+    ${props =>
+      props.active &&
+      css`
         opacity: 1;
         color: ${Colors.standard.primary};
         background-color: ${Colors.standard.secondary};
-    `}
+      `}
 
-    ${props => props.chat && css`
-        :after{
-            content: '';
-            width:8px;
-            height:8px;
-            border-radius:5px;
-            background-color:red;
-            margin-right:10px;
+    ${props =>
+      props.chat &&
+      css`
+        :after {
+          content: "";
+          width: 8px;
+          height: 8px;
+          border-radius: 5px;
+          background-color: red;
+          margin-right: 10px;
         }
-    `}
+      `}
 `;
 
 const DropWindow = styled.div`
-    background-color: ${Colors.standard.secondary};
-    // width: 100%;
-    // max-width: 487px;
-    width: 487px;
-    padding-top:50px;
-    padding-bottom: 50px;
-    position: absolute;
-    top: 57px;
-    left: -787px;
-    z-index:-3;
-    color: white;
-    display: none;
+  background-color: ${Colors.standard.secondary};
+  // width: 100%;
+  // max-width: 487px;
+  width: 487px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  position: absolute;
+  top: 57px;
+  left: -787px;
+  z-index: -3;
+  color: white;
+  display: none;
 `;
 
 const DeleteThis = styled.div`
-    height:500px;
+  height: 500px;
 `;
 
 const BackgroundOverlay = styled.div`
-    height: 100vh;
-    width: 100vw;
-    background-color: #000000b8;
-    position: absolute;
-    z-index: 2;
-    cursor: w-resize;
-    display: none;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000000b8;
+  position: absolute;
+  z-index: 2;
+  cursor: w-resize;
+  display: none;
 `;
 
-
 const ChatContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 // const Box = posed.div({
@@ -119,72 +116,78 @@ const ChatContainer = styled.div`
 //     }
 //   });
 
+const SubHeaderContainer = ({ loading, playerData }) => {
+  const CHAT_PANEL = "CHAT_PANEL";
+  const ONLINE_PANEL = "ONLINE_PANEL";
+  const STREAM_PANEL = "STREAM_PANEL";
 
+  //Old
+  // let SLIDEIN = 'animated slideInLeft faster';
+  // let SLIDEOUT = 'animated slideOutLeft faster';
+  // let FADEIN = 'animated fadeIn faster';
+  // let FADEOUT = 'animated fadeOut faster';
 
-const SubHeaderContainer = ({loading, playerData}) => {
+  // const TRANSITIONIN;
+  // const TRANSITIONOUT;
 
-    const CHAT_PANEL = 'CHAT_PANEL';
-    const ONLINE_PANEL = 'ONLINE_PANEL';
-    const STREAM_PANEL = 'STREAM_PANEL';
+  //New
+  // SLIDEIN = 'chat-window-enter';
+  // SLIDEOUT = 'chat-window-exit';
+  // FADEIN = 'chat-window-enter';
+  // FADEOUT = 'chat-window-exit-active';
 
-    //Old
-    // let SLIDEIN = 'animated slideInLeft faster';
-    // let SLIDEOUT = 'animated slideOutLeft faster';
-    // let FADEIN = 'animated fadeIn faster';
-    // let FADEOUT = 'animated fadeOut faster';
+  const [activePanel, setActivePanel] = useState(CHAT_PANEL);
+  const [panelOpen, setPanelOpen] = useState(false);
 
-    // const TRANSITIONIN;
-    // const TRANSITIONOUT;
+  // // const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
 
-    //New
-    // SLIDEIN = 'chat-window-enter';
-    // SLIDEOUT = 'chat-window-exit';
-    // FADEIN = 'chat-window-enter';
-    // FADEOUT = 'chat-window-exit-active';
-  
-    const [activePanel, setActivePanel] = useState(CHAT_PANEL);
-    const [ panelOpen, setPanelOpen ] = useState(false);
+  // // const fadeIn = panelOpen ? FADEIN : FADEOUT;
 
-    // // const currentAnimation = panelOpen ? SLIDEIN : SLIDEOUT;
+  const panelContents = {
+    [CHAT_PANEL]: () => <p>This is a Chat Panel</p>,
+    [ONLINE_PANEL]: () => <p>This is a Online Panel</p>,
+    [STREAM_PANEL]: () => <p>This is a Stream Panel</p>
+  };
 
-    // // const fadeIn = panelOpen ? FADEIN : FADEOUT;
+  // const CurrentPanel = panelContents[activePanel];
 
-    const panelContents = {
-        [CHAT_PANEL] : () => <p>This is a Chat Panel</p>,
-        [ONLINE_PANEL] : () => <p>This is a Online Panel</p>,
-        [STREAM_PANEL] : () => <p>This is a Stream Panel</p>
-    };
+  const openPanel = panel => {
+    setPanelOpen(true);
+    setActivePanel(panel);
+  };
 
-    // const CurrentPanel = panelContents[activePanel];
+  const closePanel = panel => {
+    setPanelOpen(false);
+  };
 
-    const openPanel = panel => {
-        setPanelOpen(true)
-        setActivePanel(panel)
-    }
+  return (
+    <>
+      <SubHeader>
+        <ChatContainer>
+          <SocialGroup
+            active={activePanel === CHAT_PANEL && panelOpen === true}
+            onClick={() => openPanel(CHAT_PANEL)}
+          >
+            <LobbyFont>Chat</LobbyFont>
+            <ChatMod />
+          </SocialGroup>
+          <SocialGroup
+            active={activePanel === ONLINE_PANEL && panelOpen === true}
+            onClick={() => openPanel(ONLINE_PANEL)}
+          >
+            <LobbyFont>Online</LobbyFont>
+            <UsersMod />
+          </SocialGroup>
+          <SocialGroup
+            active={activePanel === STREAM_PANEL && panelOpen === true}
+            onClick={() => openPanel(STREAM_PANEL)}
+          >
+            <LobbyFont>Streams</LobbyFont>
+            <VideoMod />
+          </SocialGroup>
+        </ChatContainer>
 
-    const closePanel = panel => {
-        setPanelOpen(false)
-    }
- 
-    return (
-        <>
-            <SubHeader>
-                <ChatContainer>
-                    <SocialGroup active={activePanel === CHAT_PANEL && panelOpen === true} onClick={() => openPanel(CHAT_PANEL)} >
-                        <LobbyFont>Chat</LobbyFont>
-                        <ChatMod/>
-                    </SocialGroup>
-                    <SocialGroup active={activePanel === ONLINE_PANEL && panelOpen === true} onClick={() => openPanel(ONLINE_PANEL)} >
-                        <LobbyFont>Online</LobbyFont>
-                        <UsersMod/>
-                    </SocialGroup>
-                    <SocialGroup active={activePanel === STREAM_PANEL && panelOpen === true} onClick={() => openPanel(STREAM_PANEL)} >
-                        <LobbyFont>Streams</LobbyFont>
-                        <VideoMod/>
-                    </SocialGroup>
-                </ChatContainer>
-
-                {/* <PoseGroup>
+        {/* <PoseGroup>
                     { panelOpen && (
                         <Box key='model'>
                             <DropWindow >
@@ -195,17 +198,12 @@ const SubHeaderContainer = ({loading, playerData}) => {
                         </Box>
                     )}
                 </PoseGroup> */}
+      </SubHeader>
 
-        
-            
-              
-            </SubHeader>
-
-
-            {/* {panelOpen && (
+      {/* {panelOpen && (
                 <BackgroundOverlay onClick={() => closePanel()}/>
             )} */}
-            {/* { panelOpen && (
+      {/* { panelOpen && (
             
                 <div active={activePanel == true && panelOpen === true}>
                     <BackgroundOverlay  onClick={() => closePanel()}/>
@@ -213,8 +211,8 @@ const SubHeaderContainer = ({loading, playerData}) => {
          
 
             )} */}
-        </>
-    );
+    </>
+  );
 };
 
 export default SubHeaderContainer;

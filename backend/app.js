@@ -4,7 +4,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const util = require('util')
 // var cors = require('cors');
 
 //Steam requirements
@@ -29,38 +28,38 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 7,
+    maxPlayer: 9,
     classes: {
       pocketScout: {
-        unassigned: 0,
-        assigned: 2
+        unassigned: 1,
+        assigned: 1
       },
       flankScout: {
         unassigned: 2,
         assigned: 0
       },
       pocketSoldier: {
-        unassigned: 1,
-        assigned: 1
+        unassigned: 2,
+        assigned: 0
       },
       roamerSoldier: {
         unassigned: 2,
         assigned: 0
       },
       demo: {
-        unassigned: 2,
-        assigned: 0
-      },
-      medic: {
         unassigned: 1,
         assigned: 1
       },
+      medic: {
+        unassigned: 0,
+        assigned: 2
+      },
     },
     players: [
-      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 'pocketScout' },
-      { details: { steamId: '76561198028929109', name: 'new person', numGames: 241, playtime: 9373 }, classId: 'pocketSoldier' },
-      { details: { steamId: '76561198193511414', name: 'yoyoyoyoyoyo', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
-      { details: { steamId: '76561198018959029', name: 'changes', numGames: 23, playtime: 2828 }, classId: 'medic' },
+      { details: { steamId: '76561198018959029', name: 'eepily', numGames: 23, playtime: 2828 }, classId: 'demo' },
+      { details: { steamId: '76561198028929109', name: 'planccck', numGames: 241, playtime: 9373 }, classId: 'medic' },
+      { details: { steamId: '76561198193511414', name: 'jlebs', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
+      { details: { steamId: '76561198018959029', name: 'greenrab', numGames: 23, playtime: 2828 }, classId: 'medic' },
     ]
   };
 

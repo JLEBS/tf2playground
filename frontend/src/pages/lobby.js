@@ -19,7 +19,7 @@ const LobbyPage = ({ loading, playerData }) => {
   const [playerDetails, setPlayerDetails] = useState(null);
   const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
   const [lobbyJson, decodeJson] = useState({
-    lobbyId: 11,
+    lobbyId: null,
     lobbyState: 0,
     maxPlayer: 12,
     classes: {
@@ -70,6 +70,8 @@ const LobbyPage = ({ loading, playerData }) => {
       decodeJson(JSON.parse(currentLobby.data));
     }
   }, [currentLobby]);
+
+  if (loading) return null;
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end" }}>

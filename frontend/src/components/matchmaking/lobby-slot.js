@@ -10,16 +10,10 @@ import classSelectionArray from "./class-array";
 
 const LobbySlot = playerData => {
   return (
-    
-    <LobbyRectangle className={playerData ? "lobby-slot" : ""}>
-      <IconWrapper background={playerData ? "white" : "grey"}>
-        <IconImage
-          imageUrl={
-            playerData.playerData.details
-              ? classSelectionArray[playerData.playerData.classId].icon
-              : ""
-          }
-        />
+    <LobbyRectangle>
+      <IconWrapper>
+        {console.log('lobbyslot here')}
+        <IconImage imageUrl={classSelectionArray[playerData.playerData.classId].icon}/>
       </IconWrapper>
       <Link to={`/profile/${playerData.playerData.details.steamId}`}>
         {playerData.playerData.details.name}

@@ -119,7 +119,6 @@ const IconImage = styled.span`
 //Counts number of players added on each class
 const ClassQuantity = styled.span`
   z-index: 1;
-  margin-left: -12px;
   height:0px;
   ${props => typeof props.classQuantity !== 'undefined' && css`{
     &:after{
@@ -135,6 +134,9 @@ const ClassQuantity = styled.span`
       display: block;
       text-align: center;
       background-color: white;
+      position: absolute;
+      top: -3px;
+      right: -7px;
     }
   `}
 `;
@@ -222,6 +224,7 @@ const ClassSelectionContainer = styled.div`
 const ClassTest = ({loading, playerData, lobbyData}) => {
 
   const [message, setMessage] = useState('Loading data');
+  const [loadState, setLoadState] = useState(false);
 
   const chooseState = [
     'Please login',
@@ -229,22 +232,24 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
     'Game full'
   ];
 
+  console.log(playerData, 'hello data')
+
   useEffect(()=> {
     if(!loading && !playerData){
       setMessage(chooseState[0])
     }
     if(!loading && playerData){
       setMessage(chooseState[1]);
+      setLoadState(playerData);
     }
   }, [loading, playerData, setMessage]);
 
   return (
     <LobbyParent unset>    
       <ClassSelectionContainer>  
+        {console.log(message,'THIS IS A MSG')}
         <p>{message}</p>
-      
-            <ClassSelection loggedIn={playerData ? true : false} playerData={playerData} lobbyData={lobbyData} classArray={classSelectionArray}/> 
-  
+        <ClassSelection playerData={loadState} lobbyData={lobbyData} classArray={classSelectionArray}/> 
       </ClassSelectionContainer>
     </LobbyParent>
   );

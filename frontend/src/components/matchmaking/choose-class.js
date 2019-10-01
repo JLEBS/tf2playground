@@ -1,12 +1,13 @@
 //Class imports
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import useWebSocket from "react-use-websocket";
 import {
   IconWrapper,
   IconImage,
   ClassTorso,
   LobbyTooltip,
-  IconContainer
+  IconContainer,
+  ClassQuantity
 } from "./lobby-elements";
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -34,41 +35,28 @@ const ClassSelection = ({ loggedIn, playerData, lobbyData, classArray }) => {
   };
 
 
+
   return (
     <>
       <IconContainer>
         {
           Object.entries(lobbyData.classes).map(([key, value]) => {
-      
-            console.log('CLASSARRAY', classArray);
-
-            console.log('ARRAYKEY', [key]);
-
-            console.log('this should work honestly', classArray[key]);
-
+            let numOfPlayers = (value.unassigned + value.assigned) - value.assigned;
             return(
-              <IconWrapper addSelect={loggedIn} id={value.name} onClick={() => loggedIn === false ? '' : handleClickChooseClass(value.name, playerData)} disabled={readyState !== CONNECTION_STATUS_OPEN} key={key}>
-              <IconImage classQuantity={(value.unassigned + value.assigned) - value.assigned} icon imageUrl={value.icon}/>
-              <LobbyTooltip>{loggedIn === false ? 'Please login' : value.name }</LobbyTooltip>
-              <ClassTorso src={value.torso}/>
-              </IconWrapper>
+              <>
+                <IconWrapper addSelect={loggedIn === false || numOfPlayers === 0 ? false : true} id={value.name} onClick={() => loggedIn === false || numOfPlayers === 0 ? '' : handleClickChooseClass(value.name, playerData)} disabled={readyState !== CONNECTION_STATUS_OPEN} key={key}>
+                  <IconImage icon imageUrl={classArray[key].icon}/>
+                  {( loggedIn === false || numOfPlayers === 0 ? '' : <LobbyTooltip>{classArray[key].name}</LobbyTooltip>)}
+                  <ClassTorso src={classArray[key].torso}/>
+                </IconWrapper>
+                <ClassQuantity classQuantity={numOfPlayers}/>
+              </>
             )
-          }
-          )}
-
-        
+          })
+        }
       </IconContainer>
     </>
   );
 };
 
 export default ClassSelection;
-{
-  /* {classArray.map((character, i) => (
-  <IconWrapper addSelect={loggedIn} id={character.name} onClick={() => loggedIn === false ? '' : handleClickChooseClass(character.name, playerData)} disabled={readyState !== CONNECTION_STATUS_OPEN} key={i}>
-    <IconImage classQuantity={3} icon imageUrl={character.icon}/>
-    <LobbyTooltip>{loggedIn === false ? 'Please login' : character.name }</LobbyTooltip>
-    <ClassTorso src={character.torso}/>
-  </IconWrapper>
-))}*/
-}

@@ -10,6 +10,7 @@ import classSelectionArray from "./class-array";
 
 const LobbySlot = playerData => {
   return (
+    
     <LobbyRectangle className={playerData ? "lobby-slot" : ""}>
       <IconWrapper background={playerData ? "white" : "grey"}>
         <IconImage

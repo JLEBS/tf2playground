@@ -15,27 +15,33 @@ import demoTorso from './../../assets/imgs/characters/demo-torso.png';
 import medicTorso from './../../assets/imgs/characters/medic-torso.png';
 
 const classSelectionArray = {
-  pocketScout: {   
+  pocketScout: {
+    name: 'Pocket scout',   
     icon: pocketScoutIcon,
     torso: pocketScoutTorso
   },
-  flankScount: {
+  flankScout: {
+    name: 'Flank scout',
     icon: flankScoutIcon,
     torso: flankScoutTorso
   },
   pocketSoldier: {
+    name: 'Pocket',
     icon: pocketSoldierIcon,
     torso: pocketSoldierTorso
   },
   roamerSoldier: {
+    name: 'Roamer',
     icon: roamerSoldierIcon,
     torso: roamerSoldierTorso
   },
-  demoman: {
+  demo: {
+    name: 'Demo',
     icon: demoIcon,
     torso: demoTorso
   },
   medic: {
+    name: 'Medic',
     icon: medicIcon,
     torso: medicTorso
   }

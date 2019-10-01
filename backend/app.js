@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const util = require('util')
 // var cors = require('cors');
 
 //Steam requirements
@@ -28,7 +29,7 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 12,
+    maxPlayer: 7,
     classes: {
       pocketScout: {
         unassigned: 0,

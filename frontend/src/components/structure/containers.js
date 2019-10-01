@@ -29,7 +29,6 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    outline: 5px solid red;
 `;
 
 //Adds margin to left/right of the window and organises content

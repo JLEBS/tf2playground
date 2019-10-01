@@ -18,17 +18,20 @@ const NumOfGames = styled(Fist)`
 const LobbyPlayerContainer = styled.div`
   background: linear-gradient( to bottom, #242424, #242424 50%, #1E1E1E 50%, #1E1E1E );
   background-size: 100% 108px;
+  transition: all ease-in-out 0.5s;
 
   ${props => props.playerCount && css`
     min-height: ${ props.playerCount * 54}px;
   `}
-
 `;
 
 const LobbyParent = styled.div`
   max-width: 460px;
   width:100%;
   background-color:#141414;
+  margin-top: -32px;
+  z-index: 3;
+  min-height: 67px;
 `;
 
 //Rectangle that contains data
@@ -49,6 +52,8 @@ const IconContainer = styled.div`
   max-width: 260px;
   display: flex;
   justify-content: space-between;
+  padding-top:16px;
+  padding-bottom:16px;
 `;
 
 //Button element containing class icon
@@ -57,8 +62,7 @@ const IconWrapper = styled.button`
   border-radius: 20px;
   position: relative;
   cursor: auto;
-  
-  ${props => `background-color: ${props.background};`};
+  background-color: white;
 
   ${props => props.addSelect === true && css `
     cursor: crosshair;
@@ -69,6 +73,11 @@ const IconWrapper = styled.button`
       background-color: #1C9523;
       border: 2px solid white;
     }
+
+    &:hover > span::before{
+      transform: scale(0.8);
+    }
+
     &:hover > img{
       bottom: 0px;
       opacity: 1;
@@ -81,47 +90,55 @@ const IconWrapper = styled.button`
  `}
 
   ${props => props.addSelect === false && css`{
-    opacity: 0.7;
+    opacity: 0.5;
     cursor: not-allowed;
-    border: 2px solid red;
+    border: 2px solid #e91e63;
 
-    &:hover > span{
-      visibility: visible;
-      opacity: 1;
+    & span {
+      &:after{
+      color: red;
+      }
     }
   `}
-  
 `;
 
 //Button child containing the class image (After soley for numbering)
 const IconImage = styled.span`
-  ${props => `background-image: url(${props.imageUrl});`};
-  background-repeat: no-repeat;
-  background-size: contain;
-  display:block;
-  height: 24px;
-  width: 24px;
+  &:before{
+    content: '';
+    ${props => `background-image: url(${props.imageUrl});`};
+    background-repeat: no-repeat;
+    background-size: contain;
+    display:block;
+    height: 24px;
+    width: 24px;
+    transition all ease-in-out 0.3s;
+  }
+`;
 
-  ${props => props.classQuantity && css`{
+//Counts number of players added on each class
+const ClassQuantity = styled.span`
+  z-index: 1;
+  margin-left: -12px;
+  height:0px;
+  ${props => typeof props.classQuantity !== 'undefined' && css`{
     &:after{
       content: '${props => props.classQuantity}';
-      color: black;
+      color: ${props => props.classQuantity === 0 ? '#F22525;' : props => props.classQuantity === 1 ? '#f26d00' : 'black;'}
+      border: 2px solid grey;
       font-size: 14px;
       font-weight: bold;
       line-height: 12px;
-      border: 1px solid #FF5722;
       border-radius: 10px;
       height: 13px;
       width: 13px;
-      position: absolute;
       display: block;
       text-align: center;
-      top: -4px;
-      right: -7px;
       background-color: white;
     }
   `}
 `;
+
 
 //Large picture of characters' torso
 const ClassTorso = styled.img`
@@ -191,7 +208,6 @@ const LobbyTooltip = styled.span`
     position: absolute;
     top: -4px;
     left: 35%;
-
 `;
 
 const ClassSelectionContainer = styled.div`
@@ -226,16 +242,13 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
     <LobbyParent unset>    
       <ClassSelectionContainer>  
         <p>{message}</p>
-        {!loading && lobbyData && (
-          <>
+      
             <ClassSelection loggedIn={playerData ? true : false} playerData={playerData} lobbyData={lobbyData} classArray={classSelectionArray}/> 
-          </>
-        )}
+  
       </ClassSelectionContainer>
     </LobbyParent>
   );
 }
-
 
 const LobbyHeading = ({playersJoined}) => {
 
@@ -289,4 +302,4 @@ const LobbyStats = ({playerInfo}) => {
   )
 }
 
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer, ClassTest}
+export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer, ClassTest, ClassQuantity}

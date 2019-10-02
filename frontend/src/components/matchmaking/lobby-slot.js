@@ -6,14 +6,13 @@ import {
   IconImage,
   LobbyStats
 } from "./lobby-elements";
-import classSelectionArray from "./class-array";
+import {ClassImages} from "./class-array";
 
 const LobbySlot = playerData => {
   return (
     <LobbyRectangle>
       <IconWrapper>
-        {console.log('lobbyslot here')}
-        <IconImage imageUrl={classSelectionArray[playerData.playerData.classId].icon}/>
+        <IconImage imageUrl={ClassImages[playerData.playerData.classId].icon}/>
       </IconWrapper>
       <Link to={`/profile/${playerData.playerData.details.steamId}`}>
         {playerData.playerData.details.name}

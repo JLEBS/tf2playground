@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 //Check if user exists on database
 const getUser = (connection, userID) => {
 	return new Promise((resolve, reject) => {
-		console.log('Fetching User...');
+		console.log('Fetching User...', connection, userID);
 
 		connection.query(`SELECT * FROM user WHERE steam64Id = '${userID}'`, (err, rows) => {
 			if (err) {
@@ -66,6 +66,21 @@ const updateUser = (connection, userID, userDetails) => {
 		})
 	})
 }
+
+//Update users details
+const updatePlayerState = (connection, steamID, userState) => {
+	return new Promise((resolve, reject) => {
+
+		connection.query(`UPDATE user SET personstate = ${userState} WHERE steam64Id = '${steamID}'`, (err, rows) => {
+			if (err) {
+				return reject(err)
+			}
+			console.log('User Updated!');
+			resolve(rows)
+		})
+	})
+}
+
 
 const insertTempusRecord = (connection, tempusDetails, userID) => {
 	return new Promise((resolve, reject) => {
@@ -262,4 +277,4 @@ const insertEtf2l = (connection, etf2lData, userID) => {
 	})
 }
 
-module.exports = { getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints, getEtf2lData, getMatches, updateEtf2l, insertEtf2l };
+module.exports = { getUser, addUser, updateUser, getGameHours, insertTempusRecord, getTempusPoints, getEtf2lData, getMatches, updateEtf2l, insertEtf2l, updatePlayerState };

@@ -14,7 +14,22 @@ import roamerSoldierTorso from './../../assets/imgs/characters/soldier-roamer-to
 import demoTorso from './../../assets/imgs/characters/demo-torso.png';
 import medicTorso from './../../assets/imgs/characters/medic-torso.png';
 
-const classSelectionArray = {
+//Sounds
+import rocket from './../../assets/audio/weapons/rocket.mp3';
+import scattergun from './../../assets/audio/weapons/scattergun.mp3';
+import sticky from './../../assets/audio/weapons/stickybomb.mp3';
+import medigun from './../../assets/audio/weapons/medigun.mp3';
+
+const ClassSounds = {
+  pocketScout: scattergun,
+  flankScout: scattergun,
+  roamerSoldier : rocket,
+  pocketSoldier : rocket,
+  demo : sticky,
+  medic: medigun
+}
+
+const ClassImages = {
   pocketScout: {
     name: 'Pocket scout',   
     icon: pocketScoutIcon,
@@ -47,4 +62,4 @@ const classSelectionArray = {
   }
 };
 
-export default classSelectionArray;
+export {ClassImages, ClassSounds};

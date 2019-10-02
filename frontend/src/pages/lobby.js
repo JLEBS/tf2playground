@@ -71,7 +71,7 @@ const LobbyPage = ({ loading, playerData }) => {
     }
   }, [currentLobby]);
 
-  if (loading) return null;
+  if (!currentLobby || loading) return null;
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end" }}>

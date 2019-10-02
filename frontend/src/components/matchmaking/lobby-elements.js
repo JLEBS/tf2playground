@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled, {css} from 'styled-components';
 import ClassSelection from './choose-class';
-import classSelectionArray from './class-array';
 import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
 import { ReactComponent as Fist } from '../../assets/imgs/icons/svgs/fist.svg';
 
@@ -221,35 +220,82 @@ const ClassSelectionContainer = styled.div`
   align-items: center;
 `;
 
+
+const TestButtons = styled.span`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button:first-child{
+    background-color: #6DCD40
+  }
+  button:nth-of-type(2){
+    background-color: #FF5C5C
+  }
+  button{
+    width: 100px;
+    border-radius: 10px;
+    padding:2px;
+    margin: 3px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+`;
+
 const ClassTest = ({loading, playerData, lobbyData}) => {
 
-  const [message, setMessage] = useState('Loading data');
-  const [loadState, setLoadState] = useState(false);
-
   const chooseState = [
+    'Loading Data',
     'Please login',
     'Choose class',
+    <TestButtons>
+      <button>Pre-Ready</button>
+      <button>Remove</button>
+    </TestButtons>,
     'Game full'
   ];
 
-  console.log(playerData, 'hello data')
+  const [message, setMessage] = useState(chooseState[0]);
+  const [loadState, setLoadState] = useState(false);
+  const [userInfo, updateUserInfo] = useState(playerData);
+
+  // useEffect(()=> {
+  //   if(loading )
+
+  // }, [])
+
+  console.log(playerData.data.personstate);
 
   useEffect(()=> {
     if(!loading && !playerData){
-      setMessage(chooseState[0])
+      setMessage(chooseState[1])
+      alert('Not Loggedin')
     }
+
     if(!loading && playerData){
-      setMessage(chooseState[1]);
-      setLoadState(playerData);
+
+      if(playerData.data.personstate === 1){
+        setMessage(chooseState[2]);
+        setLoadState(playerData);
+      }
+
+      if(playerData.data.personstate === 2){
+        setMessage(chooseState[3]);
+        setLoadState(playerData);
+      }
+      
     }
-  }, [loading, playerData, setMessage]);
+  }, [loading, playerData, setMessage, setLoadState]);
 
   return (
     <LobbyParent unset>    
       <ClassSelectionContainer>  
-        {console.log(message,'THIS IS A MSG')}
         <p>{message}</p>
-        <ClassSelection playerData={loadState} lobbyData={lobbyData} classArray={classSelectionArray}/> 
+        <ClassSelection playerData={loadState} lobbyData={lobbyData}/> 
       </ClassSelectionContainer>
     </LobbyParent>
   );

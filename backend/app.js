@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var cors = require('cors');
+const util = require('util')
 
 //Steam requirements
 var ensureAuthenticated = require('./middleware/authenticate-user');
@@ -12,6 +13,7 @@ var cors = require('./middleware/cors')
 var passport = require('passport')
 var session = require('express-session')
 var SteamStrategy = require('passport-steam').Strategy;
+var {updatePlayerState, getUser} = require('./lib/user');
 
 //WebSocked
 const WebSocket = require('ws');
@@ -22,60 +24,9 @@ const ws = new WebSocket('wss://echo.websocket.org/', {
 
 const wss = new WebSocket.Server({ port: 4000 });
 
-
-const updateLobby = (data) => {
-
-  let defaultLobby = {
-    lobbyId: 11,
-    lobbyState: 0,
-    maxPlayer: 9,
-    classes: {
-      pocketScout: {
-        unassigned: 1,
-        assigned: 1
-      },
-      flankScout: {
-        unassigned: 2,
-        assigned: 0
-      },
-      pocketSoldier: {
-        unassigned: 2,
-        assigned: 0
-      },
-      roamerSoldier: {
-        unassigned: 2,
-        assigned: 0
-      },
-      demo: {
-        unassigned: 1,
-        assigned: 1
-      },
-      medic: {
-        unassigned: 0,
-        assigned: 2
-      },
-    },
-    players: [
-      { details: { steamId: '76561198018959029', name: 'eepily', numGames: 23, playtime: 2828 }, classId: 'demo' },
-      { details: { steamId: '76561198028929109', name: 'planccck', numGames: 241, playtime: 9373 }, classId: 'medic' },
-      { details: { steamId: '76561198193511414', name: 'jlebs', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
-      { details: { steamId: '76561198018959029', name: 'greenrab', numGames: 23, playtime: 2828 }, classId: 'medic' },
-    ]
-  };
-
-  if(data){
-    defaultLobby.players[0] = data;
-    return defaultLobby;
-  }
-  else{
-    return defaultLobby;
-  }
-
-}
-
-const getCurrentLobby = () => {
+const getCurrentLobby = (data) => {
   console.log('Retrieving current lobby...');
-  return JSON.stringify(updateLobby()) 
+  return JSON.stringify(updateLobby(data)) 
 }
 
 ws.on('open', function open() {
@@ -89,7 +40,7 @@ wss.on('connection', function connection(ws) {
   ws.send(lobbyDetails);
 
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+    console.log('retrieved message...')
     const lobbyDetails = getCurrentLobby(message)
     wss.clients.forEach( (ws) =>  {ws.send(lobbyDetails) })
   });
@@ -99,9 +50,6 @@ wss.on('connection', function connection(ws) {
 ws.on('close', function close() {
   console.log('Disconnected Websocket!');
 });
-
-
-
 
 // wss.on('message', function incoming(data) {
 //  console.log(`Ping: ${Date.now() - data} ms`);
@@ -225,6 +173,59 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const updateLobby = (data) => {
+
+  let defaultLobby = {
+    lobbyId: 11,
+    lobbyState: 0,
+    maxPlayer: 12,
+    classes: {
+      pocketScout: {
+        unassigned: 2,
+        assigned: 0
+      },
+      flankScout: {
+        unassigned: 2,
+        assigned: 0
+      },
+      pocketSoldier: {
+        unassigned: 2,
+        assigned: 0
+      },
+      roamerSoldier: {
+        unassigned: 2,
+        assigned: 0
+      },
+      demo: {
+        unassigned: 2,
+        assigned: 0
+      },
+      medic: {
+        unassigned: 2,
+        assigned: 0
+      },
+    },
+    players: [
+    ]
+  };
+  // { details: { steamId: '76561198018959029', name: 'eepily', numGames: 23, playtime: 2828 }, classId: 'demo' },
+  // { details: { steamId: '76561198028929109', name: 'planccck', numGames: 241, playtime: 9373 }, classId: 'medic' },
+  // { details: { steamId: '76561198193511414', name: 'jlebs', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
+  // { details: { steamId: '76561198018959029', name: 'greenrab', numGames: 23, playtime: 2828 }, classId: 'medic' },
+  
+  if(data){
+    const parsed = JSON.parse(data);
+
+    //getUser(connection, parsed.details.steamId);
+    
+    defaultLobby.classes[parsed.classId].unassigned--;
+    defaultLobby.classes[parsed.classId].assigned++;
+    defaultLobby.players.push(parsed);
+    updatePlayerState(connection, parsed.details.steamId, 2);
+  }
+  return defaultLobby;
+}
 
 module.exports = app;
 

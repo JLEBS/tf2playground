@@ -11,15 +11,6 @@ import {
 } from "./lobby-elements";
 import { ClassImages, ClassSounds } from "./class-array";
 
-// const Sounds = {
-//   pocketScout: scattergun,
-//   flankScout: scattergun,
-//   roamerSoldier : rocket,
-//   pocketSoldier : rocket,
-//   demo : sticky,
-//   medic: medigun
-// }
-
 const CONNECTION_STATUS_CONNECTING = 0;
 const CONNECTION_STATUS_OPEN = 1;
 const CONNECTION_STATUS_CLOSING = 2;

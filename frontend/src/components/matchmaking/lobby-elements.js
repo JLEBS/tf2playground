@@ -222,7 +222,6 @@ const ClassSelectionContainer = styled.div`
 
 
 const TestButtons = styled.span`
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -259,33 +258,46 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
     'Game full'
   ];
 
-  const playerAdded = lobbyData.players.find(function(element) {
-    return Object.keys(element)[0] === playerData.data.steam64Id;
-  });
-
   const [message, setMessage] = useState(chooseState[0]);
   const [loadState, setLoadState] = useState(false);
 
+  const playerAdded = lobbyData.players.find(function(element) {
+    if(lobbyData.data && playerData.data){
+      return false;
+    }
+    return Object.keys(element)[0] === playerData.data.steam64Id;
+  });
+
   useEffect(()=> {
+
+    //If playerdata is still loading
     if(loading){
       setLoadState(false);
     }
-    if(!loading && !playerData){
-      setMessage(chooseState[1])
-      setLoadState(false);
-    }
 
-    if(!loading && playerData.data){
+    //Player data finishes loading
+    if(!loading){
 
-      if(playerAdded){
-        setMessage(chooseState[3]);
+      ///Player does not exist/loggedin
+      if(!playerData){
+        setMessage(chooseState[1])
         setLoadState(false);
       }
-      if(!playerAdded){
-        setMessage(chooseState[2]);
-        setLoadState(playerData);
-      }
 
+      //Player is logged in
+      if(playerData.data){
+
+        //Player is already in lobby added
+        if(playerAdded != false){
+          setMessage(chooseState[3]);
+          setLoadState(false);
+        }
+        //player is not in lobby
+        if(!playerAdded === null){
+          setMessage(chooseState[2]);
+          setLoadState(playerData);
+        }
+      }
 
     }
   }, [loading, playerData, playerAdded, setMessage, setLoadState]);

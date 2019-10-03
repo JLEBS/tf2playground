@@ -180,7 +180,7 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 12,
+    maxPlayer: 6,
     classes: {
       pocketScout: {
         unassigned: 1,
@@ -208,7 +208,7 @@ const updateLobby = (data) => {
       },
     },
     players: [
-      {'76561198018959029': {name: "JLEBs", numGames: 18, classId: "pocketScout"}}
+      {'765611f9801895d9029': {name: "JLEBs", numGames: 18, classId: "pocketScout"}},
     ]
   };
 

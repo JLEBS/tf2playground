@@ -280,18 +280,28 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
       if(!playerData){
         setMessage(chooseState[1])
       }
-
+      console.log('just work for christ sake', playerData, loading);
       //Player is logged in
-      if(playerData.data && lobbyData.players.length){
-        
+
+      if(playerData && lobbyData.players.length){
+
+        // player is not in lobby        CHOOSE CLASS
+        if(!playerAdded){
+          alert('NAD')
+          // setMessage(chooseState[2]);
+          // setLoadState(playerData);
+        }
+
         //Player is already in lobby added       READY UP/REMOVE
         if(playerAdded){
           setMessage(chooseState[3]);
           setLoadState(false);
         }
       }
+      else if (!playerData && lobbyData.players){
+        alert('drunk')
+      }
       else{
-        // player is not in lobby        CHOOSE CLASS
         setMessage(chooseState[2]);
         setLoadState(playerData);
       }

@@ -267,6 +267,9 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
   const [loadState, setLoadState] = useState(false);
 
   useEffect(()=> {
+    if(loading){
+      setLoadState(false);
+    }
     if(!loading && !playerData){
       setMessage(chooseState[1])
       setLoadState(false);

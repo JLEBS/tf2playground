@@ -208,7 +208,7 @@ const updateLobby = (data) => {
       },
     },
     players: [
-      {'7656119801895s9029': {name: "JLEBs", numGames: 18, classId: "pocketScout"}}
+      {'76561198018959029': {name: "JLEBs", numGames: 18, classId: "pocketScout"}}
     ]
   };
 

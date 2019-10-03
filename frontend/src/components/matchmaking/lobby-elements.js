@@ -262,18 +262,16 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
   const [loadState, setLoadState] = useState(false);
 
   const playerAdded = lobbyData.players.find(function(element) {
-    if(lobbyData.data && playerData.data){
-      return false;
+    console.log('rendering...',element);
+    
+    if (loading || !playerData){
+      console.log('rendering', element)
+      return false
     }
     return Object.keys(element)[0] === playerData.data.steam64Id;
   });
 
   useEffect(()=> {
-
-    //If playerdata is still loading
-    if(loading){
-      setLoadState(false);
-    }
 
     //Player data finishes loading
     if(!loading){
@@ -281,24 +279,22 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
       ///Player does not exist/loggedin
       if(!playerData){
         setMessage(chooseState[1])
-        setLoadState(false);
       }
 
       //Player is logged in
-      if(playerData.data){
-
-        //Player is already in lobby added
-        if(playerAdded != false){
+      if(playerData.data && lobbyData.players.length){
+        
+        //Player is already in lobby added       READY UP/REMOVE
+        if(playerAdded){
           setMessage(chooseState[3]);
           setLoadState(false);
         }
-        //player is not in lobby
-        if(!playerAdded === null){
-          setMessage(chooseState[2]);
-          setLoadState(playerData);
-        }
       }
-
+      else{
+        // player is not in lobby        CHOOSE CLASS
+        setMessage(chooseState[2]);
+        setLoadState(playerData);
+      }
     }
   }, [loading, playerData, playerAdded, setMessage, setLoadState]);
 

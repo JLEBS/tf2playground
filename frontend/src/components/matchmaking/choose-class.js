@@ -53,7 +53,7 @@ const ClassSelection = ({ playerData, lobbyData }) => {
                 id={value.name}
                 onClick={() =>
                   playerData === false || 
-                  numOfPlayers === 0
+                  !numOfPlayers === 0
                     ? ""
                     : handleClickChooseClass(key, playerData.data)
                 }

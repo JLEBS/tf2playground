@@ -259,37 +259,33 @@ const ClassTest = ({loading, playerData, lobbyData}) => {
     'Game full'
   ];
 
+  const playerAdded = lobbyData.players.find(function(element) {
+    return Object.keys(element)[0] === playerData.data.steam64Id;
+  });
+
   const [message, setMessage] = useState(chooseState[0]);
   const [loadState, setLoadState] = useState(false);
-  const [userInfo, updateUserInfo] = useState(playerData);
-
-  // useEffect(()=> {
-  //   if(loading )
-
-  // }, [])
-
-  console.log(playerData.data.personstate);
 
   useEffect(()=> {
     if(!loading && !playerData){
       setMessage(chooseState[1])
-      alert('Not Loggedin')
+      setLoadState(false);
     }
 
-    if(!loading && playerData){
+    if(!loading && playerData.data){
 
-      if(playerData.data.personstate === 1){
+      if(playerAdded){
+        setMessage(chooseState[3]);
+        setLoadState(false);
+      }
+      if(!playerAdded){
         setMessage(chooseState[2]);
         setLoadState(playerData);
       }
 
-      if(playerData.data.personstate === 2){
-        setMessage(chooseState[3]);
-        setLoadState(playerData);
-      }
-      
+
     }
-  }, [loading, playerData, setMessage, setLoadState]);
+  }, [loading, playerData, playerAdded, setMessage, setLoadState]);
 
   return (
     <LobbyParent unset>    

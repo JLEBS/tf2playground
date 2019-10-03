@@ -26,6 +26,7 @@ const wss = new WebSocket.Server({ port: 4000 });
 
 const getCurrentLobby = (data) => {
   console.log('Retrieving current lobby...');
+  console.log(data);
   return JSON.stringify(updateLobby(data)) 
 }
 
@@ -182,8 +183,8 @@ const updateLobby = (data) => {
     maxPlayer: 12,
     classes: {
       pocketScout: {
-        unassigned: 2,
-        assigned: 0
+        unassigned: 1,
+        assigned: 1
       },
       flankScout: {
         unassigned: 2,
@@ -207,30 +208,15 @@ const updateLobby = (data) => {
       },
     },
     players: [
-    // { details: { steamId: '76561198018959029', name: 'eepily', numGames: 23, playtime: 2828 }, classId: 'demo' },
-    // { details: { steamId: '76561198028929109', name: 'planccck', numGames: 241, playtime: 9373 }, classId: 'medic' },
-    // { details: { steamId: '76561198193511414', name: 'jlebs', numGames: null, playtime: 63431 }, classId: 'pocketScout' },
-    // { details: { steamId: '76561198018959029', name: 'greenrab', numGames: 23, playtime: 2828 }, classId: 'medic' },
+      {'7656119801895s9029': {name: "JLEBs", numGames: 18, classId: "pocketScout"}}
     ]
-
-    // players: {
-    //   9837383093990: {
-    //       name: 'jacques',
-    //       classId: 'medic'
-    //   }
-    // }
   };
-
-  // const steamId = '9837383093990'
-  // data.players[steamId].classId // 'pocketScout'
 
   if(data){
     const parsed = JSON.parse(data);
-    // getUser(connection, parsed.details.steamId);
-    defaultLobby.classes[parsed.classId].unassigned--;
-    defaultLobby.classes[parsed.classId].assigned++;
+    defaultLobby.classes[parsed[Object.keys(parsed)[0]].classId].unassigned--;
+    defaultLobby.classes[parsed[Object.keys(parsed)[0]].classId].assigned++;
     defaultLobby.players.push(parsed);
-    // updatePlayerState(connection, parsed.details.steamId, 2);
   }
   return defaultLobby;
 }

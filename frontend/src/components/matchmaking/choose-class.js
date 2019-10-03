@@ -24,21 +24,20 @@ const ClassSelection = ({ playerData, lobbyData }) => {
   }, []);
 
   const handleClickChooseClass = (character, userDetails) => {
-    handlePlayerInfo({
-      details: {
-        steamId: userDetails.steam64Id,
+    handlePlayerInfo({  
+      [userDetails.steam64Id]: {
         name: userDetails.personname,
-        numGames: 18
-      },
-      classId: character
+        numGames: 18,
+        classId: character
+      }
     });
+
     new Audio(ClassSounds[character]).play();
     return;
   };
 
   return (
     <>
-      {console.log(playerData.data, "testing")}
       <IconContainer>
         {Object.entries(lobbyData.classes).map(([key, value]) => {
           let numOfPlayers = value.unassigned + value.assigned - value.assigned;
@@ -47,16 +46,14 @@ const ClassSelection = ({ playerData, lobbyData }) => {
               <IconWrapper
                 addSelect={
                   playerData === false ||
-                  numOfPlayers === 0 ||
-                  playerData.data.personstate === 2
+                  numOfPlayers === 0
                     ? false
                     : true
                 }
                 id={value.name}
                 onClick={() =>
                   playerData === false || 
-                  numOfPlayers === 0 ||
-                  playerData.data.personstate === 2
+                  numOfPlayers === 0
                     ? ""
                     : handleClickChooseClass(key, playerData.data)
                 }

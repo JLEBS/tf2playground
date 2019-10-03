@@ -8,14 +8,17 @@ import {
 } from "./lobby-elements";
 import {ClassImages} from "./class-array";
 
-const LobbySlot = playerData => {
+const LobbySlot = ({playerData}) => {
+
+  const player = Object.values(playerData)[0];
+  
   return (
     <LobbyRectangle>
       <IconWrapper>
-        <IconImage imageUrl={ClassImages[playerData.playerData.classId].icon}/>
+        <IconImage imageUrl={ClassImages[player.classId].icon}/>
       </IconWrapper>
-      <Link to={`/profile/${playerData.playerData.details.steamId}`}>
-        {playerData.playerData.details.name}
+      <Link to={`/profile/${Object.keys(playerData)[0]}`}>
+        {player.name}
       </Link>
       <LobbyStats />
     </LobbyRectangle>

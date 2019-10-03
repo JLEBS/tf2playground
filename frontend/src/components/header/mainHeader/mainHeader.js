@@ -47,10 +47,10 @@ const HeaderContainer = ({loading, playerData}) => {
             {loading && (
               <EmptyBtn/>
             )}
-            {!loading && !playerData && (
+            {!loading && !playerData.data && (
               <LoginBtn smallbtn='true'/>
             )}
-            {!loading && playerData && (
+            {!loading && playerData.data && (
               <LogoutBtn smallbtn='true' userData={playerData.data}/>
             )}
           </SteamBtn>

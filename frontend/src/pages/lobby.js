@@ -3,8 +3,7 @@ import LobbyContainer from "../components/matchmaking/lobby-panel";
 import {
   LobbySpectators,
   LobbyParent,
-  ClassTest,
-  LobbyPlayerContainer
+  ClassTest
 } from "../components/matchmaking/lobby-elements";
 import useWebSocket from "react-use-websocket";
 

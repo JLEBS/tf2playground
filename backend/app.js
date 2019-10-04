@@ -180,11 +180,11 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 5,
+    maxPlayer: 12,
     classes: {
       pocketScout: {
-        unassigned: 1,
-        assigned: 1
+        unassigned: 2,
+        assigned: 0
       },
       flankScout: {
         unassigned: 2,
@@ -208,7 +208,36 @@ const updateLobby = (data) => {
       },
     },
     players: [
-      {'76561198018959029ee': {name: "JLEBs", numGames: 18, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
+    
+    
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
+    
+    
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+    
+    
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
+    
+    
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+
+      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+    
+    
+    
+    
+    
     ]
   };
 
@@ -217,6 +246,10 @@ const updateLobby = (data) => {
     defaultLobby.classes[parsed[Object.keys(parsed)[0]].classId].unassigned--;
     defaultLobby.classes[parsed[Object.keys(parsed)[0]].classId].assigned++;
     defaultLobby.players.push(parsed);
+  }
+
+  if(defaultLobby.maxPlayer === defaultLobby.players.length){
+    defaultLobby.lobbyState = 1;
   }
   return defaultLobby;
 }

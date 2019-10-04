@@ -1,33 +1,41 @@
-import React, {useState, useEffect} from 'react';
-import styled, {css} from 'styled-components';
-import ClassSelection from './choose-class';
-import { ReactComponent as Clock } from '../../assets/imgs/icons/svgs/clock.svg';
-import { ReactComponent as Fist } from '../../assets/imgs/icons/svgs/fist.svg';
+import React, { useState, useEffect } from "react";
+import styled, { css } from "styled-components";
+import ClassSelection from "./choose-class";
+import { ReactComponent as Clock } from "../../assets/imgs/icons/svgs/clock.svg";
+import { ReactComponent as Fist } from "../../assets/imgs/icons/svgs/fist.svg";
 
 const NumOfHours = styled(Clock)`
   height: 16px;
-  margin-right:8px;
+  margin-right: 8px;
 `;
 
 const NumOfGames = styled(Fist)`
   height: 16px;
-  margin-right:8px;
+  margin-right: 8px;
 `;
 
 const LobbyPlayerContainer = styled.div`
-  background: linear-gradient( to bottom, #242424, #242424 50%, #1E1E1E 50%, #1E1E1E );
+  background: linear-gradient(
+    to bottom,
+    #242424,
+    #242424 50%,
+    #1e1e1e 50%,
+    #1e1e1e
+  );
   background-size: 100% 108px;
   transition: all ease-in-out 0.5s;
 
-  ${props => props.playerCount && css`
-    min-height: ${ props.playerCount * 54}px;
-  `}
+  ${props =>
+    props.playerCount &&
+    css`
+      min-height: ${props.playerCount * 54}px;
+    `}
 `;
 
 const LobbyParent = styled.div`
   max-width: 460px;
-  width:100%;
-  background-color:#141414;
+  width: 100%;
+  background-color: #141414;
   margin-top: -32px;
   z-index: 3;
   min-height: 67px;
@@ -41,8 +49,10 @@ const LobbyRectangle = styled.div`
   color: white;
   padding: 11px 32px 11px 32px;
 
-  ${props => props.fixed && css`
-    position: fixed;
+  border-left: 6px solid #383838;
+  ${props => props.ready &&
+  css`
+    border-left: 6px solid green;
   `}
 `;
 
@@ -51,8 +61,8 @@ const IconContainer = styled.div`
   max-width: 260px;
   display: flex;
   justify-content: space-between;
-  padding-top:16px;
-  padding-bottom:16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 `;
 
 //Button element containing class icon
@@ -63,32 +73,36 @@ const IconWrapper = styled.button`
   cursor: auto;
   background-color: white;
 
-  ${props => props.addSelect === true && css `
-    cursor: crosshair;
-    border: 2px solid grey;
-    transition: all 0.3s ease-in-out;
+  ${props =>
+    props.addSelect === true &&
+    css`
+      cursor: crosshair;
+      border: 2px solid grey;
+      transition: all 0.3s ease-in-out;
 
-    &:hover{
-      background-color: #1C9523;
-      border: 2px solid white;
-    }
+      &:hover {
+        background-color: #1c9523;
+        border: 2px solid white;
+      }
 
-    &:hover > span::before{
-      transform: scale(0.8);
-    }
+      &:hover > span::before {
+        transform: scale(0.8);
+      }
 
-    &:hover > img{
-      bottom: 0px;
-      opacity: 1;
-    }
+      &:hover > img {
+        bottom: 0px;
+        opacity: 1;
+      }
 
-    &:hover > span{
-      visibility: visible;
-      opacity: 1;
-    }
- `}
+      &:hover > span {
+        visibility: visible;
+        opacity: 1;
+      }
+    `}
 
-  ${props => props.addSelect === false && css`{
+  ${props =>
+    props.addSelect === false &&
+    css`{
     opacity: 0.5;
     cursor: not-allowed;
     border: 2px solid #e91e63;
@@ -118,13 +132,18 @@ const IconImage = styled.span`
 //Counts number of players added on each class
 const ClassQuantity = styled.span`
   z-index: 1;
-  height:0px;
-  ${props => typeof props.classQuantity !== 'undefined' && css`{
+  height: 0px;
+  ${props =>
+    typeof props.classQuantity !== "undefined" &&
+    css`{
     &:after{
       content: '${props => props.classQuantity}';
-      color: ${props => props.classQuantity === 0 ? '#F22525;' : props => props.classQuantity === 1 ? '#f26d00' : 'black;'}
+      color: ${props =>
+        props.classQuantity === 0
+          ? "#F22525;"
+          : props => (props.classQuantity === 1 ? "#f26d00" : "black;")}
       border: 2px solid grey;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
       line-height: 12px;
       border-radius: 10px;
@@ -139,7 +158,6 @@ const ClassQuantity = styled.span`
     }
   `}
 `;
-
 
 //Large picture of characters' torso
 const ClassTorso = styled.img`
@@ -173,7 +191,7 @@ const PlayerCounter = styled.div`
 
 const LobbyInfo = styled.span`
   display: flex;
-  &:after{
+  &:after {
     ${props => `content: '${props.data}';`};
     font-weight: 600;
     font-size: 14px;
@@ -220,22 +238,21 @@ const ClassSelectionContainer = styled.div`
   align-items: center;
 `;
 
-
 const TestButtons = styled.span`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  button:first-child{
-    background-color: #6DCD40
+  button:first-child {
+    background-color: #6dcd40;
   }
-  button:nth-of-type(2){
-    background-color: #FF5C5C
+  button:nth-of-type(2) {
+    background-color: #ff5c5c;
   }
-  button{
+  button {
     width: 100px;
     border-radius: 10px;
-    padding:2px;
+    padding: 2px;
     margin: 3px;
     font-family: Open Sans;
     font-style: normal;
@@ -245,82 +262,69 @@ const TestButtons = styled.span`
   }
 `;
 
-const ClassTest = ({loading, playerData, lobbyData}) => {
-
+const ClassTest = ({ loading, playerData, lobbyData }) => {
   const chooseState = [
-    'Loading Data',
-    'Please login',
-    'Choose class',
+    "Loading Data",
+    "Please login",
+    "Choose class",
     <TestButtons>
       <button>Pre-Ready</button>
       <button>Remove</button>
     </TestButtons>,
-    'Game full'
+    "Game full"
   ];
 
-  const [message, setMessage] = useState(chooseState[0]);
-  const [loadState, setLoadState] = useState(false);
+  const [loadState, setLoadState] = useState([chooseState[0], false]);
 
   const playerAdded = lobbyData.players.find(function(element) {
-    console.log('rendering...',element);
-    
-    if (loading || !playerData){
-      console.log('rendering', element)
-      return false
+    if (loading || !playerData) {
+      return false;
     }
     return Object.keys(element)[0] === playerData.data.steam64Id;
   });
 
-  useEffect(()=> {
+  useEffect(() => {
 
-    //Player data finishes loading
-    if(!loading){
+    //Wait until player fetch request has finished loading &&
+    //Wait until lobbydata has returned (id means assigned)
+    if (!loading && lobbyData.lobbyId) {
 
-      ///Player does not exist/loggedin
-      if(!playerData){
-        setMessage(chooseState[1])
-      }
-      console.log('just work for christ sake', playerData, loading);
-      //Player is logged in
+      //Checks lobby is not full
+      if (lobbyData.lobbyState === 1 && !playerAdded) {
+        setLoadState([chooseState[4], false]);
 
-      if(playerData && lobbyData.players.length){
-
-        // player is not in lobby        CHOOSE CLASS
-        if(!playerAdded){
-          alert('NAD')
-          // setMessage(chooseState[2]);
-          // setLoadState(playerData);
+      } else {
+        //Player is not logged in
+        if (!playerData) {
+          setLoadState([chooseState[1], false]);
         }
-
-        //Player is already in lobby added       READY UP/REMOVE
-        if(playerAdded){
-          setMessage(chooseState[3]);
-          setLoadState(false);
+        //Player Is logged in
+        else {
+          if (playerAdded) {
+            setLoadState([chooseState[3], false]);
+          } else {
+            setLoadState([chooseState[2], playerData]);
+          }
         }
-      }
-      else if (!playerData && lobbyData.players){
-        alert('drunk')
-      }
-      else{
-        setMessage(chooseState[2]);
-        setLoadState(playerData);
       }
     }
-  }, [loading, playerData, playerAdded, setMessage, setLoadState]);
+  }, [loading, playerData, lobbyData, playerAdded]);
 
   return (
-    <LobbyParent unset>    
-      <ClassSelectionContainer>  
-        <p>{message}</p>
-        <ClassSelection playerData={loadState} lobbyData={lobbyData}/> 
+    <LobbyParent unset>
+      <ClassSelectionContainer>
+        <p>{loadState[0]}</p>
+        <ClassSelection playerData={loadState[1]} lobbyData={lobbyData} />
       </ClassSelectionContainer>
     </LobbyParent>
   );
-}
+};
 
-const LobbyHeading = ({playersJoined}) => {
-
-  const [count, setCount] = useState(['?', '?']);
+const LobbyHeading = ({ lobbyData }) => {
+  const [count, setCount] = useState([
+    lobbyData.players.length,
+    lobbyData.maxPlayer
+  ]);
   const [lobbyMessage, setMessage] = useState(<>Setting up lobby&hellip;</>);
 
   const lobbyState = [
@@ -332,42 +336,54 @@ const LobbyHeading = ({playersJoined}) => {
     <>Lobby Started!</>
   ];
 
-  useEffect(()=> {
-    if(playersJoined){
-      setCount([playersJoined.players.length, playersJoined.maxPlayer])
-      setMessage(lobbyState[playersJoined.lobbyState]);
+  useEffect(() => {
+    if (lobbyData) {
+      setCount([lobbyData.players.length, lobbyData.maxPlayer]);
+      setMessage(lobbyState[lobbyData.lobbyState]);
     }
-  }, [playersJoined, setCount], [playersJoined, setMessage]);
+  }, [lobbyData]);
 
-  return(
+  return (
     <LobbyRectangle>
       <p>{lobbyMessage}</p>
-      <PlayerCounter currentPlayer={count[0]} maxPlayer={count[1]}>
-      </PlayerCounter>
+      <PlayerCounter currentPlayer={count[0]} maxPlayer={count[1]} />
     </LobbyRectangle>
-  )
-}
+  );
+};
 
-
-const LobbySpectators = ({arrayOfPlayers}) => {
-  return(
+const LobbySpectators = ({ arrayOfPlayers }) => {
+  return (
     <LobbyRectangle>
       <p>View Spectators</p>
     </LobbyRectangle>
-  )
-}
+  );
+};
 
-const LobbyStats = ({playerInfo}) => {
-  return(
+const LobbyStats = ({ playerInfo }) => {
+  return (
     <div>
-      <LobbyInfo data={'24'}>
-        <NumOfGames/>
+      <LobbyInfo data={"24"}>
+        <NumOfGames />
       </LobbyInfo>
-      <LobbyInfo data={'6.8Y'}> 
-        <NumOfHours/>
+      <LobbyInfo data={"6.8Y"}>
+        <NumOfHours />
       </LobbyInfo>
     </div>
-  )
-}
+  );
+};
 
-export {LobbyRectangle, IconWrapper, IconImage, ClassTorso, LobbyHeading, LobbySpectators, LobbyParent, LobbyStats, LobbyTooltip, LobbyPlayerContainer, IconContainer, ClassTest, ClassQuantity}
+export {
+  LobbyRectangle,
+  IconWrapper,
+  IconImage,
+  ClassTorso,
+  LobbyHeading,
+  LobbySpectators,
+  LobbyParent,
+  LobbyStats,
+  LobbyTooltip,
+  LobbyPlayerContainer,
+  IconContainer,
+  ClassTest,
+  ClassQuantity
+};

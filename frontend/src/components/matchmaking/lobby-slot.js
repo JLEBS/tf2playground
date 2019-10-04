@@ -9,11 +9,11 @@ import {
 import {ClassImages} from "./class-array";
 
 const LobbySlot = ({playerData}) => {
-
+  
   const player = Object.values(playerData)[0];
   
   return (
-    <LobbyRectangle>
+    <LobbyRectangle ready={player.ready === true ? true : ''}>
       <IconWrapper>
         <IconImage imageUrl={ClassImages[player.classId].icon}/>
       </IconWrapper>

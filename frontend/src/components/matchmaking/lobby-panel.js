@@ -3,15 +3,12 @@ import LobbySlot from "./lobby-slot";
 import { LobbyPlayerContainer, LobbyHeading } from "./lobby-elements";
 
 const LobbyContainer = ({ lobbyData }) => {
-  console.log(lobbyData, 'were remderomg a nimcj')
   return (
     <>
-      <LobbyHeading className="lobby-play-count" playersJoined={lobbyData} />
+      <LobbyHeading className="lobby-play-count" lobbyData={lobbyData} />
       <LobbyPlayerContainer playerCount={lobbyData.maxPlayer}>
-        {console.log("SHOULD RENDER ONCE")}
         {lobbyData.players.map((player, i) => (
           <div key={i}>
-              {console.log(i)}
             <LobbySlot playerData={player} />
           </div>
         ))}

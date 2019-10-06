@@ -13,7 +13,7 @@ const LobbySlot = ({playerData}) => {
   const player = Object.values(playerData)[0];
   
   return (
-    <LobbyRectangle ready={player.ready === true ? true : ''}>
+    <LobbyRectangle ready={player.ready}>
       <IconWrapper>
         <IconImage imageUrl={ClassImages[player.classId].icon}/>
       </IconWrapper>

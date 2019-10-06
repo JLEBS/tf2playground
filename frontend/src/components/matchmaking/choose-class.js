@@ -28,7 +28,8 @@ const ClassSelection = ({ playerData, lobbyData }) => {
       [userDetails.steam64Id]: {
         name: userDetails.personname,
         numGames: 18,
-        classId: character
+        classId: character,
+        ready: 0
       }
     });
 

@@ -180,7 +180,7 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 12,
+    maxPlayer: 4,
     classes: {
       pocketScout: {
         unassigned: 2,
@@ -209,30 +209,9 @@ const updateLobby = (data) => {
     },
     players: [
 
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
-    
-    
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
-    
-    
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-    
-    
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: false, classId: "pocketScout"}},
-    
-    
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
-
-      {'76561198018959029gg': {name: "JLEBs", numGames: 18, playCount: 82802, ready: true, classId: "pocketScout"}},
+      {'76561198018959029gg': {name: "grey", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
+      {'76561198018959029gg': {name: "orange", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
+      {'76561198018959029gg': {name: "green", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
     
     
     
@@ -250,6 +229,10 @@ const updateLobby = (data) => {
 
   if(defaultLobby.maxPlayer === defaultLobby.players.length){
     defaultLobby.lobbyState = 1;
+    // console.log(Object.values([...defaultLobby.players]));
+    let hi = [...defaultLobby.players];
+    console.log(hi);
+    
   }
   return defaultLobby;
 }

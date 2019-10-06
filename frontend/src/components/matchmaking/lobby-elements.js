@@ -29,7 +29,11 @@ const LobbyPlayerContainer = styled.div`
     props.playerCount &&
     css`
       min-height: ${props.playerCount * 54}px;
-    `}
+  `}
+
+  & > div{
+    padding: 1px 0px 1px 0px;
+  }
 `;
 
 const LobbyParent = styled.div`
@@ -47,13 +51,11 @@ const LobbyRectangle = styled.div`
   justify-content: space-between;
   align-items: center;
   color: white;
-  padding: 11px 32px 11px 32px;
+  padding: 10px 32px 10px 32px;
+  ${props => typeof props.ready !== 'undefined' && css`
+    border-left: 6px solid ${props => props.ready === 0 ? '#383838' : props.ready === 1 ? 'orange' : 'green' }
+  `};
 
-  border-left: 6px solid #383838;
-  ${props => props.ready &&
-  css`
-    border-left: 6px solid green;
-  `}
 `;
 
 const IconContainer = styled.div`

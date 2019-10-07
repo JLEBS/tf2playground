@@ -15,7 +15,7 @@ const CONNECTION_STATUS_CLOSED = 3;
 const LobbyPage = ({ loading, playerData }) => {
   const [socketUrl, setSocketUrl] = useState("ws://localhost:4000"); //Set Websocket URL
   const [messageHistory, setMessageHistory] = useState([]);
-  const [playerDetails, setPlayerDetails] = useState(null);
+  // const [playerDetails, setPlayerDetails] = useState(null);
   const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
   const [lobbyJson, decodeJson] = useState({
     lobbyId: null,

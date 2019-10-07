@@ -208,17 +208,12 @@ const updateLobby = (data) => {
       },
     },
     players: [
-
       {'76561198018959029gg': {name: "grey", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
-      {'76561198018959029gg': {name: "orange", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
-      {'76561198018959029gg': {name: "green", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
-    
-    
-    
-    
-    
+      {'76561198018959gg': {name: "orange", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
+      {'765611980189590': {name: "green", numGames: 18, playCount: 82802, ready: 0, classId: "pocketScout"}},
     ]
   };
+  
 
   if(data){
     const parsed = JSON.parse(data);
@@ -229,15 +224,29 @@ const updateLobby = (data) => {
 
   if(defaultLobby.maxPlayer === defaultLobby.players.length){
     defaultLobby.lobbyState = 1;
-    // console.log(Object.values([...defaultLobby.players]));
-    let hi = [...defaultLobby.players];
-    console.log(hi);
+    const newPlayers = defaultLobby.players.map(player => {
+        return { [Object.keys(player)[0]]: {
+          ...player[Object.keys(player)[0]], ready: 1
+        }
+      }
+    })
+    defaultLobby.players = newPlayers;
     
   }
   return defaultLobby;
 }
 
 module.exports = app;
+
+    // // console.log(Object.values([...defaultLobby.players]));
+    // let hi = [...defaultLobby.players];
+
+        // const newPlayers = Object.keys(defaultLobby.players).map(player => {
+    //   return defaultLobby.players[player] = { ...player, ready: 4}
+    // })
+
+
+
 
 // var pocketScoutRouter = require('./routes/pocket-scout-data');
 // var flankScoutRouter = require('./routes/flank-scout');

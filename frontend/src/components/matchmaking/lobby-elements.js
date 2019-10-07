@@ -265,18 +265,34 @@ const TestButtons = styled.span`
 `;
 
 const ClassTest = ({ loading, playerData, lobbyData }) => {
+
+  const readyPlayer = () => {
+    console.log('yes');
+    return;
+  }
+
+  const removePlayer = () => {
+    console.log('no');
+    return;
+  }
+
+
   const chooseState = [
     "Loading Data",
     "Please login",
     "Choose class",
     <TestButtons>
-      <button>Pre-Ready</button>
-      <button>Remove</button>
+      <button onClick={() => readyPlayer()}>Pre-Ready</button>
+      <button onClick={() => removePlayer()}>Remove</button>
     </TestButtons>,
     "Game full"
   ];
 
   const [loadState, setLoadState] = useState([chooseState[0], false]);
+
+  // setState(prevState => {
+  //   return {...prevState, ...updatedValues};
+  // });
 
   const playerAdded = lobbyData.players.find(function(element) {
     if (loading || !playerData) {
@@ -293,7 +309,7 @@ const ClassTest = ({ loading, playerData, lobbyData }) => {
 
       //Checks lobby is not full
       if (lobbyData.lobbyState === 1 && !playerAdded) {
-        setLoadState([chooseState[4], false]);
+        setLoadState([chooseState[4], prevState => prevState]);
 
       } else {
         //Player is not logged in

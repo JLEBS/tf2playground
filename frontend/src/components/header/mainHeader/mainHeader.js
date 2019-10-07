@@ -45,7 +45,9 @@ const HeaderContainer = ({loading, playerData}) => {
           <SpeakerMod/>
           <SteamBtn login={!playerData ? 'true' : ''}>
             {loading && (
-              <EmptyBtn/>
+              <EmptyBtn>
+                {console.log('loading...')}
+              </EmptyBtn>
             )}
             {!loading && !playerData.data && (
               <LoginBtn smallbtn='true'/>

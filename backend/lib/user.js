@@ -187,20 +187,22 @@ const getEtf2lData = async (userID) => {
 			return false;
 		}
 
+		const etf2lObject ={
+			'playerID': json.player.id,
+			'team': null,
+			'div': null
+		}
+
 		const team = json.player.teams.find(function(element){
 			return element.type === '6on6';
 		})
 
-		const div = team.competitions;
-
-		const index = Object.keys(div)[0];
-
-		const etf2lObject = {
-			'playerID': json.player.id,
-			'team': team.name,
-			'div': div[index].division.tier
+		if (team){
+			const div = team.competitions;
+			etf2lObject.team =  team.name;
+			etf2lObject.div = div[Object.keys(div)[0]].division.tier;
 		}
-		
+
 		console.log('ETF2L API Request Successful!');
 		return etf2lObject;
 

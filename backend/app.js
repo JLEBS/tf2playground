@@ -180,7 +180,8 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 4,
+    maxPlayer: 7,
+    readyPlayer: 0,
     classes: {
       pocketScout: {
         unassigned: 2,
@@ -227,6 +228,7 @@ const updateLobby = (data) => {
     const newPlayers = defaultLobby.players.map(player => {
         return { [Object.keys(player)[0]]: {
           ...player[Object.keys(player)[0]], ready: 1
+          
         }
       }
     })

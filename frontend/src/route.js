@@ -28,8 +28,11 @@ const Home = () => (
 
 const Lobby = ({loading, playerData}) => (
   <LobbyLayout imageUrl={prolands}>
-    {console.log("BIG RENDERING")}
-    <LobbyPage loading={loading} playerData={playerData}  />
+    { loading === false && (
+      <>
+        <LobbyPage loading={loading} playerData={playerData}  />
+      </>
+    )}
   </LobbyLayout>
 );
 
@@ -142,7 +145,7 @@ const AppRouter = () => {
       <SubHeaderContainer className='subHeader'/>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/lobby" render={() => <Lobby loading={fetchUser.loading} playerData={fetchUser.data}/> } />
+        <Route path="/lobby" render={() => <Lobby loading={fetchUser.loading} playerData={fetchUser.data}></Lobby> } />
         <Route path="/about" component={About} />
         <Route path="/rules" component={Rules} />
         <Route path="/stats" component={Stats} />

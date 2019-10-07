@@ -264,80 +264,6 @@ const TestButtons = styled.span`
   }
 `;
 
-const ClassTest = ({ loading, playerData, lobbyData }) => {
-
-  const readyPlayer = () => {
-    console.log('yes');
-    return;
-  }
-
-  const removePlayer = () => {
-    console.log('no');
-    return;
-  }
-
-
-  const chooseState = [
-    "Loading Data",
-    "Please login",
-    "Choose class",
-    <TestButtons>
-      <button onClick={() => readyPlayer()}>Pre-Ready</button>
-      <button onClick={() => removePlayer()}>Remove</button>
-    </TestButtons>,
-    "Game full"
-  ];
-
-  const [loadState, setLoadState] = useState([chooseState[0], false]);
-
-  // setState(prevState => {
-  //   return {...prevState, ...updatedValues};
-  // });
-
-  const playerAdded = lobbyData.players.find(function(element) {
-    if (loading || !playerData) {
-      return false;
-    }
-    return Object.keys(element)[0] === playerData.data.steam64Id;
-  });
-
-  useEffect(() => {
-
-    //Wait until player fetch request has finished loading &&
-    //Wait until lobbydata has returned (id means assigned)
-    if (!loading && lobbyData.lobbyId) {
-
-      //Checks lobby is not full
-      if (lobbyData.lobbyState === 1 && !playerAdded) {
-        setLoadState([chooseState[4], prevState => prevState]);
-
-      } else {
-        //Player is not logged in
-        if (!playerData) {
-          setLoadState([chooseState[1], false]);
-        }
-        //Player Is logged in
-        else {
-          if (playerAdded) {
-            setLoadState([chooseState[3], false]);
-          } else {
-            setLoadState([chooseState[2], playerData]);
-          }
-        }
-      }
-    }
-  }, [loading, playerData, lobbyData, playerAdded]);
-
-  return (
-    <LobbyParent unset>
-      <ClassSelectionContainer>
-        <p>{loadState[0]}</p>
-        <ClassSelection playerData={loadState[1]} lobbyData={lobbyData} />
-      </ClassSelectionContainer>
-    </LobbyParent>
-  );
-};
-
 const LobbyHeading = ({ lobbyData }) => {
   const [count, setCount] = useState([
     lobbyData.players.length,
@@ -351,7 +277,7 @@ const LobbyHeading = ({ lobbyData }) => {
     <>Map vote commencing&hellip;</>,
     <>Randomizing the teams&hellip;</>,
     <>Retrieving server details&hellip;</>,
-    <>Lobby Started!</>
+    <>Lobby In Progress!</>
   ];
 
   useEffect(() => {
@@ -402,6 +328,7 @@ export {
   LobbyTooltip,
   LobbyPlayerContainer,
   IconContainer,
-  ClassTest,
-  ClassQuantity
+  ClassSelectionContainer,
+  ClassQuantity,
+  TestButtons
 };

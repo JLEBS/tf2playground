@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import LobbyContainer from "../components/matchmaking/lobby-panel";
 import {
   LobbySpectators,
-  LobbyParent,
-  ClassTest
+  LobbyParent
 } from "../components/matchmaking/lobby-elements";
+import LobbyClassSelection from "../components/matchmaking/choose-class";
 import useWebSocket from "react-use-websocket";
 
 const CONNECTION_STATUS_CONNECTING = 0;
@@ -13,10 +13,21 @@ const CONNECTION_STATUS_CLOSING = 2;
 const CONNECTION_STATUS_CLOSED = 3;
 
 const LobbyPage = ({ loading, playerData }) => {
-  const [socketUrl, setSocketUrl] = useState("ws://localhost:4000"); //Set Websocket URL
+  
   const [messageHistory, setMessageHistory] = useState([]);
-  // const [playerDetails, setPlayerDetails] = useState(null);
-  const [sendMessage, currentLobby, readyState] = useWebSocket(socketUrl);
+  const options = useMemo(
+    () => ({
+      share: true
+    }),
+    []
+  );
+
+  const [sendMessage, currentLobby, readyState] = useWebSocket(
+    "ws://localhost:4000",
+    options
+  );
+  console.log('RANDO', loading, playerData)
+
   const [lobbyJson, decodeJson] = useState({
     lobbyId: null,
     lobbyState: 0,
@@ -70,19 +81,20 @@ const LobbyPage = ({ loading, playerData }) => {
     }
   }, [currentLobby]);
 
-  // if (!currentLobby || loading) return null;
+
+  if (loading === true) return null;
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end" }}>
       <LobbyParent>
         {console.log("top of array", lobbyJson)}
-        <ClassTest
+        {/* <LobbyClassSelection
           loading={loading}
           playerData={playerData}
           lobbyData={lobbyJson}
         />
         <LobbyContainer lobbyData={lobbyJson} />
-        <LobbySpectators className="lobby-spectators" />
+        <LobbySpectators className="lobby-spectators" /> */}
       </LobbyParent>
     </div>
   );

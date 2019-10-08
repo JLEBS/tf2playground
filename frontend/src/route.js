@@ -28,11 +28,7 @@ const Home = () => (
 
 const Lobby = ({loading, playerData}) => (
   <LobbyLayout imageUrl={prolands}>
-    { loading === false && (
-      <>
-        <LobbyPage loading={loading} playerData={playerData}  />
-      </>
-    )}
+    <LobbyPage loading={loading} playerData={playerData}  />
   </LobbyLayout>
 );
 
@@ -139,8 +135,12 @@ const AppRouter = () => {
 
   const fetchUser = useFetch(`http://localhost:3001/profile`);
 
+  
   return (
     <Router>
+      {console.log(fetchUser, 'fetchuser')}
+
+      {/* { fetchUser.loading === false )} */}
       <HeaderContainer loading={fetchUser.loading} playerData={fetchUser.data} className='mainHeader'/>
       <SubHeaderContainer className='subHeader'/>
       <Switch>

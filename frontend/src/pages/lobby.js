@@ -14,7 +14,7 @@ const CONNECTION_STATUS_CLOSED = 3;
 
 const LobbyPage = ({ loading, playerData }) => {
   
-  const [messageHistory, setMessageHistory] = useState([]);
+  // const [messageHistory, setMessageHistory] = useState([]);
   const options = useMemo(
     () => ({
       share: true
@@ -26,7 +26,6 @@ const LobbyPage = ({ loading, playerData }) => {
     "ws://localhost:4000",
     options
   );
-  console.log('RANDO', loading, currentLobby)
 
   const [lobbyJson, decodeJson] = useState({
     lobbyId: null,
@@ -68,12 +67,6 @@ const LobbyPage = ({ loading, playerData }) => {
     [CONNECTION_STATUS_CLOSED]: "Closed"
   }[readyState];
 
-  //Use multiple useeffect https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
-  // useEffect(() => {
-  //   if (connectionStatus === "Open") {
-  //     setMessageHistory(prev => prev.concat(currentLobby));
-  //   }
-  // }, [connectionStatus, currentLobby]);
 
   useEffect(() => {
     if (currentLobby) {
@@ -82,25 +75,34 @@ const LobbyPage = ({ loading, playerData }) => {
   }, [currentLobby]);
 
 
-  if (!currentLobby) return null;
+  // if (connectionStatus === 'Connecting' || loading === true || !lobbyJson.lobbyId) return null;
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end" }}>
       <LobbyParent>
-        {console.log("top of array", lobbyJson)}
-        <LobbyClassSelection
-          loading={loading}
-          playerData={playerData}
-          lobbyData={lobbyJson}
-        />
-        <LobbyContainer lobbyData={lobbyJson} />
-        <LobbySpectators className="lobby-spectators" />
+        {console.log("top of array", lobbyJson, loading, connectionStatus)}
+
+          <LobbyClassSelection
+            loading={loading}
+            playerData={playerData}
+            lobbyData={lobbyJson}
+          />
+          <LobbyContainer lobbyData={lobbyJson} />
+        {/* <LobbySpectators className="lobby-spectators" /> */}
       </LobbyParent>
     </div>
   );
 };
 
 export default LobbyPage;
+
+//Use multiple useeffect https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
+  // useEffect(() => {
+  //   if (connectionStatus === "Open") {
+  //     setMessageHistory(prev => prev.concat(currentLobby));
+  //   }
+  // }, [connectionStatus, currentLobby]);
+
 
 // const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:4000/echo'), []);
 // const handleClickSendMessage = useCallback(() => sendMessage(this.target.value), []);

@@ -180,7 +180,7 @@ const updateLobby = (data) => {
   let defaultLobby = {
     lobbyId: 11,
     lobbyState: 0,
-    maxPlayer: 7,
+    maxPlayer: 4,
     readyPlayer: 0,
     classes: {
       pocketScout: {

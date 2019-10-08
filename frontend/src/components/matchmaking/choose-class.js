@@ -23,10 +23,11 @@ const ClassSelection = ({ playerData, lobbyData }) => {
 
   const [sendMessage, lastMessage, readyState] = useWebSocket("ws://localhost:4000");
   const handlePlayerInfo = useCallback(data => {
+  console.log(lastMessage, 'testing this')
+
     return sendMessage(JSON.stringify(data));
   }, []);
 
-  console.log(lastMessage, 'testing this')
 
   const handleClickChooseClass = (character, userDetails) => {
     handlePlayerInfo({  

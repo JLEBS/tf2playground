@@ -26,7 +26,7 @@ const LobbyPage = ({ loading, playerData }) => {
     "ws://localhost:4000",
     options
   );
-  console.log('RANDO', loading, playerData)
+  console.log('RANDO', loading, currentLobby)
 
   const [lobbyJson, decodeJson] = useState({
     lobbyId: null,
@@ -69,11 +69,11 @@ const LobbyPage = ({ loading, playerData }) => {
   }[readyState];
 
   //Use multiple useeffect https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
-  useEffect(() => {
-    if (connectionStatus === "Open") {
-      setMessageHistory(prev => prev.concat(currentLobby));
-    }
-  }, [connectionStatus, currentLobby]);
+  // useEffect(() => {
+  //   if (connectionStatus === "Open") {
+  //     setMessageHistory(prev => prev.concat(currentLobby));
+  //   }
+  // }, [connectionStatus, currentLobby]);
 
   useEffect(() => {
     if (currentLobby) {
@@ -82,19 +82,19 @@ const LobbyPage = ({ loading, playerData }) => {
   }, [currentLobby]);
 
 
-  if (loading === true) return null;
+  if (!currentLobby) return null;
 
   return (
     <div style={{ display: "flex", justifyContent: "flex-end" }}>
       <LobbyParent>
         {console.log("top of array", lobbyJson)}
-        {/* <LobbyClassSelection
+        <LobbyClassSelection
           loading={loading}
           playerData={playerData}
           lobbyData={lobbyJson}
         />
         <LobbyContainer lobbyData={lobbyJson} />
-        <LobbySpectators className="lobby-spectators" /> */}
+        <LobbySpectators className="lobby-spectators" />
       </LobbyParent>
     </div>
   );
